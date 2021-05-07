@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 
 // Material UI Core Components
@@ -28,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
         width: "2em",
         height: "2em",
         margin: "5px"
+    },
+    squareGreenButton: {
+        backgroundColor: "var(--gt-primary-color)",
+        color: "#fff5f5",
+        borderRadius: 0
     }
 }));
 
@@ -38,7 +42,6 @@ const PLACEHOLDER_PASSWORD = "admin";
 const LoginPage = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const history = useHistory();
     const classes = useStyles();
 
     const login = () => {

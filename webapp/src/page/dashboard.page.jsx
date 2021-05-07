@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     squareGreenButton: {
         backgroundColor: "var(--gt-primary-color)",
         color: "#fff5f5",
-        zIndex: 2000,
         borderRadius: 0
     }
 }));

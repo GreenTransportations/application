@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const MainPage = () => {
+const MainPage = ({id}) => {
     const classes = useStyles();
 
     return (

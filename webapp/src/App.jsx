@@ -9,7 +9,6 @@ import { useState } from "react";
 function App() {
   const [id, setId] = useState("");
 
-
   return (
       <div className="App">
         {id === "" &&
@@ -18,7 +17,10 @@ function App() {
           />
         }
         {id !== "" &&
-          <MainPage />
+          <MainPage 
+            id={id}
+            logout={()=> {setId("")}} 
+          />
         }
       </div>
   );

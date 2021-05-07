@@ -50,14 +50,6 @@ const Header = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
     return (
         <>
             <AppBar
@@ -74,8 +66,6 @@ const Header = () => {
             </AppBar>
             <Sidebar 
                 open={open}
-                handleDrawerOpen={handleDrawerOpen}
-                handleDrawerClose={handleDrawerClose}
             />
         </>
     );
