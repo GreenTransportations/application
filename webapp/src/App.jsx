@@ -1,15 +1,31 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useState } from "react";
 
+// Material UI 
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles'
+
+// Pages
 import LoginPage from './page/login.page';
 import MainPage from "./page/main.page";
 
 import './App.css';
-import { useState } from "react";
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#92D050",
+    },
+    secondary: {
+      main: '#11cb5f',
+    },
+  },
+});
+
 
 function App() {
   const [id, setId] = useState("");
 
   return (
+    <ThemeProvider theme={theme}>
       <div className="App">
         {id === "" &&
           <LoginPage 
@@ -23,6 +39,7 @@ function App() {
           />
         }
       </div>
+    </ThemeProvider>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 
 
 // Material UI Core Components
@@ -19,9 +18,9 @@ import TripTable from '../component/table/trip.table.component';
 
 // Style
 const useStyles = makeStyles((theme) => ({
-    squareGreenButton: {
-        backgroundColor: "var(--gt-primary-color)",
-        color: "#fff5f5",
+    squareButton: {
+        color: "white",
+        boxShadow: "none",
         borderRadius: 0
     }
 }));
@@ -46,7 +45,9 @@ const DashboardPage = () => {
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<AddIcon />}
                     >
                         Start a New Trip
@@ -58,7 +59,9 @@ const DashboardPage = () => {
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<CompareArrowsIcon />}
                     >
                         Check Trip History
@@ -70,7 +73,9 @@ const DashboardPage = () => {
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<FavoriteIcon />}
                     >
                         Add New Shortcut

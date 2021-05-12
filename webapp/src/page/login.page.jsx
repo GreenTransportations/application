@@ -28,9 +28,8 @@ const useStyles = makeStyles((theme) => ({
         height: "2em",
         margin: "5px"
     },
-    squareGreenButton: {
-        backgroundColor: "var(--gt-primary-color)",
-        color: "#fff5f5",
+    squareButton: {
+        color: "white",
         borderRadius: 0
     }
 }));
@@ -91,7 +90,10 @@ const LoginPage = ({ onLogin }) => {
                     />
                 </Grid>
                 <Grid>
-                    <Button variant="contained" color="primary"
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        className={classes.squareButton}
                         onClick={login}
                     >
                         Continue
