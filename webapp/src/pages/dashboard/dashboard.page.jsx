@@ -13,7 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 // Other Components
-import TripTable from '../component/table/trip.table.component';
+import TripTable from '../../components/table/trip.table.component';
 
 
 // Style

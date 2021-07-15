@@ -90,6 +90,17 @@ const Sidebar = ({open}) => {
                         }}
                     />
                 </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <LocationOnIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                        primary="Tests" 
+                        onClick={()=>{
+                            history.push("/tests")
+                        }}
+                    />
+                </ListItem>
             </List>
             <Divider />
             <List>

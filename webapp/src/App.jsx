@@ -5,8 +5,8 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles'
 
 // Pages
-import LoginPage from './page/login.page';
-import MainPage from "./page/main.page";
+import LoginPage from './pages/authentication/login.page';
+import MainPage from "./pages/main/main.page";
 
 import './App.css';
 const theme = createMuiTheme({

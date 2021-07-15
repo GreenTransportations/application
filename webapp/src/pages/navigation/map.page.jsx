@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { API_KEY } from '../data/api.key';
+import { API_KEY } from '../../data/api.key';
 
 
 // Material UI Icons

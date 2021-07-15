@@ -10,9 +10,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 // Other Components
-import Header from '../component/header/header.component';
-import DashboardPage from './dashboard.page';
-import MapPage from './map.page';
+import Header from '../../components/header/header.component';
+import DashboardPage from '../dashboard/dashboard.page';
+import MapPage from '../navigation/map.page';
+import TestPage from '../test/test.page';
 
 
 // Style
@@ -37,6 +38,9 @@ const MainPage = ({id}) => {
                     </Route>
                     <Route path="/trips">
                         <MapPage />         
+                    </Route>
+                    <Route path="/tests">
+                        <TestPage />         
                     </Route>
                     <Route path="/">
                         <DashboardPage />                    

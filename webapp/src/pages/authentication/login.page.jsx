@@ -14,7 +14,7 @@ import LockIcon from '@material-ui/icons/Lock';
 
 
 // Other Components
-import { ReactComponent as GTLogo } from "../asset/logo.svg";
+import { ReactComponent as GTLogo } from "../../asset/logo.svg";
 
 
 // Style
