@@ -10,6 +10,8 @@ const PORT = process.env.PORT || config.SERVER_PORT;
 
 // Services
 const testServices = require("./services/test.service");
+const authServices = require("./services/auth.service");
+
 
 // Middleware
 app.use(cors());
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routers path
 app.use(config.BASE_PATH + "/test", testServices);
+app.use(config.BASE_PATH + "/auth", authServices);
 
 
 app.listen(PORT, () => {

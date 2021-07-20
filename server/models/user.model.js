@@ -5,14 +5,10 @@ var userSchema = new mongoose.Schema({
     firstname:{
         type:String,
         required:true,
-        unique:true,
-        index:true,
     },
     lastname:{
         type:String,
         required:true,
-        unique:true,
-        index:true,
     },
     DOB:{
         type:Date,
@@ -28,11 +24,8 @@ var userSchema = new mongoose.Schema({
         required:true,
         unique:true,
     },
-    password:{
-        type:String,
-        required:true,
-    },
+    auth: { type: mongoose.Schema.Types.ObjectId, ref: "auth" },
 });
 
 //Export the model
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);

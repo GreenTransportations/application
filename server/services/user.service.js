@@ -48,7 +48,6 @@ userServices.route("/create").post((req, res) => {
         DOB: new Date(req.body.dob),
         email: req.body.email,
         mobile: req.body.mobile,
-        password: req.body.password // needs to be hashed...
     });
     newUser.save();
     
@@ -67,7 +66,6 @@ userServices.route("/:id").post((req, res) => {
         DOB: new Date(req.body.dob),
         email: req.body.email,
         mobile: req.body.mobile,
-        password: req.body.password // needs to be hashed...
     }, (err, user) => {
         if (err) {
             console.log("/user/:id", err);
