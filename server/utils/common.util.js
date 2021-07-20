@@ -18,14 +18,12 @@ exports.validateHeader = (req, res, next) => {
     try {
         if (req.headers['authorization']) {
             const accessCode = req.headers['authorization'];
-            console.log(accessCode)
             Auth.findOne({ accessCode: accessCode, activated: true }, (err, auth) => {
                 if (err) {
                     return res.status(403).json({
                         err: "Invalid Header"
                     });
                 } else if (!auth) {
-                    console.log("AUTH not found")
                     return res.status(403).json({
                         err: "Access Denied"
                     });

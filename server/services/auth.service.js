@@ -23,7 +23,9 @@ let Auth = require("../models/auth.model");
 let User = require("../models/user.model");
 
 
+
 // =============================================================================================================
+// Create the First User if there are no user exist on the app
 console.log("auth.service", "Creating First User");
 Auth.findOne({username: "FirstUser"}, (err, auth) => { 
     if (err) {
@@ -56,9 +58,9 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
             }
         });
     }
-
 })
 // =============================================================================================================
+
 
 
 // Service Routes
@@ -67,6 +69,8 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
 authServices.route("/login").post((req, res) => {
     console.log("/auth/login", "POST");
 
+    
+    // Check if username is valid
     Auth.findOne({ username: req.body.username, activated: true }, (err, auth) => {
         if (err) {
             res.status(500).json({
@@ -77,6 +81,8 @@ authServices.route("/login").post((req, res) => {
                 err: "Access Denied"
             });
         } else {
+
+            // Compared hashed password with the incoming password
             bcrypt.compare(req.body.password, auth.password, (err, result) => {
                 if (err) {
                     res.status(500).json({
@@ -87,6 +93,7 @@ authServices.route("/login").post((req, res) => {
                         err: "Access Denied"
                     });
                 } else {
+
                     User.findOne({ auth: auth._id }, (err, user) => {
                         if (err) {
                             res.status(500).json({
@@ -114,6 +121,7 @@ authServices.route("/login").post((req, res) => {
 authServices.route("/create").post(validateHeader, validateUser, (req, res) => {
     console.log("/auth/create", "POST");
 
+    // Get any auth with the new username to avoid duplicate auth
     Auth.findOne({ username: req.body.username }, (err, auth) => {
         if (err) {
             res.status(500).json({
@@ -124,6 +132,8 @@ authServices.route("/create").post(validateHeader, validateUser, (req, res) => {
                 err: "Username already exist!"
             })
         } else {
+
+            // Hash the password
             bcrypt.hash(req.body.password, config.SALT_ROUNDS, (err, hash) => {
                 if (err) {
                     res.status(500).json({
@@ -170,6 +180,7 @@ authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
 
     // If user is updating their own auth  -> update their auth
     if (req.user._id.equals(req.params.id)){
+        // Get the targeted auth
         Auth.findById(req.authId, (err, auth) => {
             if (err) {
                 res.status(500).json({
@@ -180,6 +191,8 @@ authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
                     err: "Auth not found!"
                 })
             } else {
+
+                // Get any auth with the new username to avoid duplicate auth
                 Auth.findOne({ username: req.body.username }, (err, checkAuth) => {
                     if (err) {
                         res.status(500).json({
@@ -191,6 +204,8 @@ authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
                         })
                     } else {
                         if (req.body.password.length > 0 ) {
+
+                            // Hash the password
                             bcrypt.hash(req.body.password, config.SALT_ROUNDS, (err, hash) => {
                                 if (err) {
                                     res.status(500).json({
@@ -215,7 +230,6 @@ authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
             }
         })
     } else {
-        console.log("Different ID")
         // If user is updating other account -> access denied
         res.status(403).json({
             err: "Access Denied"
