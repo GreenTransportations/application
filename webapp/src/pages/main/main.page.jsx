@@ -14,6 +14,7 @@ import Header from '../../components/header/header.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
 import TestPage from '../test/test.page';
+import LoginPage from '../authentication/login.page';
 
 
 // Style
@@ -41,6 +42,9 @@ const MainPage = ({id}) => {
                     </Route>
                     <Route path="/tests">
                         <TestPage />         
+                    </Route>
+                    <Route path="/login">
+                        <LoginPage />         
                     </Route>
                     <Route path="/">
                         <DashboardPage />                    
