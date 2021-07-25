@@ -57,7 +57,7 @@ const LoginPage = ({ onLogin }) => {
             username: username,
             password: password
         }
-        fetch(`${API_CONFIG.BASE_PORT_URL}/auth/login`, {
+        fetch(`${API_CONFIG.URL}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
