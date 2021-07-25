@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routers path
 app.use(config.BASE_PATH + "/test", testServices);
-app.use(config.BASE_PATH + "/auth", authServices);
+app.use(config.BASE_PORT_URL + "/auth", authServices);
 
 
 app.listen(PORT, () => {
