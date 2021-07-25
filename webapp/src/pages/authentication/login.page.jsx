@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
+import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -43,12 +44,34 @@ const LoginPage = ({ onLogin }) => {
     const [password, setPassword] = useState("");
     const classes = useStyles();
 
-    const login = () => {
-        console.log(username, password)
-        if (username === PLACEHOLDER_USERNAME && password === PLACEHOLDER_PASSWORD){
-            onLogin(username);
+    // const login = () => {
+    //     console.log(username, password)
+    //     if (username === PLACEHOLDER_USERNAME && password === PLACEHOLDER_PASSWORD){
+    //         onLogin(username);
+    //     }
+    // }
+    const loginHandle = async (e) => {
+        e.preventDefault();
+
+        const userInfo = {
+            username: username,
+            password: password
         }
-    }
+        fetch(`${API_CONFIG.BASE_PORT_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userInfo)
+        }).then(async (response) => {
+            if (response.ok) {
+                console.log("Server success on login");
+            } else {
+                console.log("Error on Login");
+            }
+        })
+    };
+
     return (
         <div>
             <Grid
@@ -58,16 +81,16 @@ const LoginPage = ({ onLogin }) => {
                 <Grid>
                     <GTLogo />
                 </Grid>
-                <Grid                    
+                <Grid
                     className={classes.loginRow}
                     container
                     direction="row"
                     justify="center"
                     alignItems="center"
                 >
-                    <AccountCircleIcon className={classes.loginRowIcon}/>
-                    <TextField 
-                        label="Username" 
+                    <AccountCircleIcon className={classes.loginRowIcon} />
+                    <TextField
+                        label="Username"
                         variant="filled"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -80,21 +103,21 @@ const LoginPage = ({ onLogin }) => {
                     justify="center"
                     alignItems="center"
                 >
-                    <LockIcon className={classes.loginRowIcon}/>
-                    <TextField 
-                        label="Password" 
-                        variant="filled" 
+                    <LockIcon className={classes.loginRowIcon} />
+                    <TextField
+                        label="Password"
+                        variant="filled"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Grid>
                 <Grid>
-                    <Button 
-                        variant="contained" 
+                    <Button
+                        variant="contained"
                         color="primary"
                         className={classes.squareButton}
-                        onClick={login}
+                        onClick={loginHandle}
                     >
                         Continue
                     </Button>
