@@ -1,4 +1,4 @@
-const API_PORT = 3000;
+const API_PORT = 8000;
 const API_BASE_PATH = "/test";
 const API_BASE_URL = "http://localhost";
 

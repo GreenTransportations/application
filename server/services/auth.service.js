@@ -109,7 +109,6 @@ authServices.route("/login").post((req, res) => {
                                 accessCode: auth.accessCode
                             });
                             console.log(auth.accessCode);
-                            res.redirect("/");
                         }
                     })
                 }

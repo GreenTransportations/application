@@ -66,6 +66,9 @@ const LoginPage = ({ onLogin }) => {
         }).then(async (response) => {
             if (response.ok) {
                 console.log("Server success on login");
+                const res = await response.json();
+                console.log(res);
+                onLogin(res.accessCode);
             } else {
                 console.log("Error on Login");
             }
