@@ -120,9 +120,20 @@ const Sidebar = ({open}) => {
                         <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText
-                        primary="Log Out" 
+                        primary="Log In" 
                         onClick={()=>{
                             history.push("/login")
+                        }}
+                    />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <ExitToAppIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Sign Up" 
+                        onClick={()=>{
+                            history.push("/signup")
                         }}
                     />
                 </ListItem>
