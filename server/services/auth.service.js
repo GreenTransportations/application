@@ -118,9 +118,9 @@ authServices.route("/login").post((req, res) => {
 })
 
 // Signup API
-// ../auth/login
-authServices.route("/create").post(validateHeader, validateUser, (req, res) => {
-    console.log("/auth/create", "POST");
+// ../auth/signup
+authServices.route("/signup").post(validateHeader, validateUser, (req, res) => {
+    console.log("/auth/signup", "POST");
 
     // Get any auth with the new username to avoid duplicate auth
     Auth.findOne({ username: req.body.username }, (err, auth) => {
