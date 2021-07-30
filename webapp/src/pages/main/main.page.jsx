@@ -44,12 +44,6 @@ const MainPage = ({id}) => {
                     <Route path="/tests">
                         <TestPage />         
                     </Route>
-                    <Route path="/login">
-                        <LoginPage />         
-                    </Route>
-                    <Route path="/signup">
-                        <SignupPage />         
-                    </Route>
                     <Route path="/">
                         <DashboardPage />                    
                     </Route>

@@ -9,6 +9,7 @@ import LoginPage from './pages/authentication/login.page';
 import MainPage from "./pages/main/main.page";
 
 import './App.css';
+import AuthPage from "./pages/authentication/auth.page";
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -28,7 +29,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         {id === "" &&
-          <LoginPage 
+          <AuthPage 
             onLogin={(newId)=> setId(newId)}
           />
         }
@@ -38,6 +39,7 @@ function App() {
             logout={()=> {setId("")}} 
           />
         }
+          
       </div>
     </ThemeProvider>
   );
