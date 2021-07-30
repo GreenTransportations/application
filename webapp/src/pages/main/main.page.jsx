@@ -15,6 +15,7 @@ import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
 import TestPage from '../test/test.page';
 import LoginPage from '../authentication/login.page';
+import SignupPage from '../authentication/signup.page';
 
 
 // Style
@@ -45,6 +46,9 @@ const MainPage = ({id}) => {
                     </Route>
                     <Route path="/login">
                         <LoginPage />         
+                    </Route>
+                    <Route path="/signup">
+                        <SignupPage />         
                     </Route>
                     <Route path="/">
                         <DashboardPage />                    
