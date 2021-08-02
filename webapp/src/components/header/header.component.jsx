@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Header = () => {
+const Header = ({ logout }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
@@ -66,6 +66,7 @@ const Header = () => {
             </AppBar>
             <Sidebar 
                 open={open}
+                logout={logout}
             />
         </>
     );

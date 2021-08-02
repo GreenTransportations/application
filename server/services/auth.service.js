@@ -119,7 +119,7 @@ authServices.route("/login").post((req, res) => {
 
 // Signup API
 // ../auth/signup
-authServices.route("/signup").post(validateHeader, validateUser, (req, res) => {
+authServices.route("/signup").post((req, res) => {
     console.log("/auth/signup", "POST");
 
     // Get any auth with the new username to avoid duplicate auth

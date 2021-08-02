@@ -15,7 +15,8 @@ import LockIcon from '@material-ui/icons/Lock';
 
 
 // Other Components
-import { ReactComponent as GTLogo } from "../../asset/logo.svg";
+import { ReactComponent as GTLogo } from "../../assets/logo.svg";
+import { Link } from '@material-ui/core';
 
 
 // Style
@@ -34,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 0
     }
 }));
-
-const PLACEHOLDER_USERNAME = "admin";
-const PLACEHOLDER_PASSWORD = "admin";
 
 
 const LoginPage = ({ onLogin }) => {
@@ -94,7 +92,7 @@ const LoginPage = ({ onLogin }) => {
                     <AccountCircleIcon className={classes.loginRowIcon} />
                     <TextField
                         label="Username"
-                        variant="filled"
+                        variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -109,7 +107,7 @@ const LoginPage = ({ onLogin }) => {
                     <LockIcon className={classes.loginRowIcon} />
                     <TextField
                         label="Password"
-                        variant="filled"
+                        variant="outlined"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -122,9 +120,17 @@ const LoginPage = ({ onLogin }) => {
                         className={classes.squareButton}
                         onClick={loginHandle}
                     >
-                        Continue
+                        Login
                     </Button>
                 </Grid>
+                <div style = {{paddingTop: "20px"}}>
+                    <a>Not yet registered?</a>
+                </div>
+                <div>
+                    <Link href="signup">
+                        Sign Up Here
+                    </Link>
+                </div>
             </Grid>
         </div>
     )

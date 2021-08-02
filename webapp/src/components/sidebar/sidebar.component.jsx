@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Sidebar = ({open}) => {
+const Sidebar = ({ open, logout }) => {
     const history = useHistory();
     const classes = useStyles();
 
@@ -120,20 +120,10 @@ const Sidebar = ({open}) => {
                         <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText
-                        primary="Log In" 
-                        onClick={()=>{
-                            history.push("/login")
-                        }}
-                    />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ExitToAppIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary="Sign Up" 
-                        onClick={()=>{
-                            history.push("/signup")
+                        primary="Log Out" 
+                        onClick={()=> {
+                            logout();
+                            history.push("/login");
                         }}
                     />
                 </ListItem>

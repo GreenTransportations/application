@@ -14,8 +14,6 @@ import Header from '../../components/header/header.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
 import TestPage from '../test/test.page';
-import LoginPage from '../authentication/login.page';
-import SignupPage from '../authentication/signup.page';
 
 
 // Style
@@ -27,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const MainPage = ({id}) => {
+const MainPage = ({ accessCode, logout}) => {
     const classes = useStyles();
 
     return (
         <Router>
-            <Header />
+            <Header logout={logout} />
             <div className={classes.pageContent}>
                 <Switch>
                     <Route path="/dashboard">

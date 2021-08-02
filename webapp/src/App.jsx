@@ -5,15 +5,14 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles'
 
 // Pages
-import LoginPage from './pages/authentication/login.page';
+import AuthPage from "./pages/authentication/auth.page";
 import MainPage from "./pages/main/main.page";
 
 import './App.css';
-import AuthPage from "./pages/authentication/auth.page";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#92D050",
+      main: "#078f61",
     },
     secondary: {
       main: '#11cb5f',
@@ -23,20 +22,22 @@ const theme = createMuiTheme({
 
 
 function App() {
-  const [id, setId] = useState("");
+  const [accessCode, setAccessCode] = useState("");
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        {id === "" &&
+        {accessCode === "" &&
           <AuthPage 
-            onLogin={(newId)=> setId(newId)}
+            onAuth={(newAccessCode) => {
+              setAccessCode(newAccessCode);
+            }}
           />
         }
-        {id !== "" &&
+        {accessCode !== "" &&
           <MainPage 
-            id={id}
-            logout={()=> {setId("")}} 
+            accessCode={accessCode}
+            logout={()=> {setAccessCode("")}} 
           />
         }
           

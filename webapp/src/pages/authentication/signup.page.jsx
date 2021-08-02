@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import SignupField from './SignupField';
 
 
 // Material UI Core Components
@@ -20,8 +19,8 @@ import ContactPhone from '@material-ui/icons/ContactPhone';
 
 
 // Other Components
-import { ReactComponent as GTLogo } from "../../asset/logo.svg";
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import { ReactComponent as GTLogo } from "../../assets/logo.svg";
+import { Link } from '@material-ui/core';
 
 
 // Style
@@ -42,16 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SignupPage = ({ onLogin }) => {
-    // const vals = [
-    //     {attri: "firstname", icon: AccountBox},
-    //     {attri: "lastname", icon: AccountBox},
-    //     {attri: "dob", icon: Today},
-    //     {attri: "email", icon: Email},
-    //     {attri: "mobile", icon: ContactPhone},
-    //     {attri: "username", icon: AccountCircleIcon},
-    //     {attri: "password", icon: LockIcon}
-    // ]
+const SignupPage = ({ onSignUp }) => {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [dob, setDob] = useState("");
@@ -84,7 +74,7 @@ const SignupPage = ({ onLogin }) => {
                 console.log("Server success on signup");
                 const res = await response.json();
                 console.log(res);
-                onLogin(res.accessCode);
+                onSignUp(res.accessCode);
             } else {
                 console.log("Error on Signup");
             }
@@ -94,10 +84,7 @@ const SignupPage = ({ onLogin }) => {
     // TODO: Set these Grid elements using a list function.
     return (
         <div>
-            <Grid
-                justify="center"
-                alignItems="center"
-            >
+            <Grid>
                 <Grid>
                     <GTLogo />
                 </Grid>
@@ -118,7 +105,7 @@ const SignupPage = ({ onLogin }) => {
                     <AccountBox className={classes.signupRowIcon} />
                     <TextField
                         label="First Name"
-                        variant="filled"
+                        variant="outlined"
                         value={firstname}
                         onChange={(e) => setFirstname(e.target.value)}
                     />
@@ -133,7 +120,7 @@ const SignupPage = ({ onLogin }) => {
                     <AccountBox className={classes.signupRowIcon} />
                     <TextField
                         label="Last Name"
-                        variant="filled"
+                        variant="outlined"
                         value={lastname}
                         onChange={(e) => setLastname(e.target.value)}
                     />
@@ -147,8 +134,9 @@ const SignupPage = ({ onLogin }) => {
                 >
                     <Today className={classes.signupRowIcon} />
                     <TextField
-                        label="Date of Birth"
-                        variant="filled"
+                        style={{width: "223px"}}
+                        type="date"
+                        variant="outlined"
                         value={dob}
                         onChange={(e) => setDob(e.target.value)}
                     />
@@ -163,7 +151,7 @@ const SignupPage = ({ onLogin }) => {
                     <Email className={classes.signupRowIcon} />
                     <TextField
                         label="Email"
-                        variant="filled"
+                        variant="outlined"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -178,7 +166,7 @@ const SignupPage = ({ onLogin }) => {
                     <ContactPhone className={classes.signupRowIcon} />
                     <TextField
                         label="Mobile"
-                        variant="filled"
+                        variant="outlined"
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
                     />
@@ -193,7 +181,7 @@ const SignupPage = ({ onLogin }) => {
                     <AccountCircleIcon className={classes.signupRowIcon} />
                     <TextField
                         label="Username"
-                        variant="filled"
+                        variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -208,7 +196,7 @@ const SignupPage = ({ onLogin }) => {
                     <LockIcon className={classes.signupRowIcon} />
                     <TextField
                         label="Password"
-                        variant="filled"
+                        variant="outlined"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -220,9 +208,17 @@ const SignupPage = ({ onLogin }) => {
                         className={classes.squareButton}
                         onClick={signupHandle}
                     >
-                        Continue
+                        Sign Up
                     </Button>
                 </Grid>
+                <div style = {{paddingTop: "20px"}}>
+                    <a>Already registered?</a>
+                </div>
+                <div>
+                    <Link href="login">
+                        Login Here
+                    </Link>
+                </div>
             </Grid>
         </div>
     )
