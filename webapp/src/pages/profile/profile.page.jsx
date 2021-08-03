@@ -19,7 +19,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import EditIcon from '@material-ui/icons/Edit';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
-import Sidebar from './sidebar.component';
+// import Sidebar from './sidebar.component';
 import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,20 +61,20 @@ export default function ProfilePage() {
           spacing={1}
         >
 
-          <Grid
+          {/* <Grid
             item
           >
             <List>
               {Sidebar}
             </List>
-          </Grid>
+          </Grid> */}
 
           <Grid
             item
             justify="center"
             alignItems="center"
           >
-            <Avatar alt="Loc Lien" src="/static/images/avatar/1.jpg" className={classes.profileAvatar} />
+            <Avatar alt="Loc Lien" src="/src/assets/logo.svg" className={classes.profileAvatar} />
           </Grid>
 
           <Grid
