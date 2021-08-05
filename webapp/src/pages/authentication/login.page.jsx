@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
     },
     squareButton: {
         color: "white",
-        borderRadius: 0
+        borderRadius: 4,
+        fontWeight: 'light'
     }
 }));
 
@@ -79,9 +80,13 @@ const LoginPage = ({ onLogin }) => {
                 justify="center"
                 alignItems="center"
             >
-                <Grid>
+                <Grid
+                justify="center"
+                alignItems="center">
                     <GTLogo />
                 </Grid>
+
+
                 <Grid
                     className={classes.loginRow}
                     container
@@ -97,6 +102,8 @@ const LoginPage = ({ onLogin }) => {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </Grid>
+
+                
                 <Grid
                     className={classes.loginRow}
                     container
@@ -113,6 +120,7 @@ const LoginPage = ({ onLogin }) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Grid>
+            
                 <Grid>
                     <Button
                         variant="contained"
@@ -123,14 +131,16 @@ const LoginPage = ({ onLogin }) => {
                         Login
                     </Button>
                 </Grid>
+
                 <div style = {{paddingTop: "20px"}}>
                     <a>Not yet registered?</a>
                 </div>
-                <div>
+                <div style = {{paddingBottom: "20px"}}>
                     <Link href="signup">
-                        Sign Up Here
+                        Click to Sign Up!
                     </Link>
                 </div>
+                
             </Grid>
         </div>
     )
