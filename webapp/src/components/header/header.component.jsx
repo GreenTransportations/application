@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         backgroundColor: "var(--gt-primary-color)",
-        color: "#fff5f5",
+        color: "#ffffff",
         zIndex: 2000,
         boxShadow: "none"
     },
@@ -52,24 +52,12 @@ const Header = ({ logout }) => {
 
     return (
         <>
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: false,
-                })}
-            >
-                <Toolbar>
-                <Typography variant="h6" noWrap>
-                    Green Transportation LLC
-                </Typography>
-                </Toolbar>
-            </AppBar>
             <Sidebar 
+            
                 open={open}
                 logout={logout}
             />
         </>
     );
 }
-
 export default Header;

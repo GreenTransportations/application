@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Other Components
 import Header from '../../components/header/header.component';
+import Sidebar from '../../components/sidebar/sidebar.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
 import TestPage from '../test/test.page';
