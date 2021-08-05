@@ -7,12 +7,16 @@ import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import {InputAdornment, IconButton } from "@material-ui/core";
+
 
 
 // Material UI Icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
-
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import CheckIcon from '@material-ui/icons/Check';
 
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
@@ -22,13 +26,13 @@ import { Link } from '@material-ui/core';
 // Style
 const useStyles = makeStyles((theme) => ({
     loginRow: {
-        margin: "20px 10px"
+        margin: "20px 0px"
     },
     loginRowIcon: {
         fontSize: "large",
         width: "2em",
         height: "2em",
-        margin: "5px"
+        margin: "0px"
     },
     squareButton: {
         color: "white",
@@ -42,6 +46,11 @@ const LoginPage = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const classes = useStyles();
+
+    //Defines the password toggle handler
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+
 
     // const login = () => {
     //     console.log(username, password)
@@ -99,6 +108,15 @@ const LoginPage = ({ onLogin }) => {
                         label="Username"
                         variant="outlined"
                         value={username}
+                        InputProps={{endAdornment:(
+                            <InputAdornment position="end">
+                                <IconButton>
+                                    <CheckIcon />
+                                </IconButton>
+                            </InputAdornment>
+)
+                        
+                        }}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </Grid>
@@ -115,9 +133,25 @@ const LoginPage = ({ onLogin }) => {
                     <TextField
                         label="Password"
                         variant="outlined"
-                        type="password"
-                        value={password}
+                        type= {showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        /*=================================================
+                        This section Adds an extra
+                        ===================================================*/
+                        InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  //onMouseDown={handleMouseDownPassword}
+                                >
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }}
                     />
                 </Grid>
             
