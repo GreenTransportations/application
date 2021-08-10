@@ -5,6 +5,7 @@ import clsx from 'clsx';
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
 import { API_CONFIG } from '../../configs/api.config';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Material UI Icons
@@ -17,26 +18,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const TestPage = ({}) => {
+const TestPage = ({ accessCode }) => {
     const classes = useStyles();
     const [tests, setTests] = useState([]);
 
     useEffect(()=>{
-        fetch(`${API_CONFIG.URL}/test/all`, {
-            method: "GET"
-        }).then(async (response) => {
-            if (response.ok) {
-                const data = await response.json();
-                setTests(data.map((test) => ({
-                    ...test,
-                    date: new Date(test.date)
-                })));
+        FETCH.GET("test", "all", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json();
+                    setTests(data.map((test) => ({
+                        ...test,
+                        date: new Date(test.date)
+                    })));
 
-            } else {
-                console.log("ERROR FETCHING TESTS");
-            }
-
-        })
+                } else {
+                    console.log("ERROR FETCHING TESTS");
+                }
+            })
     }, [])
     console.log(tests);
     return (

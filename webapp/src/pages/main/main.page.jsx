@@ -37,22 +37,22 @@ const MainPage = ({ accessCode, logout}) => {
             <div className={classes.pageContent}>
                 <Switch>
                     <Route path="/dashboard">
-                        <DashboardPage />         
+                        <DashboardPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/trips">
-                        <MapPage />         
+                        <MapPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/tests">
-                        <TestPage />         
+                        <TestPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/profile">
-                        <ProfilePage />                    
+                        <ProfilePage accessCode={accessCode} />                    
                     </Route>
                     <Route path="/driverlist">
-                        <DriverList />                    
+                        <DriverList accessCode={accessCode} />                    
                     </Route>
                     <Route path="/">
-                        <DashboardPage />                    
+                        <DashboardPage accessCode={accessCode} />                    
                     </Route>
                 </Switch>
             </div>

@@ -21,6 +21,7 @@ import ContactPhone from '@material-ui/icons/ContactPhone';
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 import { Link } from '@material-ui/core';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Style
@@ -62,23 +63,17 @@ const SignupPage = ({ onSignUp }) => {
             dob: dob,
             email: email,
             mobile: mobile
-        }
-        fetch(`${API_CONFIG.URL}/auth/signup`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userInfo)
-        }).then(async (response) => {
-            if (response.ok) {
-                console.log("Server success on signup");
-                const res = await response.json();
-                console.log(res);
-                onSignUp(res.accessCode);
-            } else {
-                console.log("Error on Signup");
-            }
-        })
+        };
+
+        FETCH.POST("auth", "signup", "", userInfo)
+            .then(async (response) => {
+                if (response.ok) {
+                    const res = await response.json();
+                    onSignUp(res.accessCode);
+                } else {
+                    console.log("Error on Signup");
+                }
+            })
     };
 
     // TODO: Set these Grid elements using a list function.
