@@ -22,8 +22,8 @@ import DriverList from '../driverList/driverList.page';
 // Style
 const useStyles = makeStyles((theme) => ({
     pageContent: {
-        margin: "64px 0px 0px 240px",
-        height: "calc(100vh - 64px)",
+        margin: "0px 0px 0px 240px",
+        height: "100vh",
     }
 }));
 

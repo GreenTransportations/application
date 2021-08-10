@@ -37,10 +37,6 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: DRAWER_WIDTH,
         backgroundColor: "rgba(7, 143, 97, 1)",
-        borderTopRightRadius: "25px",
-        borderBottomRightRadius: "25px"
-        
-
     },
     drawerHeader: {
         display: 'flex',
@@ -76,8 +72,6 @@ const Sidebar = ({ open, logout }) => {
                         
 
             <List>
-
-                
                 <ListItem button>
                     <ListItemIcon>
                         <DashboardIcon style={{ color: 'white' }} />
