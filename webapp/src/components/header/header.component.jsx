@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 
 // Material UI Icons
@@ -53,7 +49,6 @@ const Header = ({ logout }) => {
     return (
         <>
             <Sidebar 
-            
                 open={open}
                 logout={logout}
             />

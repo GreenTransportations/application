@@ -122,8 +122,51 @@ authServices.route("/login").post((req, res) => {
 authServices.route("/signup").post((req, res) => {
     console.log("/auth/signup", "POST");
 
+    let dob = new Date(req.body.dob);
+
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (!req.body.username || req.body.username.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing username!"
+        })
+        return;
+    } else if (!req.body.firstname || req.body.firstname.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing firstname!"
+        })
+        return;
+    } else if (!req.body.lastname || req.body.lastname.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing firstname!"
+        })
+        return;
+    } else if (!(dob instanceof Date && !isNaN(dob))) {
+        res.status(401).json({
+            err: "invalid date of birth!"
+        })  
+        return;
+    } else if (!req.body.email ||  req.body.email.trim() === 0 ||!emailRegex.test(req.body.email.trim())) {
+        res.status(401).json({
+            err: "invalid email!"
+        })
+        return;
+    } else if (!req.body.password || req.body.password.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing password!"
+        })
+        return;
+    } 
+
+
+    let username = req.body.username.trim();
+    let firstname = req.body.firstname.trim();
+    let lastname = req.body.lastname.trim();
+    let password = req.body.password.trim();
+    let email = req.body.email.trim();
+    let mobile = req.body.mobile.trim();
+
     // Get any auth with the new username to avoid duplicate auth
-    Auth.findOne({ username: req.body.username }, (err, auth) => {
+    Auth.findOne({ username: username }, (err, auth) => {
         if (err) {
             res.status(500).json({
                 err: "Error in Creation"
@@ -135,14 +178,14 @@ authServices.route("/signup").post((req, res) => {
         } else {
 
             // Hash the password
-            bcrypt.hash(req.body.password, config.SALT_ROUNDS, (err, hash) => {
+            bcrypt.hash(password, config.SALT_ROUNDS, (err, hash) => {
                 if (err) {
                     res.status(500).json({
                         err: "Error in hashing the password!"
                     })
                 } else {
                     const newAuth = new Auth({
-                        username: req.body.username,
+                        username: username,
                         password: hash,
                         accessCode: randomString(100),
                         activated: true
@@ -150,11 +193,11 @@ authServices.route("/signup").post((req, res) => {
                     newAuth.save();    
 
                     const newUser = new User({
-                        firstname: req.body.firstname,
-                        lastname: req.body.lastname,
-                        DOB: new Date(req.body.dob),
-                        email: req.body.email,
-                        mobile: req.body.mobile,
+                        firstname: firstname,
+                        lastname: lastname,
+                        DOB: dob,
+                        email: email,
+                        mobile: mobile,
                         auth: newAuth._id
                     });
                     newUser.save();

@@ -21,6 +21,7 @@ import CheckIcon from '@material-ui/icons/Check';
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 import { Link } from '@material-ui/core';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Style
@@ -51,13 +52,6 @@ const LoginPage = ({ onLogin }) => {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-
-    // const login = () => {
-    //     console.log(username, password)
-    //     if (username === PLACEHOLDER_USERNAME && password === PLACEHOLDER_PASSWORD){
-    //         onLogin(username);
-    //     }
-    // }
     const loginHandle = async (e) => {
         e.preventDefault();
 
@@ -65,22 +59,18 @@ const LoginPage = ({ onLogin }) => {
             username: username,
             password: password
         }
-        fetch(`${API_CONFIG.URL}/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userInfo)
-        }).then(async (response) => {
-            if (response.ok) {
-                console.log("Server success on login");
-                const res = await response.json();
-                console.log(res);
-                onLogin(res.accessCode);
-            } else {
-                console.log("Error on Login");
-            }
-        })
+
+        FETCH.POST("auth", "login", "", userInfo)
+            .then(async (response) => {
+                if (response.ok) {
+                    console.log("Server success on login");
+                    const res = await response.json();
+                    console.log(res);
+                    onLogin(res.accessCode);
+                } else {
+                    console.log("Error on Login");
+                }
+            })
     };
 
     return (

@@ -22,8 +22,8 @@ import DriverList from '../driverList/driverList.page';
 // Style
 const useStyles = makeStyles((theme) => ({
     pageContent: {
-        margin: "64px 0px 0px 240px",
-        height: "calc(100vh - 64px)",
+        margin: "0px 0px 0px 240px",
+        height: "100vh",
     }
 }));
 
@@ -37,22 +37,22 @@ const MainPage = ({ accessCode, logout}) => {
             <div className={classes.pageContent}>
                 <Switch>
                     <Route path="/dashboard">
-                        <DashboardPage />         
+                        <DashboardPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/trips">
-                        <MapPage />         
+                        <MapPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/tests">
-                        <TestPage />         
+                        <TestPage accessCode={accessCode} />         
                     </Route>
                     <Route path="/profile">
-                        <ProfilePage />                    
+                        <ProfilePage accessCode={accessCode} />                    
                     </Route>
                     <Route path="/driverlist">
-                        <DriverList />                    
+                        <DriverList accessCode={accessCode} />                    
                     </Route>
                     <Route path="/">
-                        <DashboardPage />                    
+                        <DashboardPage accessCode={accessCode} />                    
                     </Route>
                 </Switch>
             </div>
