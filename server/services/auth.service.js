@@ -7,7 +7,8 @@ const authServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
-const { validateHeader, validateUser, validateUserTypes, randomString } = require("../utils/common.util");
+const { validateHeader, validateUser, randomString } = require("../utils/common.util");
+const { USER_TYPE } = require("../enums/user.enum");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -45,12 +46,17 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
                 })
                 firstAuth.save();
                 const firstUser = new User({
-                    firstname: "First",
-                    lastname: "User",
+                    name: "First Manager",
                     DOB: new Date(),
                     email: "first.user@placeholder.com",
                     mobile: "0432442340",
-                    auth: firstAuth._id
+                    auth: firstAuth._id,
+                    type: USER_TYPE.MANAGER,
+                    total: {
+                        mileage: 0,
+                        emission: 0,
+                        trip: 0,
+                    }
                 });
                 firstUser.save()
                 
@@ -128,53 +134,66 @@ authServices.route("/signup").post((req, res) => {
     if (!req.body.username || req.body.username.trim().length === 0) {
         res.status(401).json({
             err: "Missing username!"
-        })
+        });
         return;
-    } else if (!req.body.firstname || req.body.firstname.trim().length === 0) {
+
+    } else if (!req.body.name || req.body.name.trim().length === 0) {
         res.status(401).json({
-            err: "Missing firstname!"
-        })
+            err: "Missing name!"
+        });
         return;
-    } else if (!req.body.lastname || req.body.lastname.trim().length === 0) {
+
+    } else if (!req.body.mobile || req.body.mobile.trim().length === 0) {
         res.status(401).json({
-            err: "Missing firstname!"
-        })
+            err: "Missing mobile!"
+        });
         return;
+
     } else if (!(dob instanceof Date && !isNaN(dob))) {
         res.status(401).json({
             err: "invalid date of birth!"
-        })  
+        });
         return;
+
     } else if (!req.body.email ||  req.body.email.trim() === 0 ||!emailRegex.test(req.body.email.trim())) {
         res.status(401).json({
             err: "invalid email!"
-        })
+        });
         return;
+
     } else if (!req.body.password || req.body.password.trim().length === 0) {
         res.status(401).json({
             err: "Missing password!"
-        })
+        });
         return;
-    } 
 
+    } else if (req.body.type && (req.body.type.trim().toUpperCase() === USER_TYPE.DRIVER || req.body.type.trim().toUpperCase() === USER_TYPE.MANAGER)) {
+        res.status(401).json({
+            err: "Invalid Type!"
+        });
+        return;
+    }
 
     let username = req.body.username.trim();
-    let firstname = req.body.firstname.trim();
-    let lastname = req.body.lastname.trim();
+    let name = req.body.name.trim();
     let password = req.body.password.trim();
     let email = req.body.email.trim();
     let mobile = req.body.mobile.trim();
+    let type = req.body.type.trim().toUpperCase();
 
+    
     // Get any auth with the new username to avoid duplicate auth
     Auth.findOne({ username: username }, (err, auth) => {
         if (err) {
             res.status(500).json({
                 err: "Error in Creation"
-            })
+            });
+
         } else if (auth) {
             res.status(401).json({
                 err: "Username already exist!"
-            })
+            });
+            
         } else {
 
             // Hash the password
@@ -193,12 +212,17 @@ authServices.route("/signup").post((req, res) => {
                     newAuth.save();    
 
                     const newUser = new User({
-                        firstname: firstname,
-                        lastname: lastname,
+                        name: name,
                         DOB: dob,
                         email: email,
                         mobile: mobile,
-                        auth: newAuth._id
+                        auth: newAuth._id,
+                        type: type,
+                        total: {
+                            mileage: 0,
+                            emission: 0,
+                            trip: 0,
+                        }
                     });
                     newUser.save();
 

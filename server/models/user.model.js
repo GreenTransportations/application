@@ -2,27 +2,26 @@ const mongoose = require("mongoose");
 
 // Declare the Schema of the Mongo model
 var userSchema = new mongoose.Schema({
-    firstname:{
-        type:String,
-        required:true,
+    name: { type: String },
+    DOB: {
+        type: Date,
+        required: true,
     },
-    lastname:{
-        type:String,
-        required:true,
+    email: {
+        type: String,
+        required: true,
+        unique: true,
     },
-    DOB:{
-        type:Date,
-        required:true,
+    mobile: {
+        type: String,
+        required: true,
+        unique: true,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-    },
-    mobile:{
-        type:String,
-        required:true,
-        unique:true,
+    type: { type: String },
+    total: {
+        mileage: { type: Number },
+        emission: { type: Number },
+        trip: { type: Number },
     },
     auth: { type: mongoose.Schema.Types.ObjectId, ref: "auth" },
 });
