@@ -1,5 +1,5 @@
 const API_PORT = 8000;
-const API_BASE_PATH = "/test";
+const API_BASE_PATH = "/v0";
 const API_BASE_URL = "http://localhost";
 
 export const API_CONFIG = {
