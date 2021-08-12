@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 
 // Material UI Core Components
@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Other Components
 import Header from '../../components/header/header.component';
-import Sidebar from '../../components/sidebar/sidebar.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
 import TestPage from '../test/test.page';
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const MainPage = ({ accessCode, logout}) => {
+const MainPage = ({ accessCode, user, logout}) => {
     const classes = useStyles();
 
     return (
@@ -37,22 +36,22 @@ const MainPage = ({ accessCode, logout}) => {
             <div className={classes.pageContent}>
                 <Switch>
                     <Route path="/dashboard">
-                        <DashboardPage accessCode={accessCode} />         
+                        <DashboardPage accessCode={accessCode} user={user}/>         
                     </Route>
                     <Route path="/trips">
-                        <MapPage accessCode={accessCode} />         
+                        <MapPage accessCode={accessCode} user={user}/>         
                     </Route>
                     <Route path="/tests">
-                        <TestPage accessCode={accessCode} />         
+                        <TestPage accessCode={accessCode} user={user}/>         
                     </Route>
                     <Route path="/profile">
-                        <ProfilePage accessCode={accessCode} />                    
+                        <ProfilePage accessCode={accessCode} user={user}/>                    
                     </Route>
                     <Route path="/driverlist">
-                        <DriverList accessCode={accessCode} />                    
+                        <DriverList accessCode={accessCode} user={user}/>                    
                     </Route>
                     <Route path="/">
-                        <DashboardPage accessCode={accessCode} />                    
+                        <Redirect to="/dashboard" />     
                     </Route>
                 </Switch>
             </div>

@@ -16,11 +16,11 @@ import LockIcon from '@material-ui/icons/Lock';
 import Today from '@material-ui/icons/Today';
 import Email from '@material-ui/icons/Email';
 import ContactPhone from '@material-ui/icons/ContactPhone';
-
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
-import { Link } from '@material-ui/core';
+import { Link, MenuItem, Select } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 
 
@@ -43,12 +43,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SignupPage = ({ onSignUp }) => {
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
+    const [name, setName] = useState("");
     const [dob, setDob] = useState("");
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
     const [username, setUsername] = useState("");
+    const [type, setType] = useState("DRIVER");
     const [password, setPassword] = useState("");
     const classes = useStyles();
 
@@ -58,11 +58,11 @@ const SignupPage = ({ onSignUp }) => {
         const userInfo = {
             username: username,
             password: password,
-            firstname: firstname,
-            lastname: lastname,
+            name: name,
             dob: dob,
             email: email,
-            mobile: mobile
+            mobile: mobile,
+            type: type
         };
 
         FETCH.POST("auth", "signup", "", userInfo)
@@ -99,25 +99,10 @@ const SignupPage = ({ onSignUp }) => {
                 >
                     <AccountBox className={classes.signupRowIcon} />
                     <TextField
-                        label="First Name"
+                        label="Name"
                         variant="outlined"
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
-                    />
-                </Grid>
-                <Grid
-                    className={classes.signupRow}
-                    container
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                >
-                    <AccountBox className={classes.signupRowIcon} />
-                    <TextField
-                        label="Last Name"
-                        variant="outlined"
-                        value={lastname}
-                        onChange={(e) => setLastname(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </Grid>
                 <Grid
@@ -165,6 +150,25 @@ const SignupPage = ({ onSignUp }) => {
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
                     />
+                </Grid>
+                <Grid
+                    className={classes.signupRow}
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <SupervisorAccount className={classes.signupRowIcon} />
+                    <Select
+                        style={{width: "223px"}}
+                        label="type"
+                        variant="outlined"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                    >
+                        <MenuItem value={"DRIVER"}>Driver</MenuItem>
+                        <MenuItem value={"MANAGER"}>Manager</MenuItem>
+                    </Select>
                 </Grid>
                 <Grid
                     className={classes.signupRow}
