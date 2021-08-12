@@ -26,7 +26,6 @@ userServices.route("/all").get((req, res) => {
     console.log("/user/all", "GET");
     
     let query = {};
-    
     if (req.query) {
         if (req.query.type && (req.query.type.toUpperCase() === USER_TYPE.DRIVER || req.query.type.toUpperCase() === USER_TYPE.MANAGER)) {
             query["type"] = req.query.type.toUpperCase();
