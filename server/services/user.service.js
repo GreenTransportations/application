@@ -24,7 +24,7 @@ userServices.route("/all").get((_, res) => {
     console.log("/user/all", "GET");
     
     // Find all sections
-    Test.find({}, (err, users) => {
+    User.find({}, (err, users) => {
         if (err) {
             console.log("/user/all", err);
             res.status(500).json({
