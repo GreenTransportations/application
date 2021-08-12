@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -63,10 +62,8 @@ const LoginPage = ({ onLogin }) => {
         FETCH.POST("auth", "login", "", userInfo)
             .then(async (response) => {
                 if (response.ok) {
-                    console.log("Server success on login");
                     const res = await response.json();
-                    console.log(res);
-                    onLogin(res.accessCode);
+                    onLogin(res.accessCode, res.user);
                 } else {
                     console.log("Error on Login");
                 }
@@ -104,9 +101,7 @@ const LoginPage = ({ onLogin }) => {
                                     <CheckIcon />
                                 </IconButton>
                             </InputAdornment>
-)
-                        
-                        }}
+                        )}}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </Grid>

@@ -167,7 +167,7 @@ authServices.route("/signup").post((req, res) => {
         });
         return;
 
-    } else if (req.body.type && (req.body.type.trim().toUpperCase() === USER_TYPE.DRIVER || req.body.type.trim().toUpperCase() === USER_TYPE.MANAGER)) {
+    } else if (req.body.type && (req.body.type.trim().toUpperCase() !== USER_TYPE.DRIVER && req.body.type.trim().toUpperCase() !== USER_TYPE.MANAGER)) {
         res.status(401).json({
             err: "Invalid Type!"
         });
@@ -227,11 +227,9 @@ authServices.route("/signup").post((req, res) => {
                     newUser.save();
 
                     res.status(200).json({
-                        ...newUser._doc,
-                        auth:{
-                            _id: newAuth._id,
-                            username: newAuth.username
-                        }
+                        user: newUser._doc,
+                        accessCode: newAuth.accessCode
+
                     });
                 }
             });

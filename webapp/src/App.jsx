@@ -23,24 +23,27 @@ const theme = createMuiTheme({
 
 function App() {
   const [accessCode, setAccessCode] = useState("");
+  const [user, setUser] = useState(null);
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
         {accessCode === "" &&
           <AuthPage 
-            onAuth={(newAccessCode) => {
+            onAuth={(newAccessCode, newUser) => {
               setAccessCode(newAccessCode);
+              setUser(newUser);
             }}
           />
         }
+
         {accessCode !== "" &&
           <MainPage 
             accessCode={accessCode}
-            logout={()=> {setAccessCode("")}} 
+            user={user}
+            logout={() => {setAccessCode("")}} 
           />
-        }
-          
+        }  
       </div>
     </ThemeProvider>
   );

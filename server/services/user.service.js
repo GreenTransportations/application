@@ -22,7 +22,7 @@ let User = require("../models/user.model");
 
 // All Users
 // ../user/all
-userServices.route("/all").get((_, res) => {
+userServices.route("/all").get((req, res) => {
     console.log("/user/all", "GET");
     
     let query = {};
