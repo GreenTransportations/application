@@ -42,13 +42,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Header = ({ logout }) => {
+const Header = ({ logout, user }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
     return (
         <>
             <Sidebar 
+                user={user}
                 open={open}
                 logout={logout}
             />
