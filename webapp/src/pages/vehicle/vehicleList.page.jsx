@@ -1,6 +1,8 @@
 import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import VehicleDetailPage from './vehicleDetails.page';
 
+// Remove hard-coded columns
 const columns = [
   { field: 'id', headerName: 'Vehicle ID', width: 90 },
   {
@@ -28,7 +30,7 @@ const columns = [
     headerName: 'Date Registered',
     type: 'date',
     width: 200,
-    editable: true, 
+    editable: true,
   },
 
   {
@@ -36,28 +38,39 @@ const columns = [
     headerName: 'Fuel Efficiency(km/L)',
     type: 'number',
     width: 200,
-    editable: true, 
+    editable: true,
   },
 
   {
     field: 'userRegistered',
     headerName: 'User Registered',
     width: 150,
-    editable: true, 
+    editable: true,
   },
 ];
 
-/*const rows = [
-  { id: 1, FirstName: 'Loc', LastName: 'Lien', avgEmission: 30,  contactNumber: 123, totalMileAge: 20, currentlyLive: 'No' },
-  { id: 2, FirstName: 'Looc', LastName: 'Lien', avgEmission: 30, contactNumber: 456, totalMileAge: 50, currentlyLive: 'No' },
-  { id: 3, FirstName: 'Loooc', LastName: 'Lien', avgEmission: 30, contactNumber: 789, totalMileAge: 70, currentlyLive: 'No' },
-  { id: 4, FirstName: 'Looooc', LastName: 'Lien', avgEmission: 30, contactNumber: 1234, totalMileAge: 100, currentlyLive: 'No' },
-];
-*/
+const VehicleList = ({ accessCode, user }) => {
+  const [vehicles, setVehicles] = useState([]);
 
-export default function VehicleList() {
+  useEffect(() => {
+    FETCH.GET("vehicle", "all", accessCode)
+      .then(async (response) => {
+        if (response.ok) {
+          const data = await response.json()
+          setVehicles(data);
+          console.log(data);
+        } else {
+          console.log("ERROR");
+        }
+      })
+  }, [accessCode, user])
+
   return (
-    <div style={{ justifyContent:'center', alignItems:'center', height: 400, width: '100%' }}>
+    /* TODO:
+      Louis: use the driver data from the DB (loaded with the above FETCH call) to populate a table
+      of vehicles here. 
+    */
+    <div style={{ justifyContent: 'center', alignItems: 'center', height: 400, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -68,3 +81,5 @@ export default function VehicleList() {
     </div>
   );
 }
+
+export default VehicleList;

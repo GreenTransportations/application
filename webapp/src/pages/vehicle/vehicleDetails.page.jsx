@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function VehicleDetailPage(vehicle) {
+const VehicleDetailPage = ({vehicle}) => {
   // pass in vehicle parameter from route here
   const classes = useStyles();
 
@@ -90,3 +90,5 @@ export default function VehicleDetailPage(vehicle) {
 
     );
 }
+
+export default VehicleDetailPage;
