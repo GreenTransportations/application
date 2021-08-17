@@ -117,6 +117,17 @@ const Sidebar = ({ open, logout }) => {
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
+                        <PersonIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                        primary="Driver List" 
+                        onClick={()=>{
+                            history.push("/driverlist")
+                        }}
+                    />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
                         <ExitToAppIcon />
                     </ListItemIcon>
                     <ListItemText
