@@ -47,7 +47,10 @@ const VehicleRegistrationPage = ({ onRegistration }) => {
     return (
         <div>
             <Grid>
-                <Grid>
+                <Grid 
+                    container
+                    justify="center"
+                    alignItems="center">
                     <GTLogo />
                 </Grid>
 
