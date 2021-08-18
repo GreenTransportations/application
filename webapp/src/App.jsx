@@ -1,28 +1,51 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import LoginPage from './page/login.page';
-import MainPage from "./page/main.page";
-
-import './App.css';
 import { useState } from "react";
 
+// Material UI 
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles'
+
+// Pages
+import AuthPage from "./pages/authentication/auth.page";
+import MainPage from "./pages/main/main.page";
+
+import './App.css';
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#078f61",
+    },
+    secondary: {
+      main: '#11cb5f',
+    },
+  },
+});
+
+
 function App() {
-  const [id, setId] = useState("");
+  const [accessCode, setAccessCode] = useState("");
+  const [user, setUser] = useState(null);
 
   return (
+    <ThemeProvider theme={theme}>
       <div className="App">
-        {id === "" &&
-          <LoginPage 
-            onLogin={(newId)=> setId(newId)}
+        {accessCode === "" &&
+          <AuthPage 
+            onAuth={(newAccessCode, newUser) => {
+              setAccessCode(newAccessCode);
+              setUser(newUser);
+            }}
           />
         }
-        {id !== "" &&
+
+        {accessCode !== "" &&
           <MainPage 
-            id={id}
-            logout={()=> {setId("")}} 
+            accessCode={accessCode}
+            user={user}
+            logout={() => {setAccessCode("")}} 
           />
-        }
+        }  
       </div>
+    </ThemeProvider>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 
 
 // Material UI Core Components
@@ -14,15 +13,15 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 // Other Components
-import TripTable from '../component/table/trip.table.component';
+import TripTable from '../../components/table/trip.table.component';
 
 
 // Style
 const useStyles = makeStyles((theme) => ({
-    squareGreenButton: {
-        backgroundColor: "var(--gt-primary-color)",
-        color: "#fff5f5",
-        borderRadius: 0
+    squareButton: {
+        color: "ffffff",
+        boxShadow: "none",
+        borderRadius: 8
     }
 }));
 
@@ -40,37 +39,46 @@ const DashboardPage = () => {
                 alignItems="center"
                 spacing={1}
             >
+
                 <Grid 
                     item
                     xs={3}
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<AddIcon />}
                     >
                         Start a New Trip
                     </Button>
                 </Grid>
+
                 <Grid 
                     item
                     xs={3}
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<CompareArrowsIcon />}
                     >
                         Check Trip History
                     </Button>
                 </Grid>
+                
                 <Grid 
                     item
                     xs={3}
                 >
                     <Button
                         fullWidth
-                        className={clsx(classes.squareGreenButton)}
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
                         endIcon={<FavoriteIcon />}
                     >
                         Add New Shortcut

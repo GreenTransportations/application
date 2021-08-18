@@ -8,14 +8,14 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 
-// Material UI Icons
-
-
 // Other Components
+import { ReactComponent as GTLogo } from "../../assets/logo.svg";
+import { ReactComponent as GTLogoInvert } from "../../assets/logo_invert.svg";
 
 
 // Material UI Icons
@@ -31,16 +31,17 @@ const useStyles = makeStyles((theme) => ({
     drawer: {
         width: DRAWER_WIDTH,
         flexShrink: 0,
-        backgroundColor: "#fff5f5"
+        backgroundColor: "#000000",
+        borderRadius: "8px"
     },
     drawerPaper: {
         width: DRAWER_WIDTH,
-        backgroundColor: "rgba(146, 208, 80, 0.4)"
+        backgroundColor: "rgba(7, 143, 97, 1)",
     },
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
-        padding: theme.spacing(0, 1),
+        padding: theme.spacing(0, 0),
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
         backgroundColor: "var(--gt-primary-color)",
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Sidebar = ({open}) => {
+const Sidebar = ({ open, logout }) => {
     const history = useHistory();
     const classes = useStyles();
 
@@ -63,16 +64,19 @@ const Sidebar = ({open}) => {
             }}
         >
             <div className={classes.drawerHeader}>
-            </div>
-            <Divider />
-            <List>
+            <GTLogoInvert justify="center" alignItems="center" width = "250px" height = "250px" />
 
-                
+            </div>
+
+        
+                        
+
+            <List>
                 <ListItem button>
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <DashboardIcon style={{ color: 'white' }} />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText style={{ color: 'white' }}
                         primary="Dashboard" 
                         onClick={()=>{
                             history.push("/dashboard")
@@ -81,23 +85,32 @@ const Sidebar = ({open}) => {
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
-                        <LocationOnIcon />
+                        <LocationOnIcon style={{ color: 'white' }} />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText style={{ color: 'white' }} 
                         primary="Trips" 
                         onClick={()=>{
                             history.push("/trips")
                         }}
                     />
                 </ListItem>
-            </List>
-            <Divider />
-            <List>
                 <ListItem button>
                     <ListItemIcon>
-                        <PersonIcon />
+                        <LocationOnIcon style={{ color: 'white' }} />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText style={{ color: 'white' }} 
+                        primary="Tests" 
+                        onClick={()=>{
+                            history.push("/tests")
+                        }}
+                    />
+                </ListItem>
+
+                <ListItem button>
+                    <ListItemIcon>
+                        <PersonIcon style={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color: 'white' }} 
                         primary="Profile" 
                         onClick={()=>{
                             history.push("/profile")
@@ -106,12 +119,24 @@ const Sidebar = ({open}) => {
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
-                        <ExitToAppIcon />
+                        <PersonIcon style={{ color: 'white' }} />
                     </ListItemIcon>
-                    <ListItemText
-                        primary="Log Out" 
+                    <ListItemText style={{ color: 'white' }} 
+                        primary="Driver List" 
                         onClick={()=>{
-                            history.push("/login")
+                            history.push("/driverlist")
+                        }}
+                    />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <ExitToAppIcon style={{ color: 'white' }} />
+                    </ListItemIcon>
+                    <ListItemText style={{ color: 'white' }} 
+                        primary="Log Out" 
+                        onClick={()=> {
+                            logout();
+                            history.push("/login");
                         }}
                     />
                 </ListItem>

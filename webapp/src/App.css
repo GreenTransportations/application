@@ -1,10 +1,10 @@
 :root{
-  --gt-primary-color: #92D050; 
+  --gt-primary-color: #078f61; 
 }
 
 .App {
   text-align: center;
-  background-color: #fff5f5;
+  /* background-color: #fff5f5; */
 }
 
 
