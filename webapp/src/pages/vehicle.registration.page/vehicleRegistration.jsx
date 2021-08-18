@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { Link, MenuItem, Select } from '@material-ui/core';
+import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 
 
 // Other Components
