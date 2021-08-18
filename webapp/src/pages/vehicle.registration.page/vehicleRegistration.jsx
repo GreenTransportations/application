@@ -118,7 +118,7 @@ const VehicleRegistrationPage = ({ onRegistration }) => {
                             type="reg_no"
                             variant="outlined"
                             value={user_reg}
-                            onChange={(e) => set_user_reg(e.target.value)}
+                            onChange={(e) => set_reg_no(e.target.value)}
                         />
                     </Grid>
 

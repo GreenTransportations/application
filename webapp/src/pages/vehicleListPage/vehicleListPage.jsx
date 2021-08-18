@@ -16,21 +16,22 @@ const useStyles = makeStyles({
     }
 });
 
-const VehicleList = ({ accessCode, user }) => {
-  const [vehicles, setVehicles] = useState([]);
+const VehicleList = ({ accessCode, vehicle }) => {
+    const [vehicle, setVehicles] = useState([]);
+    const classes = useStyles();
 
   useEffect(() => {
-    FETCH.GET("vehicle", "all", accessCode)
-      .then(async (response) => {
-        if (response.ok) {
-          const data = await response.json()
-          setVehicles(data);
-          console.log(data);
-        } else {
-          console.log("ERROR");
-        }
-      })
-  }, [accessCode, user])
+    FETCH.GET("vehicle", "", accessCode)
+        .then(async (response) => {
+            if (response.ok) {
+                const data = await response.json()
+                setVehicles(data);
+                console.log(data);
+            } else {
+                console.log("ERROR");
+            }
+        })
+}, [accessCode, vehicle])
 
   return (
     <div style={{ padding: "30px" }}>
@@ -55,7 +56,7 @@ const VehicleList = ({ accessCode, user }) => {
                             </TableCell>
                             <TableCell>{vehicle.make}</TableCell>
                             <TableCell>{vehicle.model}</TableCell>
-                            <TableCell>{vehicle.ger_no}</TableCell>
+                            <TableCell>{vehicle.reg_no}</TableCell>
                             <TableCell>{vehicle.date}</TableCell>
                             <TableCell>{vehicle.fuel_eff}</TableCell>
                         </TableRow>
@@ -66,3 +67,5 @@ const VehicleList = ({ accessCode, user }) => {
     </div>
 );
 }
+
+export default VehicleList;
