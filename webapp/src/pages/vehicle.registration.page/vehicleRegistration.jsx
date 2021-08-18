@@ -46,118 +46,121 @@ const VehicleRegistrationPage = ({ onRegistration }) => {
     return (
         <div>
             <Grid>
-
-            <Grid
-                    className={classes.registerRow}
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    Brand:
-                    <Select
-                        style={{width: "223px"}}
-                        label="brand"
-                        variant="outlined"
-                        value={brand}
-                        onChange={(e) => setBrand(e.target.value)}
-                    >
-                        <MenuItem value={"Kenworth"}>Kenworth</MenuItem>
-                        <MenuItem value={"Mack"}>Mack</MenuItem>
-                        <MenuItem value={"Isuzu"}>Isuzu</MenuItem>
-                        <MenuItem value={"Volvo"}>Volvo</MenuItem>
-                        <MenuItem value={"Scania"}>Scania</MenuItem>
-                        <MenuItem value={"Hino"}>Hino</MenuItem>
-                        <MenuItem value={"DAF"}>DAF</MenuItem>
-                        <MenuItem value={"Western Star"}>Western Star</MenuItem>
-                        <MenuItem value={"Mercedes-Benz"}>Mercedes-Benz</MenuItem>
-                        <MenuItem value={"Freightliner"}>Freightliner</MenuItem>
-                        <MenuItem value={"UD"}>UD</MenuItem>
-                        <MenuItem value={"Cat Trucks"}>Cat Trucks</MenuItem>
-                    </Select>
-                </Grid>
-
-                <Grid
-                    className={classes.registerRow}
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    Model:
-                    <Select
-                        style={{width: "223px"}}
-                        label="model"
-                        variant="outlined"
-                        value={brand}
-                        onChange={(e) => setModel(e.target.value)}
-                    >
-                        <MenuItem value={"Model 1"}>Model 1</MenuItem>
-                        <MenuItem value={"Model 2"}>Model 2</MenuItem>
-                    </Select>
-                </Grid>
-
-                <Grid
-                    className={classes.registerRow}
-                    container
-                    direction="column"
-                    variant="outlined"
-                    justify="center"
-                    alignItems="center"
-                >
-                    Registration Number:
-                    <TextField
-                        style={{width: "223px"}}
-                        type="reg_no"
-                        variant="outlined"
-                        value={user_reg}
-                        onChange={(e) => set_user_reg(e.target.value)}
-                    />
-                </Grid>
-
-                <Grid
-                    className={classes.registerRow}
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    User Registered:
-                    <TextField
-                        style={{width: "223px"}}
-                        type="user_reg"
-                        variant="outlined"
-                        value={user_reg}
-                        onChange={(e) => set_user_reg(e.target.value)}
-                    />
-                </Grid>
-
-                <Grid
-                    className={classes.registerRow}
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
-                    Registration date:
-                    <TextField
-                        type="date"
-                        variant="outlined"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-                </Grid>
-                
                 <Grid>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.squareButton}
-                        //onClick={registerHandle}
-                    >
-                        Register now
-                    </Button>
+                    <GTLogo />
                 </Grid>
+
+                <Grid
+                        className={classes.registerRow}
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        Brand:
+                        <Select
+                            style={{width: "223px"}}
+                            label="brand"
+                            variant="outlined"
+                            value={brand}
+                            onChange={(e) => setBrand(e.target.value)}
+                        >
+                            <MenuItem value={"Kenworth"}>Kenworth</MenuItem>
+                            <MenuItem value={"Mack"}>Mack</MenuItem>
+                            <MenuItem value={"Isuzu"}>Isuzu</MenuItem>
+                            <MenuItem value={"Volvo"}>Volvo</MenuItem>
+                            <MenuItem value={"Scania"}>Scania</MenuItem>
+                            <MenuItem value={"Hino"}>Hino</MenuItem>
+                            <MenuItem value={"DAF"}>DAF</MenuItem>
+                            <MenuItem value={"Western Star"}>Western Star</MenuItem>
+                            <MenuItem value={"Mercedes-Benz"}>Mercedes-Benz</MenuItem>
+                            <MenuItem value={"Freightliner"}>Freightliner</MenuItem>
+                            <MenuItem value={"UD"}>UD</MenuItem>
+                            <MenuItem value={"Cat Trucks"}>Cat Trucks</MenuItem>
+                        </Select>
+                    </Grid>
+
+                    <Grid
+                        className={classes.registerRow}
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        Model:
+                        <Select
+                            style={{width: "223px"}}
+                            label="model"
+                            variant="outlined"
+                            value={brand}
+                            onChange={(e) => setModel(e.target.value)}
+                        >
+                            <MenuItem value={"Model 1"}>Model 1</MenuItem>
+                            <MenuItem value={"Model 2"}>Model 2</MenuItem>
+                        </Select>
+                    </Grid>
+
+                    <Grid
+                        className={classes.registerRow}
+                        container
+                        direction="column"
+                        variant="outlined"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        Registration Number:
+                        <TextField
+                            style={{width: "223px"}}
+                            type="reg_no"
+                            variant="outlined"
+                            value={user_reg}
+                            onChange={(e) => set_user_reg(e.target.value)}
+                        />
+                    </Grid>
+
+                    <Grid
+                        className={classes.registerRow}
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        User Registered:
+                        <TextField
+                            style={{width: "223px"}}
+                            type="user_reg"
+                            variant="outlined"
+                            value={user_reg}
+                            onChange={(e) => set_user_reg(e.target.value)}
+                        />
+                    </Grid>
+
+                    <Grid
+                        className={classes.registerRow}
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        Registration date:
+                        <TextField
+                            type="date"
+                            variant="outlined"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                        />
+                    </Grid>
+                    
+                    <Grid>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.squareButton}
+                            //onClick={registerHandle}
+                        >
+                            Register now
+                        </Button>
+                    </Grid>
                 <div style = {{paddingTop: "20px"}}>
                     <a>Already registered?</a>
                 </div>
