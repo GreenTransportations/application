@@ -20,18 +20,18 @@ const VehicleList = ({ accessCode, vehicle }) => {
     const [vehicle, setVehicles] = useState([]);
     const classes = useStyles();
 
-  useEffect(() => {
-    FETCH.GET("vehicle", "", accessCode)
-        .then(async (response) => {
-            if (response.ok) {
-                const data = await response.json()
-                setVehicles(data);
-                console.log(data);
-            } else {
-                console.log("ERROR");
-            }
-        })
-}, [accessCode, vehicle])
+    useEffect(() => {
+        FETCH.GET("vehicle", "", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setVehicles(data);
+                    console.log(data);
+                } else {
+                    console.log("ERROR");
+                }
+            })
+    }, [accessCode, vehicle])
 
   return (
     <div style={{ padding: "30px" }}>
