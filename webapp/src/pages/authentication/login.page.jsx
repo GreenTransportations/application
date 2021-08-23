@@ -3,36 +3,41 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import {InputAdornment, IconButton } from "@material-ui/core";
+
 
 
 // Material UI Icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
-
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import CheckIcon from '@material-ui/icons/Check';
 
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 import { Link } from '@material-ui/core';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Style
 const useStyles = makeStyles((theme) => ({
     loginRow: {
-        margin: "20px 10px"
+        margin: "20px 0px"
     },
     loginRowIcon: {
         fontSize: "large",
         width: "2em",
         height: "2em",
-        margin: "5px"
+        margin: "0px"
     },
     squareButton: {
         color: "white",
-        borderRadius: 0
+        borderRadius: 4,
+        fontWeight: 'light'
     }
 }));
 
@@ -42,12 +47,10 @@ const LoginPage = ({ onLogin }) => {
     const [password, setPassword] = useState("");
     const classes = useStyles();
 
-    // const login = () => {
-    //     console.log(username, password)
-    //     if (username === PLACEHOLDER_USERNAME && password === PLACEHOLDER_PASSWORD){
-    //         onLogin(username);
-    //     }
-    // }
+    //Defines the password toggle handler
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+
     const loginHandle = async (e) => {
         e.preventDefault();
 
@@ -55,22 +58,16 @@ const LoginPage = ({ onLogin }) => {
             username: username,
             password: password
         }
-        fetch(`${API_CONFIG.URL}/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userInfo)
-        }).then(async (response) => {
-            if (response.ok) {
-                console.log("Server success on login");
-                const res = await response.json();
-                console.log(res);
-                onLogin(res.accessCode);
-            } else {
-                console.log("Error on Login");
-            }
-        })
+
+        FETCH.POST("auth", "login", "", userInfo)
+            .then(async (response) => {
+                if (response.ok) {
+                    const res = await response.json();
+                    onLogin(res.accessCode, res.user);
+                } else {
+                    console.log("Error on Login");
+                }
+            })
     };
 
     return (
@@ -79,9 +76,13 @@ const LoginPage = ({ onLogin }) => {
                 justify="center"
                 alignItems="center"
             >
-                <Grid>
+                <Grid
+                justify="center"
+                alignItems="center">
                     <GTLogo />
                 </Grid>
+
+
                 <Grid
                     className={classes.loginRow}
                     container
@@ -94,9 +95,18 @@ const LoginPage = ({ onLogin }) => {
                         label="Username"
                         variant="outlined"
                         value={username}
+                        InputProps={{endAdornment:(
+                            <InputAdornment position="end">
+                                <IconButton>
+                                    <CheckIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        )}}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </Grid>
+
+                
                 <Grid
                     className={classes.loginRow}
                     container
@@ -108,11 +118,28 @@ const LoginPage = ({ onLogin }) => {
                     <TextField
                         label="Password"
                         variant="outlined"
-                        type="password"
-                        value={password}
+                        type= {showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        /*=================================================
+                        This section Adds an extra
+                        ===================================================*/
+                        InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  //onMouseDown={handleMouseDownPassword}
+                                >
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }}
                     />
                 </Grid>
+            
                 <Grid>
                     <Button
                         variant="contained"
@@ -123,14 +150,16 @@ const LoginPage = ({ onLogin }) => {
                         Login
                     </Button>
                 </Grid>
+
                 <div style = {{paddingTop: "20px"}}>
                     <a>Not yet registered?</a>
                 </div>
-                <div>
+                <div style = {{paddingBottom: "20px"}}>
                     <Link href="signup">
-                        Sign Up Here
+                        Click to Sign Up!
                     </Link>
                 </div>
+                
             </Grid>
         </div>
     )

@@ -4,6 +4,7 @@ const testServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
+const { log } = require("../utils/log.util");
 
 
 // Connect to Database
@@ -11,7 +12,7 @@ mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopolog
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("test.service", "MongoDB database connection established successfully");
+    log.print("test.service", "MongoDB database connection established successfully");
 })
 
 
@@ -20,12 +21,12 @@ let Test = require("../models/test.model");
 
 
 testServices.route("/all").get((req, res) => {
-    console.log("/test/all", "GET");
+    log.print("/test/all", "GET");
     
     // Find all sections
     Test.find({}, (err, tests) => {
         if (err) {
-            console.log("/test/all", err);
+            log.print("/test/all", err);
             res.status(500).json({
                 err: "Error in finding tests"
             });
@@ -37,7 +38,7 @@ testServices.route("/all").get((req, res) => {
 
 
 testServices.route("/create").post((req, res) => {
-    console.log("/test/create", "POST");
+    log.print("/test/create", "POST");
 
     // Create new sections
     const newTest = new Test({
@@ -53,7 +54,7 @@ testServices.route("/create").post((req, res) => {
 
 
 testServices.route("/:id").post((req, res) => {
-    console.log("/test/:id", "POST");
+    log.print("/test/:id", "POST");
 
     // Update any sections
     Test.findByIdAndUpdate(req.params.id, { 
@@ -63,7 +64,7 @@ testServices.route("/:id").post((req, res) => {
         activated: req.body.activated 
     }, (err, test) => {
         if (err) {
-            console.log("/test/:id", err);
+            log.print("/test/:id", err);
             res.status(500).json({
                 err: "Error in finding tests"
             });

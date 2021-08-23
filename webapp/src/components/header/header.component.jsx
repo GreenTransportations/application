@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 
 // Material UI Icons
@@ -25,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         backgroundColor: "var(--gt-primary-color)",
-        color: "#fff5f5",
+        color: "#ffffff",
         zIndex: 2000,
         boxShadow: "none"
     },
@@ -46,30 +42,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Header = ({ logout }) => {
+const Header = ({ logout, user }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(true);
 
     return (
         <>
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: false,
-                })}
-            >
-                <Toolbar>
-                <Typography variant="h6" noWrap>
-                    Green Transportation LLC
-                </Typography>
-                </Toolbar>
-            </AppBar>
             <Sidebar 
+                user={user}
                 open={open}
                 logout={logout}
             />
         </>
     );
 }
-
 export default Header;

@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
 const config = require("../configs/server.config");
+const { log } = require("./log.util");
 
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("common.util", "MongoDB database connection established successfully")
+    log.print("common.util", "MongoDB database connection established successfully")
 })
 
 let Auth = require("../models/auth.model");
