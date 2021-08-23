@@ -28,17 +28,25 @@ import { Icon } from '@material-ui/core';
 
 // Style
 const DRAWER_WIDTH = 240;
+const HIGHLIGHT_WIDTH = DRAWER_WIDTH / 1.05;
+const HIGHLIGHTPX = HIGHLIGHT_WIDTH.toString().concat("px")
+// literal string concat: "${HIGHLIGHT_WIDTH}px"
 const useStyles = makeStyles((theme) => ({
     drawer: {
         width: DRAWER_WIDTH,
         flexShrink: 0,
         backgroundColor: "#000000",
         borderRadius: "8px"
+        
     },
     drawerPaper: {
         width: DRAWER_WIDTH,
         backgroundColor: "rgba(7, 143, 97, 1)",
-        border: "0px"
+        border: "0px",
+        borderBottomRightRadius: "25px",
+        borderTopRightRadius: "25px"
+
+
     },
     drawerHeader: {
         display: 'flex',
@@ -67,6 +75,11 @@ APP_PAGES[USER_TYPE.DRIVER] = [
     {
         title: 'Profile',
         url: '/profile',
+        icon: 'person'
+    },
+    {
+        title: 'Vehicle',
+        url: '/vehicle',
         icon: 'person'
     },
 ];
@@ -114,11 +127,12 @@ const Sidebar = ({ open, user, logout }) => {
         >
             <div className={classes.drawerHeader}>
                 <GTLogoInvert justify="center" alignItems="center" width = "250px" height = "250px" />
-            </div>         
+            </div>
+
             <List>
                 {APP_PAGES[user.type].map((page, index) => (
                     <ListItem 
-                        style={{backgroundColor: location.pathname === page.url ? "white": ""}}
+                        style={{backgroundColor: location.pathname === page.url ? "white": "", width : HIGHLIGHT_WIDTH ,borderRadius: location.pathname === page.url ? "180px" : "0px"}}
                         key={index} 
                         button
                         onClick={() => {
@@ -130,6 +144,7 @@ const Sidebar = ({ open, user, logout }) => {
                                 {page.icon}
                             </Icon>
                         </ListItemIcon>
+                        
                         <ListItemText 
                             style={{ color: location.pathname === page.url ? "var(--gt-primary-color)": "white" }}
                             primary={page.title}
