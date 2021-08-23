@@ -12,7 +12,7 @@ mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopolog
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    log.print("user.service", "MongoDB database connection established successfully");
+    log.print("vehicle.service", "MongoDB database connection established successfully");
 })
 
 
@@ -66,9 +66,10 @@ vehicleServices.route("/:id").get((req, res) => {
 vehicleServices.route("/create").post((req, res) => {
     log.print("/vehicle/create", "POST");
 
+    let newVehicle= null;
     // Create new Vehicle following the model
     try{
-        const newVehicle = new Vehicle({
+        newVehicle = new Vehicle({
             make: req.body.make.trim(),
             model: req.body.model.trim(),
             date: new Date(req.body.date.trim()),
@@ -87,7 +88,7 @@ vehicleServices.route("/create").post((req, res) => {
         });
     }
 
-    res.status(200).json(newUser);
+    res.status(200).json(newVehicle);
 })
 
 // Update Vehicle of :id

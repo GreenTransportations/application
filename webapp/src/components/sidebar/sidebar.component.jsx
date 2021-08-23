@@ -85,7 +85,12 @@ APP_PAGES[USER_TYPE.MANAGER] = [
     },
     {
         title: 'Driver List',
-        url: '/driverlist',
+        url: '/driver/list',
+        icon: 'person'
+    },
+    {
+        title: 'Vehicle',
+        url: '/vehicle',
         icon: 'person'
     },
 ];

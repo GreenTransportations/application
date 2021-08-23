@@ -13,6 +13,7 @@ const PORT = process.env.PORT || config.SERVER_PORT;
 const testServices = require("./services/test.service");
 const authServices = require("./services/auth.service");
 const userServices = require("./services/user.service");
+const vehicleServices = require("./services/vehicle.service");
 
 
 // Middleware
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(config.BASE_PATH + "/test", testServices);
 app.use(config.BASE_PATH + "/auth", authServices);
 app.use(config.BASE_PATH + "/user", userServices);
+app.use(config.BASE_PATH + "/vehicle", vehicleServices);
 
 
 app.listen(PORT, () => {
