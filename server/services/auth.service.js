@@ -9,13 +9,14 @@ const authServices = express.Router();
 const config = require("../configs/server.config");
 const { validateHeader, validateUser, randomString } = require("../utils/common.util");
 const { USER_TYPE } = require("../enums/user.enum");
+const { log } = require("../utils/log.util");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("auth.service", "MongoDB database connection established successfully");
+    log.print("auth.service", "MongoDB database connection established successfully");
 })
 
 
@@ -27,16 +28,16 @@ let User = require("../models/user.model");
 
 // =============================================================================================================
 // Create the First User if there are no user exist on the app
-console.log("auth.service", "Creating First User");
+log.print("auth.service", "Creating First User");
 Auth.findOne({username: "FirstUser"}, (err, auth) => { 
     if (err) {
-        console.log("auth.service", "Error in creating first user");
+        log.print("auth.service", "Error in creating first user");
     } else if (auth) {
-        console.log("auth.service", "First User already Exist!");
+        log.print("auth.service", "First User already Exist!");
     } else {
         bcrypt.hash("FirstUser", config.SALT_ROUNDS, (err, hash) => {
             if (err) {
-                console.log("auth.service", "Error in creating first user")
+                log.print("auth.service", "Error in creating first user")
             } else {
                 const firstAuth = new Auth({
                     username: "FirstUser",
@@ -60,7 +61,7 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
                 });
                 firstUser.save()
                 
-                console.log("auth.service", "First User successfully created!");
+                log.print("auth.service", "First User successfully created!");
             }
         });
     }
@@ -73,7 +74,7 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
 // login API
 // ../auth/login
 authServices.route("/login").post((req, res) => {
-    console.log("/auth/login", "POST");
+    log.print("/auth/login", "POST");
 
     
     // Check if username is valid
@@ -114,7 +115,7 @@ authServices.route("/login").post((req, res) => {
                                 user: user,
                                 accessCode: auth.accessCode
                             });
-                            console.log(auth.accessCode);
+                            log.print("/auth/login", auth.accessCode);
                         }
                     })
                 }
@@ -126,7 +127,7 @@ authServices.route("/login").post((req, res) => {
 // Signup API
 // ../auth/signup
 authServices.route("/signup").post((req, res) => {
-    console.log("/auth/signup", "POST");
+    log.print("/auth/signup", "POST");
 
     let dob = new Date(req.body.dob);
 
@@ -242,7 +243,7 @@ authServices.route("/signup").post((req, res) => {
 // Change username & password API
 // ../auth/:id
 authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
-    console.log("/auth/:id", "POST");
+    log.print("/auth/:id", "POST")
 
     // If user is updating their own auth  -> update their auth
     if (req.user._id.equals(req.params.id)){

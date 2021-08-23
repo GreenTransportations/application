@@ -5,13 +5,14 @@ const vehicleServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
+const { log } = require("../utils/log.util");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("user.service", "MongoDB database connection established successfully");
+    log.print("user.service", "MongoDB database connection established successfully");
 })
 
 
@@ -23,13 +24,13 @@ let Vehicle = require("../models/vehicle.model");
     Display the information of all vehicles in the Db.
 */
 // ../vehicle/all
-vehicleServices.route("/all").get((_, res) => {
-    console.log("/vehicle/all", "GET");
+vehicleServices.route("/all").get((_, res) => { 
+    log.print("/vehicle/all", "GET");
     
     // Find all vehicles
     Vehicle.find({}, (err, vehicles) => {
         if (err) {
-            console.log("/vehicle/all", err);
+            log.print("/vehicle/all", err);
             res.status(500).json({
                 err: "Error in finding vehicles"
             });
@@ -44,12 +45,12 @@ vehicleServices.route("/all").get((_, res) => {
     Get a specific vehicle by its ID.
 */
 vehicleServices.route("/:id").get((req, res) => {
-    console.log("/vehicle/:id", "GET");
+    log.print("/vehicle/:id", "GET");
 
     // Find specific vehicle
     Vehicle.findById(req.params.id, (err, vehicle) => {
         if (err) {
-            console.log("/vehicle/:id", err);
+            log.print("/vehicle/:id", err);
             res.status(500).json({
                 err: "Error in finding this vehicle"
             });
@@ -63,7 +64,7 @@ vehicleServices.route("/:id").get((req, res) => {
     A user is able to create a new Vehicle in this POST request.
 */
 vehicleServices.route("/create").post((req, res) => {
-    console.log("/vehicle/create", "POST");
+    log.print("/vehicle/create", "POST");
 
     // Create new Vehicle following the model
     try{
@@ -80,7 +81,7 @@ vehicleServices.route("/create").post((req, res) => {
         newVehicle.save();
     }
     catch(e){
-        console.log("/vehicle/create/", e);
+        log.print("/vehicle/create/", e);
         res.status(500).json({
             err: "Cannot create new Vehicle"
         });
@@ -91,7 +92,7 @@ vehicleServices.route("/create").post((req, res) => {
 
 // Update Vehicle of :id
 vehicleServices.route("/:id").post((req, res) => {
-    console.log("/vehicle/:id", "POST");
+    log.print("/vehicle/:id", "POST");
 
     // Update any Vehicle
     Vehicle.findByIdAndUpdate(req.params.id, { 
@@ -104,7 +105,7 @@ vehicleServices.route("/:id").post((req, res) => {
         gcm: req.body.gcm.trim()
     }, (err, vehicle) => {
         if (err) {
-            console.log("/vehicle/:id", err);
+            log.print("/vehicle/:id", err);
             res.status(500).json({
                 err: "Error in finding Vehicle with this ID"
             });

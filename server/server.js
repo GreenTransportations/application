@@ -4,6 +4,7 @@ const cors = require("cors");
 
 // Constant Config Variable
 const config = require("./configs/server.config");
+const { log } = require("./utils/log.util");
 
 const app = express();
 const PORT = process.env.PORT || config.SERVER_PORT;
@@ -26,6 +27,6 @@ app.use(config.BASE_PATH + "/user", userServices);
 
 
 app.listen(PORT, () => {
-    console.log("Green Transportations Server", "Server is running on port: " + PORT)
+    log.print("Green Transportations Server", "Server is running on port: " + PORT)
 });
 
