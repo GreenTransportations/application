@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     squareButton: {
         color: "white",
-        borderRadius: 4,
+        borderRadius: 180,
         fontWeight: 'light'
     }
 }));

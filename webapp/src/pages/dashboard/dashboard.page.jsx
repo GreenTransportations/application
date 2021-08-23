@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     squareButton: {
         color: "ffffff",
         boxShadow: "none",
-        borderRadius: 8
+        borderRadius: 180
     }
 }));
 
