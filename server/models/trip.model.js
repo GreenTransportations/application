@@ -52,7 +52,7 @@ var tripSchema = new mongoose.Schema({
     totalTime:{
         type: String,
         required: false
-    }
+    },
     km:{
         type: Number,
         required: false
