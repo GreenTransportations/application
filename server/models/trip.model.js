@@ -5,10 +5,6 @@ const mongoose = require("mongoose");
     and drivers/vehicles in a trip
 */
 var tripSchema = new mongoose.Schema({
-    make:{
-        type:String,
-        required:true,
-    },
     // foreign keys
     // One Trip -> Many Vehicle
     vehicles: [
