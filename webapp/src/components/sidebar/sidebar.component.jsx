@@ -20,6 +20,7 @@ import { ReactComponent as GTLogoInvert } from "../../assets/logo_invert.svg";
 // Material UI Icons
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping'; 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import BugReportIcon from '@material-ui/icons/BugReport';
@@ -71,44 +72,57 @@ APP_PAGES[USER_TYPE.DRIVER] = [
         icon: 'dashboard',
     },
     {
+        title: 'Navigate',
+        url: "/map",
+        icon: "directions"
+    },
+    {
         title: 'Trips',
         url: '/trips',
         icon: 'location_on'
+    },
+   
+    {
+        title: 'Vehicle List',
+        url: '/vehicle',
+        icon: 'local_shipping'
     },
     {
         title: 'Profile',
         url: '/profile',
         icon: 'person'
     },
-    {
-        title: 'Vehicle',
-        url: '/vehicle',
-        icon: 'person'
-    },
 ];
 
-
+/*{
+        title: 'Tests',
+        url: '/tests',
+        icon: 'bug_report',
+    },
+     */
 APP_PAGES[USER_TYPE.MANAGER] = [
     {
         title: 'Dashboard',
         url: '/dashboard',
         icon: 'dashboard',
     },
-    {
-        title: 'Tests',
-        url: '/tests',
-        icon: 'bug_report',
-    },
+    
     {
         title: 'Driver List',
         url: '/driver/list',
-        icon: 'person'
+        icon: 'group'
     },
     {
-        title: 'Vehicle',
+        title: 'Vehicle List',
         url: '/vehicle',
+        icon: 'local_shipping'
+    },
+    {
+        title: 'Profile',
+        url: '/profile',
         icon: 'person'
     },
+    
 ];
 
 
@@ -131,7 +145,7 @@ const Sidebar = ({ open, user, logout }) => {
             <div className={classes.drawerHeader}>
                 <Link to={{
                 pathname: "/dashboard"}}>
-                <GTLogoInvert justify="center" alignItems="center" width = "240px" height = "240px" />
+                    <GTLogoInvert justify="center" alignItems="center" width = "240px" height = "240px" />
                 </Link>
             </div>
 
@@ -146,23 +160,25 @@ const Sidebar = ({ open, user, logout }) => {
                         }}
                     >
                         <ListItemIcon>
-                            <Icon style={{color: location.pathname === page.url ? "var(--gt-primary-color)": "white" }}>
+                            <Icon style={{color: location.pathname === page.url ? "var(--gt-primary-color)": "white", borderRadius: location.pathname === page.url ? "0px" : "180px" }}>
                                 {page.icon}
                             </Icon>
                         </ListItemIcon>
                         
                         <ListItemText 
-                            style={{ color: location.pathname === page.url ? "var(--gt-primary-color)": "white" }}
+                            style={{ color: location.pathname === page.url ? "var(--gt-primary-color)": "white", borderRadius: "180px" }}
                             primary={page.title}
                         />
                     </ListItem>
                 ))}
-
-                <ListItem button>
-                    <ListItemIcon>
-                        <ExitToAppIcon style={{ color: 'white' }} />
-                    </ListItemIcon>
-                    <ListItemText style={{ color: 'white' }} 
+            </List>
+        <List style = {{position: "absolute", bottom: "0", width : HIGHLIGHT_WIDTH, borderRadius: "180px"}}>
+            <ListItem button
+            style = {{borderRadius: "180px"}} >
+                <ListItemIcon>
+                    <ExitToAppIcon style={{ color: 'white' }} />
+                </ListItemIcon>
+                    <ListItemText style={{ color: 'white'}} 
                         primary="Log Out" 
                         onClick={()=> {
                             history.push("/login");
@@ -171,6 +187,9 @@ const Sidebar = ({ open, user, logout }) => {
                     />
                 </ListItem>
             </List>
+            
+
+
         </Drawer>
     );
 }
