@@ -1,5 +1,6 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation} from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 // Material UI Core Components
@@ -128,7 +129,10 @@ const Sidebar = ({ open, user, logout }) => {
             }}
         >
             <div className={classes.drawerHeader}>
+                <Link to={{
+                pathname: "/dashboard"}}>
                 <GTLogoInvert justify="center" alignItems="center" width = "240px" height = "240px" />
+                </Link>
             </div>
 
             <List>
