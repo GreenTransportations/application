@@ -13,6 +13,11 @@ const useStyles = makeStyles({
         boxShadow: "none",
         marginTop: "30px"
 
+    },
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'light'
     }
 });
 
@@ -61,7 +66,8 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                 style={{marginTop: "50px"}}
             >
                 <Grid item>
-                    <Button           
+                    <Button 
+                        style = {{borderRadius: "180px"}}          
                         variant="contained"
                         color="primary"
                         endIcon={<AddIcon />}

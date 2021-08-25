@@ -16,7 +16,8 @@ import { FETCH } from '../../utils/fetch.util';
 
 const useStyles = makeStyles((theme) => ({
     registerRow: {
-        margin: "20px 0px"
+        margin: "20px 0px",
+        borderRadius: "180px"          
     },
     squareButton: {
         color: "white",
@@ -104,7 +105,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Model:
                     <Select
-                        style={{width: "223px"}}
+                        style={{width: "223px", borderRadius: "180px"}}
                         label="model"
                         variant="outlined"
                         value={model}
@@ -156,7 +157,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Registration date:
                     <TextField
-                        style={{width: "223px"}}
+                        style={{width: "223px", borderRadius: "180px"}}
                         type="date"
                         variant="outlined"
                         value={date}
@@ -205,6 +206,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     <Grid item>
                         <Button
+                            style = {{borderRadius: "180px"}}          
                             variant="contained"
                             color="primary"
                             className={classes.squareButton}
@@ -215,6 +217,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                     </Grid>
                     <Grid item>
                         <Button
+                            style = {{borderRadius: "180px"}}          
                             variant="contained"
                             color="primary"
                             className={classes.squareButton}
