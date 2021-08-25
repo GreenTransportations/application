@@ -152,7 +152,7 @@ const Sidebar = ({ open, user, logout }) => {
             <List>
                 {APP_PAGES[user.type].map((page, index) => (
                     <ListItem 
-                        style={{backgroundColor: location.pathname === page.url ? "white": "", width : HIGHLIGHT_WIDTH ,borderRadius: location.pathname === page.url ? "180px" : "0px"}}
+                        style={{backgroundColor: location.pathname === page.url ? "white": "", width : HIGHLIGHT_WIDTH ,borderRadius: location.pathname === page.url ? "180px" : "180px"}}
                         key={index} 
                         button
                         onClick={() => {

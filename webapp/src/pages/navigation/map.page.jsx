@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 const containerStyle = {
     width: '100%',
-    height: '90vh'
+    height: '90vh',
+    
 };
 
 
@@ -103,7 +104,9 @@ const MapPage = () => {
                     xs={2}
                 >
                     <Button
+                        style = {{borderRadius: "180px"}}
                         fullWidth
+
                         variant="contained"
                         color="primary"
                         className={classes.squareButton}
