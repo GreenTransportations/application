@@ -35,16 +35,18 @@ const useStyles = makeStyles((theme) => ({
     drawer: {
         width: DRAWER_WIDTH,
         flexShrink: 0,
+        alignItems: 'center',
         backgroundColor: "#000000",
-        borderRadius: "8px"
+        borderRadius: "0px"
         
     },
     drawerPaper: {
         width: DRAWER_WIDTH,
+        alignItems: 'center',
         backgroundColor: "rgba(7, 143, 97, 1)",
         border: "0px",
-        borderBottomRightRadius: "25px",
-        borderTopRightRadius: "25px"
+        borderBottomRightRadius: "50px",
+        borderTopRightRadius: "50px"
 
 
     },
@@ -126,7 +128,7 @@ const Sidebar = ({ open, user, logout }) => {
             }}
         >
             <div className={classes.drawerHeader}>
-                <GTLogoInvert justify="center" alignItems="center" width = "250px" height = "250px" />
+                <GTLogoInvert justify="center" alignItems="center" width = "240px" height = "240px" />
             </div>
 
             <List>
