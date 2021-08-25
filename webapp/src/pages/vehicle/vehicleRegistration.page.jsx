@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import { borders } from '@material-ui/system';
 import { MenuItem, Select } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 
@@ -23,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         borderRadius: 4,
         fontWeight: 'light'
+    },
+    TextField: {
+        [`& fieldset`]:{
+            borderRadius:30
+          }
+       
     }
 }));
 
@@ -53,6 +60,8 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
         FETCH.POST("vehicle", "create", accessCode, vehicleInfo)
             .then(async (response) => {
                 if (response.ok) {
+                    //console.log("Created new vehicle");
+
                     const newVehicle = await response.json();
                     onRegister(newVehicle);
 
@@ -74,7 +83,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Make:
                     <Select
-                        style={{width: "223px"}}
+                        style={{width: "240px",borderRadius: "180px"}}
                         label="brand"
                         variant="outlined"
                         value={make}
@@ -105,7 +114,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Model:
                     <Select
-                        style={{width: "223px", borderRadius: "180px"}}
+                        style={{width: "240px", borderRadius: "180px"}}
                         label="model"
                         variant="outlined"
                         value={model}
@@ -126,11 +135,15 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Registration Number:
                     <TextField
-                        type="number"
+                        
+                        style = {{[`& fieldset`]:{
+                            borderRadius:180
+                          }}}
                         variant="outlined"
                         value={registrationNumber}
                         onChange={(e) => setRegistrationNumber(e.target.value)}
                     />
+                   
                 </Grid>
 
                 <Grid
@@ -142,6 +155,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Fuel Efficiency:
                     <TextField
+                        style = {{borderRadius: "180px"}}
                         variant="outlined"
                         value={fuelEfficiency}
                         onChange={(e) => setFuelEfficiency(e.target.value)}
