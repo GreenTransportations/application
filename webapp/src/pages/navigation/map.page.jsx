@@ -54,12 +54,12 @@ const MapPage = () => {
     }
 
     const onAutoPlaceChangedSource = () => {
-        if (autocomplete !== null) {
+        if (source !== null) {
             console.log('New source:');
-            console.log(autocomplete.getPlace());
-            setSource(autocomplete.getPlace());
+            console.log(source.getPlace());
+            setSource(source.getPlace());
         } else {
-            console.log('Autocomplete is not loaded yet!')
+            console.log('Autocomplete source is not loaded yet!')
         }
     }
 
@@ -70,12 +70,12 @@ const MapPage = () => {
     }
 
     const onAutoPlaceChangedDest = () => {
-        if (autocomplete !== null) {
+        if (dest !== null) {
             console.log('New destination:');
-            console.log(autocomplete.getPlace());
-            setDest(autocomplete.getPlace());
+            console.log(dest.getPlace());
+            setDest(dest.getPlace());
         } else {
-            console.log('Autocomplete is not loaded yet!')
+            console.log('Autocomplete dest is not loaded yet!')
         }
     }
 
