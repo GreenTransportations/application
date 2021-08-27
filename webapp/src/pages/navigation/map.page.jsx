@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 
 // Material UI Core Components
@@ -79,12 +80,13 @@ const MapPage = () => {
                     item
                     xs={4}
                 >
-                    <TextField
-                        fullWidth
-                        id="outlined-basic"
-                        label="Start Location"
-                        variant="outlined"
-                    ></TextField>
+                    <GooglePlacesAutocomplete
+                        apiKey={API_KEY.GOOGLE_ALEX}
+                        // fullWidth
+                        // id="outlined-basic"
+                        // label="Start Location"
+                        // variant="outlined"
+                    />
                 </Grid>
 
                 <Grid
