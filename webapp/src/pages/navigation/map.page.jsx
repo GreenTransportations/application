@@ -64,13 +64,30 @@ const MapPage = () => {
         setMap(null);
     }, [])
 
-    const onAutoLoad = (autocomplete) => {
+    const onAutoLoadSource = (autocomplete) => {
+        console.log('source autocomplete');
         console.log('autocomplete: ', autocomplete);
         setAutocomplete(autocomplete);
     }
 
-    const onAutoPlaceChanged = () => {
+    const onAutoPlaceChangedSource = () => {
         if (autocomplete !== null) {
+            console.log('New source:');
+            console.log(autocomplete.getPlace())
+        } else {
+            console.log('Autocomplete is not loaded yet!')
+        }
+    }
+
+    const onAutoLoadDest = (autocomplete) => {
+        console.log('dest autocomplete');
+        console.log('autocomplete: ', autocomplete);
+        setAutocomplete(autocomplete);
+    }
+
+    const onAutoPlaceChangedDest = () => {
+        if (autocomplete !== null) {
+            console.log('New destination:');
             console.log(autocomplete.getPlace())
         } else {
             console.log('Autocomplete is not loaded yet!')
@@ -120,8 +137,8 @@ const MapPage = () => {
                         // variant="outlined"
                     /> */}
                         <Autocomplete
-                            onLoad={onAutoLoad}
-                            onPlaceChanged={onAutoPlaceChanged}
+                            onLoad={onAutoLoadSource}
+                            onPlaceChanged={onAutoPlaceChangedSource}
                         >
                             <Input
                                 fullWidth
@@ -136,12 +153,23 @@ const MapPage = () => {
                         item
                         xs={4}
                     >
-                        <TextField
+                        {/* <TextField
                             fullWidth
                             id="outlined-basic"
                             label="Destination Location"
                             variant="outlined"
-                        ></TextField>
+                        ></TextField> */}
+                        <Autocomplete
+                            onLoad={onAutoLoadDest}
+                            onPlaceChanged={onAutoPlaceChangedDest}
+                        >
+                            <Input
+                                fullWidth
+                                id="outlined-basic"
+                                label="Enter Destination"
+                                variant="outlined"
+                            ></Input>
+                        </Autocomplete>
                     </Grid>
 
                     <Grid
