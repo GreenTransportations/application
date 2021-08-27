@@ -1,0 +1,19 @@
+Fill the vehicle models with data from
+https://isuzu.com.au/truck-range/f-series/
+https://www.tradetrucks.com.au/truck-brands
+
+
+{
+    "f_series": [
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FRD",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "ADR 80/03",
+            "gvm": 10700,
+            "gcm": 14200
+        }
+    ]
+}
