@@ -14,15 +14,6 @@ import { API_KEY } from '../../data/api.key';
 import AddIcon from '@material-ui/icons/Add';
 import { TextField, Input } from '@material-ui/core';
 
-
-
-
-// Material UI Icons
-
-
-// Other Components
-
-
 // Style
 const useStyles = makeStyles((theme) => ({
     gmap: {
@@ -42,21 +33,13 @@ const containerStyle = {
 
 const MapPage = () => {
     const classes = useStyles();
-    const [autocomplete, setAutocomplete] = useState(null);
-
-    // const { isLoaded } = useJsApiLoader({
-    //     id: 'google-map-script',
-    //     googleMapsApiKey: `${API_KEY.GOOGLE_ALEX}`
-    // });
-
+    // Location state storage
+    const [source, setSource] = useState(null);
+    const [dest, setDest] = useState(null);
     const [map, setMap] = useState(null);
 
-    // const onLoad = useCallback(function callback(map) {
-    //     const bounds = new window.google.maps.LatLngBounds();
-    //     map.fitBounds(bounds);
-    //     setMap(map);
-    // }, [])
     const onLoad = (map) => {
+        console.log("Map loaded");
 
     }
 
@@ -65,51 +48,41 @@ const MapPage = () => {
     }, [])
 
     const onAutoLoadSource = (autocomplete) => {
-        console.log('source autocomplete');
+        console.log('source autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
-        setAutocomplete(autocomplete);
+        setSource(autocomplete);
     }
 
     const onAutoPlaceChangedSource = () => {
         if (autocomplete !== null) {
             console.log('New source:');
-            console.log(autocomplete.getPlace())
+            console.log(autocomplete.getPlace());
+            setSource(autocomplete.getPlace());
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
     }
 
     const onAutoLoadDest = (autocomplete) => {
-        console.log('dest autocomplete');
+        console.log('dest autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
-        setAutocomplete(autocomplete);
+        setDest(autocomplete);
     }
 
     const onAutoPlaceChangedDest = () => {
         if (autocomplete !== null) {
             console.log('New destination:');
-            console.log(autocomplete.getPlace())
+            console.log(autocomplete.getPlace());
+            setDest(autocomplete.getPlace());
         } else {
             console.log('Autocomplete is not loaded yet!')
         }
     }
 
-    // const center = {
-    //     lat: -34.397,
-    //     lng: 150.644,
-    // };
     const centre = {
         lat: -25.0270548,
          lng: 115.1824598
     };
-
-    // return (
-    //     <div>
-    //         <GooglePlacesAutocomplete
-    //             apiKey={API_KEY.GOOGLE_ALEX}
-    //         />
-    //     </div>
-    // )
 
     // return isLoaded ? (
     return (
@@ -129,13 +102,6 @@ const MapPage = () => {
                         item
                         xs={4}
                     >
-                        {/* <GooglePlacesAutocomplete
-                        apiKey={API_KEY.GOOGLE_ALEX}
-                        // fullWidth
-                        // id="outlined-basic"
-                        // label="Start Location"
-                        // variant="outlined"
-                    /> */}
                         <Autocomplete
                             onLoad={onAutoLoadSource}
                             onPlaceChanged={onAutoPlaceChangedSource}
@@ -153,12 +119,6 @@ const MapPage = () => {
                         item
                         xs={4}
                     >
-                        {/* <TextField
-                            fullWidth
-                            id="outlined-basic"
-                            label="Destination Location"
-                            variant="outlined"
-                        ></TextField> */}
                         <Autocomplete
                             onLoad={onAutoLoadDest}
                             onPlaceChanged={onAutoPlaceChangedDest}
@@ -203,7 +163,6 @@ const MapPage = () => {
                 </GoogleMap>
             </div>
         </LoadScript>
-        // ) : <></>
     )
 }
 
