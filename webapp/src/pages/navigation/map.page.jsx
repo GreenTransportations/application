@@ -174,10 +174,10 @@ const MapPage = () => {
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                 >
-                    {(origin !== null && destination !== null) && 
+                    {(origin !== '' && destination !== '') && 
                         <DirectionsService
                             options={{ 
-                                destination: destinationAutocomplete,
+                                destination: destination,
                                 origin: origin,
                                 travelMode: 'DRIVING'
                             }}
