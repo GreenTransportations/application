@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader, Autocomplete, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Autocomplete, LoadScript, DirectionsService,DirectionsRenderer } from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 
@@ -20,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
         border: 0,
         width: "100%",
         height: "90vh",
+    },
+
+    pageContainer: { 
+        paddingTop: "30px", 
+        margin:"0px", 
+        overflow:"hidden"
+    },
+
+    searchContainer: { 
+        paddingBottom: "20px", 
+        margin:"0px" 
     }
 }));
 
@@ -31,111 +42,115 @@ const containerStyle = {
 };
 
 
+const CENTRE = {
+    lat: -37.81046710108333,
+    lng: 144.96389711157144
+};
+
+
 const MapPage = () => {
     const classes = useStyles();
+
     // Location state storage
-    const [source, setSource] = useState(null);
-    const [dest, setDest] = useState(null);
+    const [origin, setOrigin] = useState(null);
+    const [destination, setDestination] = useState(null);
+    const [originAutocomplete, setOriginAutocomplete] = useState(null);
+    const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
+    const [response, setResponse] = useState(null);
     const [map, setMap] = useState(null);
 
     const onLoad = (map) => {
         console.log("Map loaded");
-
     }
 
     const onUnmount = React.useCallback(function callback(map) {
         setMap(null);
     }, [])
 
-    const onAutoLoadSource = (autocomplete) => {
-        console.log('source autocomplete loaded');
-        console.log('autocomplete: ', autocomplete);
-        setSource(autocomplete);
+    
+    const directionsCallback = (response) => {
+        console.log(response);
+
+        if (response !== null) {
+            if (response.status === 'OK') {
+                setResponse(response);
+            } else {
+                console.log('response: ', response)
+            }
+        }
     }
 
-    const onAutoPlaceChangedSource = () => {
-        if (source !== null) {
-            console.log('New source:');
-            console.log(source.getPlace());
-            setSource(source.getPlace());
+    const onAutoLoadOrigin = (autocomplete) => {
+        console.log('source autocomplete loaded');
+        console.log('autocomplete: ', autocomplete);
+        setOriginAutocomplete(autocomplete);
+    }
+
+    const onAutoPlaceChangedOrigin = () => {
+        if (originAutocomplete !== null) {
+            let place = originAutocomplete.getPlace()
+            console.log('New origin:', place);
+            setOrigin(`${place.name}, ${place.formatted_address}`);
         } else {
-            console.log('Autocomplete source is not loaded yet!')
+            console.log('Autocomplete origin is not loaded yet!')
         }
     }
 
     const onAutoLoadDest = (autocomplete) => {
         console.log('dest autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
-        setDest(autocomplete);
+        setDestinationAutocomplete(autocomplete);
     }
 
     const onAutoPlaceChangedDest = () => {
-        if (dest !== null) {
-            console.log('New destination:');
-            console.log(dest.getPlace());
-            setDest(dest.getPlace());
+        if (destinationAutocomplete !== null) {
+            let place = destinationAutocomplete.getPlace()
+            console.log('New destination:', place);
+            setDestination(`${place.name}, ${place.formatted_address}`);
         } else {
-            console.log('Autocomplete dest is not loaded yet!')
+            console.log('Autocomplete destination is not loaded yet!')
         }
     }
 
-    const centre = {
-        lat: -25.0270548,
-         lng: 115.1824598
-    };
-
-    // return isLoaded ? (
     return (
         <LoadScript id="script-loader" googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={["places"]}>
-            <div
-                style={{ padding: "30px" }}
-            >
+            <div className={classes.pageContainer}>
                 <Grid
                     container
+                    className={classes.searchContainer}
                     direction="row"
                     justify="space-around"
-                    alignItems="center"
                     spacing={1}
                 >
-
-                    <Grid
-                        item
-                        xs={4}
-                    >
+                    <Grid item xs={4}>
                         <Autocomplete
-                            onLoad={onAutoLoadSource}
-                            onPlaceChanged={onAutoPlaceChangedSource}
+                            onLoad={onAutoLoadOrigin}
+                            onPlaceChanged={onAutoPlaceChangedOrigin}
                         >
                             <Input
                                 fullWidth
-                                id="outlined-basic"
+                                id="origin"
                                 label="Start Location"
                                 variant="outlined"
-                            ></Input>
+                            />
                         </Autocomplete>
                     </Grid>
 
-                    <Grid
-                        item
-                        xs={4}
-                    >
+                    <Grid item xs={4}>
                         <Autocomplete
                             onLoad={onAutoLoadDest}
                             onPlaceChanged={onAutoPlaceChangedDest}
                         >
                             <Input
                                 fullWidth
-                                id="outlined-basic"
+                                id="destination"
                                 label="Enter Destination"
                                 variant="outlined"
-                            ></Input>
+                            />
                         </Autocomplete>
                     </Grid>
 
-                    <Grid
-                        item
-                        xs={2}
-                    >
+                    <Grid item xs={2}>
                         <Button
                             style={{ borderRadius: "180px" }}
                             fullWidth
@@ -144,6 +159,7 @@ const MapPage = () => {
                             color="primary"
                             className={classes.squareButton}
                             endIcon={<AddIcon />}
+                            // onClick={startTripHandler}
                         >
                             Start Trip
                         </Button>
@@ -153,13 +169,27 @@ const MapPage = () => {
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     // className={classes.gmap}
-                    center={centre}
-                    zoom={5}
-                    onLoad={map => onLoad(map)}
+                    center={CENTRE}
+                    zoom={12}
+                    onLoad={onLoad}
                     onUnmount={onUnmount}
                 >
-                    { }
-                    <></>
+                    {(origin !== null && destination !== null) && 
+                        <DirectionsService
+                            options={{ 
+                                destination: destinationAutocomplete,
+                                origin: origin,
+                                travelMode: 'DRIVING'
+                            }}
+                            callback={directionsCallback}
+                        />
+                    }
+                    
+                    {response !== null && 
+                        <DirectionsRenderer
+                            options={{ directions: response }}
+                        />
+                    }
                 </GoogleMap>
             </div>
         </LoadScript>
