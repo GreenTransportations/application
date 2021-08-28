@@ -30,7 +30,7 @@ import { Icon } from '@material-ui/core';
 
 // Style
 const DRAWER_WIDTH = 240;
-const HIGHLIGHT_WIDTH = DRAWER_WIDTH / 1.05;
+const HIGHLIGHT_WIDTH = DRAWER_WIDTH / 1.15;
 const HIGHLIGHTPX = HIGHLIGHT_WIDTH.toString().concat("px")
 // literal string concat: "${HIGHLIGHT_WIDTH}px"
 const useStyles = makeStyles((theme) => ({
@@ -47,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         backgroundColor: "rgba(7, 143, 97, 1)",
         border: "0px",
-        borderBottomRightRadius: "50px",
-        borderTopRightRadius: "50px"
-
-
     },
     drawerHeader: {
         display: 'flex',
@@ -94,12 +90,6 @@ APP_PAGES[USER_TYPE.DRIVER] = [
     },
 ];
 
-/*{
-        title: 'Tests',
-        url: '/tests',
-        icon: 'bug_report',
-    },
-     */
 APP_PAGES[USER_TYPE.MANAGER] = [
     {
         title: 'Dashboard',
@@ -152,7 +142,7 @@ const Sidebar = ({ open, user, logout }) => {
             <List>
                 {APP_PAGES[user.type].map((page, index) => (
                     <ListItem 
-                        style={{backgroundColor: location.pathname === page.url ? "white": "", width : HIGHLIGHT_WIDTH ,borderRadius: location.pathname === page.url ? "180px" : "180px"}}
+                        style={{backgroundColor: location.pathname === page.url ? "white": "", width : HIGHLIGHT_WIDTH , borderRadius: "180px", marginTop: "10px"  }}
                         key={index} 
                         button
                         onClick={() => {
@@ -160,24 +150,25 @@ const Sidebar = ({ open, user, logout }) => {
                         }}
                     >
                         <ListItemIcon>
-                            <Icon style={{color: location.pathname === page.url ? "var(--gt-primary-color)": "white", borderRadius: location.pathname === page.url ? "0px" : "180px" }}>
+                            <Icon style={{color: location.pathname === page.url ? "var(--gt-primary-color)": "white"}}>
                                 {page.icon}
                             </Icon>
                         </ListItemIcon>
                         
                         <ListItemText 
-                            style={{ color: location.pathname === page.url ? "var(--gt-primary-color)": "white", borderRadius: "180px" }}
+                            style={{color: location.pathname === page.url ? "var(--gt-primary-color)": "white" }}
                             primary={page.title}
                         />
                     </ListItem>
                 ))}
             </List>
-        <List style = {{position: "absolute", bottom: "0", width : HIGHLIGHT_WIDTH, borderRadius: "180px"}}>
-            <ListItem button
-            style = {{borderRadius: "180px"}} >
-                <ListItemIcon>
-                    <ExitToAppIcon style={{ color: 'white' }} />
-                </ListItemIcon>
+
+            <List style = {{position: "absolute", bottom: "0", width : HIGHLIGHT_WIDTH}}>
+                <ListItem button
+                style = {{borderRadius: "180px"}} >
+                    <ListItemIcon>
+                        <ExitToAppIcon style={{ color: 'white' }} />
+                    </ListItemIcon>
                     <ListItemText style={{ color: 'white'}} 
                         primary="Log Out" 
                         onClick={()=> {
@@ -187,9 +178,6 @@ const Sidebar = ({ open, user, logout }) => {
                     />
                 </ListItem>
             </List>
-            
-
-
         </Drawer>
     );
 }
