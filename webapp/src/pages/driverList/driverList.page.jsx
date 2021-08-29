@@ -1,70 +1,71 @@
-import React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+import React, { useEffect, useState } from 'react';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'FirstName',
-    headerName: 'First name',
-    width: 160,
-    editable: true,
-  },
-  {
-    field: 'LastName',
-    headerName: 'Last name',
-    width: 160,
-    editable: true,
-  },
+import { makeStyles } from '@material-ui/core/styles';
+import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
+import { FETCH } from '../../utils/fetch.util';
 
-  {
-    field: 'avgEmission',
-    headerName: 'Average Emissions',
-    type: 'number',
-    width: 200,
-    editable: true,
-  },
+const useStyles = makeStyles({
+    table: {
+        minWidth: 650,
+        boxShadow: "none"
+    },
+    tableContainer: {
+        boxShadow: "none",
+        marginTop: "30px"
 
-  {
-    field: 'contactNumber',
-    headerName: 'Contact Number',
-    type: 'number',
-    width: 200,
-    editable: true, 
-  },
+    }
+});
 
-  {
-    field: 'totalMileAge',
-    headerName: 'Total Mileage',
-    type: 'number',
-    width: 200,
-    editable: true, 
-  },
+const DriverList = ({ accessCode, user }) => {
+    const [drivers, setDrivers] = useState([]);
+    const classes = useStyles();
 
-  {
-    field: 'currentlyLive',
-    headerName: 'Currently Live',
-    width: 150,
-    editable: true, 
-  },
-];
+    useEffect(() => {
+        FETCH.GET("user", "all?type=DRIVER", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setDrivers(data);
+                    console.log(data);
+                } else {
+                    console.log("ERROR");
+                }
+            })
+    }, [accessCode, user])
+    
 
-const rows = [
-  { id: 1, FirstName: 'Loc', LastName: 'Lien', avgEmission: 30,  contactNumber: 123, totalMileAge: 20, currentlyLive: 'No' },
-  { id: 2, FirstName: 'Looc', LastName: 'Lien', avgEmission: 30, contactNumber: 456, totalMileAge: 50, currentlyLive: 'No' },
-  { id: 3, FirstName: 'Loooc', LastName: 'Lien', avgEmission: 30, contactNumber: 789, totalMileAge: 70, currentlyLive: 'No' },
-  { id: 4, FirstName: 'Looooc', LastName: 'Lien', avgEmission: 30, contactNumber: 1234, totalMileAge: 100, currentlyLive: 'No' },
-];
-
-export default function DriverList() {
-  return (
-    <div style={{ justifyContent:'center', alignItems:'center', height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
-  );
+    return (
+        <div style={{ padding: "30px" }}>
+            <TableContainer  className={classes.tableContainer} component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Driver ID</TableCell>
+                            <TableCell>Full Name</TableCell>
+                            <TableCell>Average Emissions</TableCell>
+                            <TableCell>Contact Number</TableCell>
+                            <TableCell>Total Mileage</TableCell>
+                            <TableCell>Currently Live</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {drivers.map((driver) => (
+                            <TableRow key={driver._id}>
+                                <TableCell component="th" scope="row">
+                                    {driver._id}
+                                </TableCell>
+                                <TableCell>{driver.name}</TableCell>
+                                <TableCell>{driver.total.trip > 0 ? driver.total.emission / driver.total.trip : 0}</TableCell>
+                                <TableCell>{driver.mobile}</TableCell>
+                                <TableCell>{driver.total.mileage} KM</TableCell>
+                                <TableCell>NOT IMPLEMENTED YET</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+    );
 }
+
+export default DriverList;

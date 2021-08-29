@@ -19,9 +19,9 @@ import TripTable from '../../components/table/trip.table.component';
 // Style
 const useStyles = makeStyles((theme) => ({
     squareButton: {
-        color: "white",
+        color: "ffffff",
         boxShadow: "none",
-        borderRadius: 0
+        borderRadius: 8
     }
 }));
 
@@ -39,6 +39,7 @@ const DashboardPage = () => {
                 alignItems="center"
                 spacing={1}
             >
+
                 <Grid 
                     item
                     xs={3}
@@ -53,6 +54,7 @@ const DashboardPage = () => {
                         Start a New Trip
                     </Button>
                 </Grid>
+
                 <Grid 
                     item
                     xs={3}
@@ -67,6 +69,7 @@ const DashboardPage = () => {
                         Check Trip History
                     </Button>
                 </Grid>
+                
                 <Grid 
                     item
                     xs={3}

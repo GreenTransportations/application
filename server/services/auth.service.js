@@ -7,14 +7,16 @@ const authServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
-const { validateHeader, validateUser, validateUserTypes, randomString } = require("../utils/common.util");
+const { validateHeader, validateUser, randomString } = require("../utils/common.util");
+const { USER_TYPE } = require("../enums/user.enum");
+const { log } = require("../utils/log.util");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("auth.service", "MongoDB database connection established successfully");
+    log.print("auth.service", "MongoDB database connection established successfully");
 })
 
 
@@ -26,16 +28,16 @@ let User = require("../models/user.model");
 
 // =============================================================================================================
 // Create the First User if there are no user exist on the app
-console.log("auth.service", "Creating First User");
+log.print("auth.service", "Creating First User");
 Auth.findOne({username: "FirstUser"}, (err, auth) => { 
     if (err) {
-        console.log("auth.service", "Error in creating first user");
+        log.print("auth.service", "Error in creating first user");
     } else if (auth) {
-        console.log("auth.service", "First User already Exist!");
+        log.print("auth.service", "First User already Exist!");
     } else {
         bcrypt.hash("FirstUser", config.SALT_ROUNDS, (err, hash) => {
             if (err) {
-                console.log("auth.service", "Error in creating first user")
+                log.print("auth.service", "Error in creating first user")
             } else {
                 const firstAuth = new Auth({
                     username: "FirstUser",
@@ -45,16 +47,21 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
                 })
                 firstAuth.save();
                 const firstUser = new User({
-                    firstname: "First",
-                    lastname: "User",
+                    name: "First Manager",
                     DOB: new Date(),
                     email: "first.user@placeholder.com",
                     mobile: "0432442340",
-                    auth: firstAuth._id
+                    auth: firstAuth._id,
+                    type: USER_TYPE.MANAGER,
+                    total: {
+                        mileage: 0,
+                        emission: 0,
+                        trip: 0,
+                    }
                 });
                 firstUser.save()
                 
-                console.log("auth.service", "First User successfully created!");
+                log.print("auth.service", "First User successfully created!");
             }
         });
     }
@@ -67,7 +74,7 @@ Auth.findOne({username: "FirstUser"}, (err, auth) => {
 // login API
 // ../auth/login
 authServices.route("/login").post((req, res) => {
-    console.log("/auth/login", "POST");
+    log.print("/auth/login", "POST");
 
     
     // Check if username is valid
@@ -108,7 +115,7 @@ authServices.route("/login").post((req, res) => {
                                 user: user,
                                 accessCode: auth.accessCode
                             });
-                            console.log(auth.accessCode);
+                            log.print("/auth/login", auth.accessCode);
                         }
                     })
                 }
@@ -120,29 +127,85 @@ authServices.route("/login").post((req, res) => {
 // Signup API
 // ../auth/signup
 authServices.route("/signup").post((req, res) => {
-    console.log("/auth/signup", "POST");
+    log.print("/auth/signup", "POST");
 
+    let dob = new Date(req.body.dob);
+
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (!req.body.username || req.body.username.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing username!"
+        });
+        return;
+
+    } else if (!req.body.name || req.body.name.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing name!"
+        });
+        return;
+
+    } else if (!req.body.mobile || req.body.mobile.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing mobile!"
+        });
+        return;
+
+    } else if (!(dob instanceof Date && !isNaN(dob))) {
+        res.status(401).json({
+            err: "invalid date of birth!"
+        });
+        return;
+
+    } else if (!req.body.email ||  req.body.email.trim() === 0 ||!emailRegex.test(req.body.email.trim())) {
+        res.status(401).json({
+            err: "invalid email!"
+        });
+        return;
+
+    } else if (!req.body.password || req.body.password.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing password!"
+        });
+        return;
+
+    } else if (req.body.type && (req.body.type.trim().toUpperCase() !== USER_TYPE.DRIVER && req.body.type.trim().toUpperCase() !== USER_TYPE.MANAGER)) {
+        res.status(401).json({
+            err: "Invalid Type!"
+        });
+        return;
+    }
+
+    let username = req.body.username.trim();
+    let name = req.body.name.trim();
+    let password = req.body.password.trim();
+    let email = req.body.email.trim();
+    let mobile = req.body.mobile.trim();
+    let type = req.body.type.trim().toUpperCase();
+
+    
     // Get any auth with the new username to avoid duplicate auth
-    Auth.findOne({ username: req.body.username }, (err, auth) => {
+    Auth.findOne({ username: username }, (err, auth) => {
         if (err) {
             res.status(500).json({
                 err: "Error in Creation"
-            })
+            });
+
         } else if (auth) {
             res.status(401).json({
                 err: "Username already exist!"
-            })
+            });
+            
         } else {
 
             // Hash the password
-            bcrypt.hash(req.body.password, config.SALT_ROUNDS, (err, hash) => {
+            bcrypt.hash(password, config.SALT_ROUNDS, (err, hash) => {
                 if (err) {
                     res.status(500).json({
                         err: "Error in hashing the password!"
                     })
                 } else {
                     const newAuth = new Auth({
-                        username: req.body.username,
+                        username: username,
                         password: hash,
                         accessCode: randomString(100),
                         activated: true
@@ -150,21 +213,24 @@ authServices.route("/signup").post((req, res) => {
                     newAuth.save();    
 
                     const newUser = new User({
-                        firstname: req.body.firstname,
-                        lastname: req.body.lastname,
-                        DOB: new Date(req.body.dob),
-                        email: req.body.email,
-                        mobile: req.body.mobile,
-                        auth: newAuth._id
+                        name: name,
+                        DOB: dob,
+                        email: email,
+                        mobile: mobile,
+                        auth: newAuth._id,
+                        type: type,
+                        total: {
+                            mileage: 0,
+                            emission: 0,
+                            trip: 0,
+                        }
                     });
                     newUser.save();
 
                     res.status(200).json({
-                        ...newUser._doc,
-                        auth:{
-                            _id: newAuth._id,
-                            username: newAuth.username
-                        }
+                        user: newUser._doc,
+                        accessCode: newAuth.accessCode
+
                     });
                 }
             });
@@ -177,7 +243,7 @@ authServices.route("/signup").post((req, res) => {
 // Change username & password API
 // ../auth/:id
 authServices.route("/:id").post(validateHeader, validateUser, (req, res) => {
-    console.log("/auth/:id", "POST");
+    log.print("/auth/:id", "POST")
 
     // If user is updating their own auth  -> update their auth
     if (req.user._id.equals(req.params.id)){
