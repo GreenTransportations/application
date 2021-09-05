@@ -74,7 +74,7 @@ export default function ProfilePage() {
             justify="center"
             alignItems="center"
           >
-            <Avatar alt="Loc Lien" src="/src/assets/logo.svg" className={classes.profileAvatar} />
+            <Avatar alt="Loc Lien" src="/src/assets/logo_invert.svg" className={classes.profileAvatar} />
           </Grid>
 
           <Grid

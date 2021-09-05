@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid } from '@material-ui/core';
+import { useHistory, useLocation} from 'react-router';
 
 
 // Material UI Icons
@@ -21,12 +22,14 @@ const useStyles = makeStyles((theme) => ({
     squareButton: {
         color: "ffffff",
         boxShadow: "none",
-        borderRadius: 8
+        borderRadius: 180
     }
 }));
 
 
 const DashboardPage = () => {
+    const history = useHistory();
+    const location =  useLocation();
     const classes = useStyles();
     return (
         <div
@@ -50,6 +53,9 @@ const DashboardPage = () => {
                         color="primary"
                         className={classes.squareButton}
                         endIcon={<AddIcon />}
+                        onClick={() => {
+                            history.push("/nav");
+                        }}
                     >
                         Start a New Trip
                     </Button>

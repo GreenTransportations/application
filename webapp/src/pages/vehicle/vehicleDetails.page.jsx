@@ -4,17 +4,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 // Material UI Icons
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import EditIcon from '@material-ui/icons/Edit';
-
-// import Sidebar from './sidebar.component';
-import { Divider } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,66 +21,93 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const VehicleDetailPage = ({vehicle}) => {
-  // pass in vehicle parameter from route here
+const VehicleDetailPage = ({vehicle, toVehicleList}) => {
   const classes = useStyles();
 
     return (
-      <>
+      <div style={{ padding: "30px" }}>
         <Grid
           container
           direction="column"
           justify="space-around"
-          alignItems="center"
+          alignItems="flex-start"
           spacing={1}
         >
-
-
-          <Grid
-            item
-            justify="center"
-            alignItems="center"
-          >
-            {vehicle.reg_no}
-            <EditIcon />
-          </Grid>
 
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Make: " />
+              <ListItemText primary="Make:" />
               <ListItemText primary= {vehicle.make} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
             <ListItem alignItems= 'flex-start'>
               <ListItemText primary= "Model: " />
               <ListItemText primary= {vehicle.model} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
+
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Date Registered: " />
-              <ListItemText primary= {vehicle.date} />
+              <ListItemText primary= "Registration Number: " />
+              <ListItemText primary= {vehicle.reg_no} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
+            <ListItem alignItems= 'flex-start'>
+              <ListItemText primary= "Date Registered: " />
+              <ListItemText primary= {new Date(vehicle.date).toLocaleDateString()} />
+            </ListItem>
+
+            </Grid>
+          <Grid item>
             <ListItem alignItems= 'flex-start'>
               <ListItemText primary= "Fuel Efficiency (L/km): " />
               <ListItemText primary= {vehicle.fuel_eff} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
             <ListItem alignItems= 'flex-start'>
               <ListItemText primary= "GVM: " />
               <ListItemText primary= {vehicle.gvm} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
             <ListItem alignItems= 'flex-start'>
               <ListItemText primary= "GCM: " />
               <ListItemText primary= {vehicle.gcm} />
             </ListItem>
 
+            </Grid>
+          <Grid item>
           </Grid>
 
         </Grid>
-      </>
+        
+        <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            spacing={1}
+            style={{marginTop: "50px"}}
+        >
+            <Grid item>
+                <Button           
+                    variant="contained"
+                    color="primary"
+                    onClick={toVehicleList}
+                >
+                    Back
+                </Button>
+            </Grid>
+        </Grid>
+      </div>
 
     );
 }

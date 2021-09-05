@@ -1,85 +1,84 @@
 import React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import VehicleDetailPage from './vehicleDetails.page';
 
-// Remove hard-coded columns
-const columns = [
-  { field: 'id', headerName: 'Vehicle ID', width: 90 },
-  {
-    field: 'brandName',
-    headerName: 'Brand name',
-    width: 160,
-    editable: true,
-  },
-  {
-    field: 'modelName',
-    headerName: 'Model name',
-    width: 160,
-    editable: true,
-  },
+import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
 
-  {
-    field: 'Registration',
-    headerName: 'Registration',
-    width: 200,
-    editable: true,
-  },
+const useStyles = makeStyles({
+    table: {
+        minWidth: 650,
+        boxShadow: "none"
+    },
+    tableContainer: {
+        boxShadow: "none",
+        marginTop: "30px"
 
-  {
-    field: 'dateRegistered',
-    headerName: 'Date Registered',
-    type: 'date',
-    width: 200,
-    editable: true,
-  },
+    },
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'light'
+    }
+});
 
-  {
-    field: 'fuelEfficiency',
-    headerName: 'Fuel Efficiency(km/L)',
-    type: 'number',
-    width: 200,
-    editable: true,
-  },
+const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegistration}) => {
+    const classes = useStyles();
 
-  {
-    field: 'userRegistered',
-    headerName: 'User Registered',
-    width: 150,
-    editable: true,
-  },
-];
-
-const VehicleList = ({ accessCode, user }) => {
-  const [vehicles, setVehicles] = useState([]);
-
-  useEffect(() => {
-    FETCH.GET("vehicle", "all", accessCode)
-      .then(async (response) => {
-        if (response.ok) {
-          const data = await response.json()
-          setVehicles(data);
-          console.log(data);
-        } else {
-          console.log("ERROR");
-        }
-      })
-  }, [accessCode, user])
-
-  return (
-    /* TODO:
-      Louis: use the driver data from the DB (loaded with the above FETCH call) to populate a table
-      of vehicles here. 
-    */
-    <div style={{ justifyContent: 'center', alignItems: 'center', height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
-  );
+    return (
+        <div style={{ padding: "30px" }}>
+            <TableContainer  className={classes.tableContainer} component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Vehicle ID</TableCell>
+                            <TableCell>Brand</TableCell>
+                            <TableCell>Model</TableCell>
+                            <TableCell>Registration Number</TableCell>
+                            <TableCell>Date Registered</TableCell>
+                            <TableCell>Fuel Efficiency</TableCell>
+                            <TableCell>Gross Vehicle Mass</TableCell>
+                            <TableCell>Gross Combined Mass</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {vehicles.map((vehicle) => (
+                            <TableRow key={vehicle._id} onClick={() => onSelect(vehicle)}>
+                                <TableCell component="th" scope="row">
+                                    {vehicle._id}
+                                </TableCell>
+                                <TableCell>{vehicle.make}</TableCell>
+                                <TableCell>{vehicle.model}</TableCell>
+                                <TableCell>{vehicle.reg_no}</TableCell>
+                                <TableCell>{vehicle.date}</TableCell>
+                                <TableCell>{vehicle.fuel_eff}</TableCell>
+                                <TableCell>{vehicle.gvm}</TableCell>
+                                <TableCell>{vehicle.gcm}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Grid
+                container
+                direction="row"
+                justify="flex-end"
+                spacing={1}
+                style={{marginTop: "50px"}}
+            >
+                <Grid item>
+                    <Button 
+                        style = {{borderRadius: "180px"}}          
+                        variant="contained"
+                        color="primary"
+                        endIcon={<AddIcon />}
+                        onClick={toVehicleRegistration}
+                    >
+                        Register a new Vehicle
+                    </Button>
+                </Grid>
+            </Grid>
+        </div>
+    );
 }
 
-export default VehicleList;
+export default VehicleListPage;
