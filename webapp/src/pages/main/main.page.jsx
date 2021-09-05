@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
+import TripHistoryPage from '../trip/tripHistory.page';
+import TripDetailPage from '../trip/tripDetail.page';
 import TripsPage from '../trips/pastTrips.page';
 import TestPage from '../test/test.page';
 import ProfilePage from '../profile/profile.page';
@@ -48,7 +50,7 @@ PAGE_ROUTES[USER_TYPE.DRIVER] = (accessCode, user) => (
             <ProfilePage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/trips">
-            <TripsPage accessCode={accessCode} user={user}/>                    
+            <TripHistoryPage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     
