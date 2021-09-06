@@ -6,7 +6,8 @@ import {
     LoadScript,
     useLoadScript,
     DirectionsService,
-    DirectionsRenderer
+    DirectionsRenderer,
+    Marker
 } from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
@@ -215,6 +216,13 @@ const MapPage = () => {
                     <DirectionsRenderer
                         options={{ directions: response }}
                     />
+                }
+
+                {
+                    userPosition.lat && 
+                    (
+                        <Marker position={userPosition} />
+                    )
                 }
             </GoogleMap>
         </div>
