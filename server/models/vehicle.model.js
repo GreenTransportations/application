@@ -9,6 +9,10 @@ var vehicleSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    series:{
+        type: String,
+        required:false,
+    },
     model:{
         type:String,
         required:true,
@@ -19,7 +23,7 @@ var vehicleSchema = new mongoose.Schema({
     },
     reg_no:{
         // registration number
-        type:Number,
+        type:String,
         required:true,
     },
     fuel_eff:{

@@ -13,6 +13,11 @@ const useStyles = makeStyles({
         boxShadow: "none",
         marginTop: "30px"
 
+    },
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'light'
     }
 });
 
@@ -28,7 +33,8 @@ const trips = [
     createData(5, '28-08-21', 3035, '9%', '3BT7GE', 105, 'some', 233 ),
   ];
 
-const TripHistoryPage = ({ accessCode, trip }) => {
+// Add trips as an argument
+const TripHistoryPage = ({ accessCode, user }) => {
   //const [vehicles, setVehicles] = useState([]);
 
   const classes = useStyles();

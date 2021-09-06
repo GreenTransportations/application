@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function TripDetailsPage() {
+export default function TripDetailPage() {
   const classes = useStyles();
   const trip = {
     tripID: '#001',
