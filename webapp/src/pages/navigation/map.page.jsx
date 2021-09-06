@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader, Autocomplete, LoadScript, DirectionsService,DirectionsRenderer } from '@react-google-maps/api';
+import React, { useState, useEffect } from 'react';
+import {
+    GoogleMap,
+    useJsApiLoader,
+    Autocomplete,
+    LoadScript,
+    useLoadScript,
+    DirectionsService,
+    DirectionsRenderer
+} from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 
@@ -22,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
         height: "90vh",
     },
 
-    pageContainer: { 
-        paddingTop: "30px", 
-        margin:"0px", 
-        overflow:"hidden"
+    pageContainer: {
+        paddingTop: "30px",
+        margin: "0px",
+        overflow: "hidden"
     },
 
-    searchContainer: { 
-        paddingBottom: "20px", 
-        margin:"0px" 
+    searchContainer: {
+        paddingBottom: "20px",
+        margin: "0px"
     }
 }));
 
@@ -47,6 +55,8 @@ const CENTRE = {
     lng: 144.96389711157144
 };
 
+const libraries = ['places'];
+
 
 const MapPage = () => {
     const classes = useStyles();
@@ -58,6 +68,21 @@ const MapPage = () => {
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
     const [response, setResponse] = useState(null);
     const [map, setMap] = useState(null);
+    // Current Position of User
+    const [userPosition, setUserPosition] = useState({});
+    // const [ libraries ] = useState(['places']);
+    
+    const geoSuccess = position => {
+        const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+        setUserPosition(currentPosition);
+    };
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(geoSuccess);
+    });
 
     const onLoad = (map) => {
         console.log("Map loaded");
@@ -67,7 +92,7 @@ const MapPage = () => {
         setMap(null);
     }, [])
 
-    
+
     const directionsCallback = (response) => {
         console.log(response);
 
@@ -112,86 +137,87 @@ const MapPage = () => {
         }
     }
 
+
     return (
-        <LoadScript id="script-loader" googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={["places"]}>
-            <div className={classes.pageContainer}>
-                <Grid
-                    container
-                    className={classes.searchContainer}
-                    direction="row"
-                    justify="space-around"
-                    spacing={1}
-                >
-                    <Grid item xs={4}>
-                        <Autocomplete
-                            onLoad={onAutoLoadOrigin}
-                            onPlaceChanged={onAutoPlaceChangedOrigin}
-                        >
-                            <Input
-                                fullWidth
-                                id="origin"
-                                label="Start Location"
-                                variant="outlined"
-                            />
-                        </Autocomplete>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Autocomplete
-                            onLoad={onAutoLoadDest}
-                            onPlaceChanged={onAutoPlaceChangedDest}
-                        >
-                            <Input
-                                fullWidth
-                                id="destination"
-                                label="Enter Destination"
-                                variant="outlined"
-                            />
-                        </Autocomplete>
-                    </Grid>
-
-                    <Grid item xs={2}>
-                        <Button
-                            style={{ borderRadius: "180px" }}
+        <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
+        <div className={classes.pageContainer}>
+            <Grid
+                container
+                className={classes.searchContainer}
+                direction="row"
+                justify="space-around"
+                spacing={1}
+            >
+                <Grid item xs={4}>
+                    <Autocomplete
+                        onLoad={onAutoLoadOrigin}
+                        onPlaceChanged={onAutoPlaceChangedOrigin}
+                    >
+                        <Input
                             fullWidth
-
-                            variant="contained"
-                            color="primary"
-                            className={classes.squareButton}
-                            endIcon={<AddIcon />}
-                            // onClick={startTripHandler}
-                        >
-                            Start Trip
-                        </Button>
-                    </Grid>
+                            id="origin"
+                            label="Start Location"
+                            variant="outlined"
+                        />
+                    </Autocomplete>
                 </Grid>
 
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    // className={classes.gmap}
-                    center={CENTRE}
-                    zoom={12}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                >
-                    {(origin !== '' && destination !== '') && 
-                        <DirectionsService
-                            options={{ 
-                                destination: destination,
-                                origin: origin,
-                                travelMode: 'DRIVING'
-                            }}
-                            callback={directionsCallback}
+                <Grid item xs={4}>
+                    <Autocomplete
+                        onLoad={onAutoLoadDest}
+                        onPlaceChanged={onAutoPlaceChangedDest}
+                    >
+                        <Input
+                            fullWidth
+                            id="destination"
+                            label="Enter Destination"
+                            variant="outlined"
                         />
-                    }
-                    
-                    {response !== null && 
-                        <DirectionsRenderer
-                            options={{ directions: response }}
-                        />
-                    }
-                </GoogleMap>
-            </div>
+                    </Autocomplete>
+                </Grid>
+
+                <Grid item xs={2}>
+                    <Button
+                        style={{ borderRadius: "180px" }}
+                        fullWidth
+
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
+                        endIcon={<AddIcon />}
+                    // onClick={startTripHandler}
+                    >
+                        Start Trip
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                // className={classes.gmap}
+                center={userPosition}
+                zoom={12}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+            >
+                {(origin !== '' && destination !== '') &&
+                    <DirectionsService
+                        options={{
+                            destination: destination,
+                            origin: origin,
+                            travelMode: 'DRIVING'
+                        }}
+                        callback={directionsCallback}
+                    />
+                }
+
+                {response !== null &&
+                    <DirectionsRenderer
+                        options={{ directions: response }}
+                    />
+                }
+            </GoogleMap>
+        </div>
         </LoadScript>
     )
 }
