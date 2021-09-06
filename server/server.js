@@ -14,6 +14,7 @@ const testServices = require("./services/test.service");
 const authServices = require("./services/auth.service");
 const userServices = require("./services/user.service");
 const vehicleServices = require("./services/vehicle.service");
+const tripServices = require("./services/trip.service");
 
 
 // Middleware
@@ -26,7 +27,7 @@ app.use(config.BASE_PATH + "/test", testServices);
 app.use(config.BASE_PATH + "/auth", authServices);
 app.use(config.BASE_PATH + "/user", userServices);
 app.use(config.BASE_PATH + "/vehicle", vehicleServices);
-app.use(config.BASE_PATH + "/trips", vehicleServices);
+app.use(config.BASE_PATH + "/trips", tripServices);
 
 
 

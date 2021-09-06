@@ -49,6 +49,10 @@ var tripSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    isLive: {
+        type: Boolean,
+        required: false
+    }
 });
 
 //Export the model
