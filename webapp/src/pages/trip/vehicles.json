@@ -1,0 +1,445 @@
+{
+    "n_series": [
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NLR 45-150",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 4500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NMR 45-150",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 4500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NNR 55-150 AMT TRAYPACK",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 5500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NPR 65-190",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 6500,
+            "gcm": 10000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NPS 75-155",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 7500,
+            "gcm": 10000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NQR 80-190 TIPPER",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 8000,
+            "gcm": 11500
+        }
+    ],
+
+    "f_series": [
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FRD 107-210",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 10700,
+            "gcm": 14200
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FRR 110-240 AMT IESC",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 11000,
+            "gcm": 14500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSD 120-260",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 12000,
+            "gcm": 20000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSR 120-240",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 12000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSS 110-210",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 11000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FTR 150-260 AUTO",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 15000,
+            "gcm": 20500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FTS 139-260",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 13900,
+            "gcm": 20500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVD 165-260 AUTO CREW",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVL 240-300",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVM 230-300",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 23000,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVR 165-300",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVY 240-300 AGITATOR",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 36000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVZ 240-300 DUAL CONTROL",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 36000
+        }
+    ],
+
+    "fx_series": [
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXD 165-350",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXL 240-350",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXR 165-350",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXY 240-350",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 45000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "GXD 165-350 PM",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        }
+    ],
+
+    "fy_series": [
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYH 300-350 PTO",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 30000,
+            "gcm": 45000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYJ 300-350 AUTO AGITATOR",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 30000,
+            "gcm": 42500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYX 350-350 AUTO",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 35000,
+            "gcm": 42500
+        }
+    ],
+
+    "giga_series": [
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "CXY 240-420",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 24000,
+            "gcm": 54000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "CXZ 240-460",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 57000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "EXY 260-520 GIGAMAX",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 26000,
+            "gcm": 70000
+        }
+    ]
+}
+
+{
+    "lf_series": [
+        {
+            "make": "DAF",
+            "series": "LF",
+            "model": "LF 260",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 12000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "DAF",
+            "series": "LF",
+            "model": "LF 290",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 18000,
+            "gcm": 28000
+        }
+    ],
+
+    "cf_series": [
+        {
+            "make": "DAF",
+            "series": "CF",
+            "model": "LF 75",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "21.6L/100km",
+            "gvm": 24600,
+            "gcm": 38000
+        },
+
+        {
+            "make": "DAF",
+            "series": "cF",
+            "model": "CF 85",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "41.6L/100km",
+            "gvm": 37000,
+            "gcm": 58000
+        }
+    ],
+}
+
+//western star
+{
+    "Western Star": [
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "2800",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 15000,
+            "gcm": 22000
+        },
+
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "4700",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 14600,
+            "gcm": 24000
+        },
+
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "4800",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 16000,
+            "gcm": 28000
+        },
+    ],
+}
+
+//MERCEDES-BENZ TRUCKS
+{
+    "New Actor": [
+        {
+            "make": "MERCEDES-BENZ",
+            "series": "New Actor",
+            "model": "New Actor",
+            "date": "27-08-2021",
+            "reg_no": "ABC123",
+            "fuel_eff": "19.4L/100km",
+            "gvm": 15000,
+            "gcm": 22000
+        },
+    ],
+}
