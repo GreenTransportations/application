@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "large",
         width: "2em",
         height: "2em",
-        margin: "5px"
+        margin: "0px"
     },
     squareButton: {
         color: "white",
@@ -160,16 +160,21 @@ const SignupPage = ({ onSignUp }) => {
                 >
                     <SupervisorAccount className={classes.signupRowIcon} />
                     <Select
-                        style={{width: "223px"}}
+                        style={{width: "223px", alignItems:"left"}}
                         label="type"
                         variant="outlined"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
                     >
-                        <MenuItem value={"DRIVER"}>Driver</MenuItem>
-                        <MenuItem value={"MANAGER"}>Manager</MenuItem>
+                        <MenuItem
+                        style = {{alignText: "left"}}
+                        value={"DRIVER"}>Driver</MenuItem>
+                        <MenuItem 
+                        style = {{alignText: "left"}}
+                        value={"MANAGER"}>Manager</MenuItem>
                     </Select>
                 </Grid>
+                
                 <Grid
                     className={classes.signupRow}
                     container
@@ -202,6 +207,7 @@ const SignupPage = ({ onSignUp }) => {
                 </Grid>
                 <Grid>
                     <Button
+                    style = {{borderRadius: "180px"}}
                         variant="contained"
                         color="primary"
                         className={classes.squareButton}
