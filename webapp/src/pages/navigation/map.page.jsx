@@ -21,7 +21,9 @@ import { API_KEY } from '../../data/api.key';
 
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
-import { TextField, Input } from '@material-ui/core';
+import { Input } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -72,7 +74,11 @@ const MapPage = () => {
     // Current Position of User
     const [userPosition, setUserPosition] = useState({});
     // const [ libraries ] = useState(['places']);
-    
+
+    // For Directions
+    const [duration, setDuration] = useState(null);
+    const [distance, setDistance] = useState(null);
+
     const geoSuccess = position => {
         const currentPosition = {
             lat: position.coords.latitude,
@@ -93,14 +99,43 @@ const MapPage = () => {
         setMap(null);
     }, [])
 
+    const setDirectionDetail = (response) => {
+        // Parse the Directions API response of Google Maps
+        // to determine the total duration and distance.
+        const legs = response.routes[0].legs;
+        const HMS = [legs
+                        .reduce((acc,i) => acc + i.duration.value, 0)]
+                        .map(s => ({
+                            h: Math.floor(s / (60*60)),
+                            next_s: s % (60*60)
+                        }))
+                        .map(s => ({
+                            ...s,
+                            m: Math.floor(s.next_s / 60),
+                            s: s.next_s % 60
+                        }))
+                        .reduce((_, i)=>  i, {});
+        // Get the string
+        const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes, " + String(HMS.s) + " Seconds";
+        setDuration(HMS_string);
+
+        // Get the total distance in km
+        const distance = legs.reduce((acc, i) => acc + i.distance.value, 0) / 1000; 
+        setDistance(String(distance) + " km");
+
+    }
+
 
     const directionsCallback = (response) => {
         console.log(response);
 
         if (response !== null) {
             if (response.status === 'OK') {
+                setDirectionDetail(response);
                 setResponse(response);
+
             } else {
+                console.log("Directions Status:");
                 console.log('response: ', response)
             }
         }
@@ -141,91 +176,117 @@ const MapPage = () => {
 
     return (
         <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
-        <div className={classes.pageContainer}>
-            <Grid
-                container
-                className={classes.searchContainer}
-                direction="row"
-                justify="space-around"
-                spacing={1}
-            >
-                <Grid item xs={4}>
-                    <Autocomplete
-                        onLoad={onAutoLoadOrigin}
-                        onPlaceChanged={onAutoPlaceChangedOrigin}
-                    >
-                        <Input
+            <div className={classes.pageContainer}>
+                <Grid
+                    container
+                    className={classes.searchContainer}
+                    direction="row"
+                    justify="space-around"
+                    spacing={1}
+                >
+                    <Grid item xs={4}>
+                        <Autocomplete
+                            onLoad={onAutoLoadOrigin}
+                            onPlaceChanged={onAutoPlaceChangedOrigin}
+                        >
+                            <Input
+                                fullWidth
+                                id="origin"
+                                label="Start Location"
+                                variant="outlined"
+                            />
+                        </Autocomplete>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <Autocomplete
+                            onLoad={onAutoLoadDest}
+                            onPlaceChanged={onAutoPlaceChangedDest}
+                        >
+                            <Input
+                                fullWidth
+                                id="destination"
+                                label="Enter Destination"
+                                variant="outlined"
+                            />
+                        </Autocomplete>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <Button
+                            style={{ borderRadius: "180px" }}
                             fullWidth
-                            id="origin"
-                            label="Start Location"
-                            variant="outlined"
-                        />
-                    </Autocomplete>
-                </Grid>
 
-                <Grid item xs={4}>
-                    <Autocomplete
-                        onLoad={onAutoLoadDest}
-                        onPlaceChanged={onAutoPlaceChangedDest}
-                    >
-                        <Input
+                            variant="contained"
+                            color="primary"
+                            className={classes.squareButton}
+                            endIcon={<AddIcon />}
+                        // onClick={startTripHandler}
+                        >
+                            Start Trip
+                        </Button>
+                    </Grid>
+                    {response !== null &&
+                        <>
+                        <Grid item xs={4}>
+                        <ListItem
                             fullWidth
-                            id="destination"
-                            label="Enter Destination"
+                            id="tripinfo"
                             variant="outlined"
+                        >
+                            <ListItemText primary="Estimated Time:" />
+                            <ListItemText primary={duration} />
+                        </ListItem>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                        <ListItem
+                            fullWidth
+                            id="tripinfo"
+                            variant="outlined"
+                        >
+                            <ListItemText primary="Distance:" />
+                            <ListItemText primary={distance} />
+                        </ListItem>
+                        </Grid>
+                        </>
+                    }
+
+                </Grid>
+
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    // className={classes.gmap}
+                    center={userPosition}
+                    zoom={12}
+                    onLoad={onLoad}
+                    onUnmount={onUnmount}
+                >
+                    {(origin !== '' && destination !== '') &&
+                        <DirectionsService
+                            options={{
+                                destination: destination,
+                                origin: origin,
+                                travelMode: 'DRIVING'
+                            }}
+                            callback={directionsCallback}
                         />
-                    </Autocomplete>
-                </Grid>
+                    }
 
-                <Grid item xs={2}>
-                    <Button
-                        style={{ borderRadius: "180px" }}
-                        fullWidth
+                    {response !== null &&
+                        <DirectionsRenderer
+                            options={{ directions: response }}
+                        />
+                    }
 
-                        variant="contained"
-                        color="primary"
-                        className={classes.squareButton}
-                        endIcon={<AddIcon />}
-                    // onClick={startTripHandler}
-                    >
-                        Start Trip
-                    </Button>
-                </Grid>
-            </Grid>
-
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                // className={classes.gmap}
-                center={userPosition}
-                zoom={12}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-            >
-                {(origin !== '' && destination !== '') &&
-                    <DirectionsService
-                        options={{
-                            destination: destination,
-                            origin: origin,
-                            travelMode: 'DRIVING'
-                        }}
-                        callback={directionsCallback}
-                    />
-                }
-
-                {response !== null &&
-                    <DirectionsRenderer
-                        options={{ directions: response }}
-                    />
-                }
-
-                {
-                    userPosition.lat && 
-                    (
-                        <Marker position={userPosition} />
-                    )
-                }
-            </GoogleMap>
-        </div>
+                    {
+                        userPosition.lat &&
+                        (
+                            <Marker position={userPosition} />
+                        )
+                    }
+                </GoogleMap>
+            </div>
         </LoadScript>
     )
 }
