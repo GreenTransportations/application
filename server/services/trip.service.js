@@ -19,7 +19,39 @@ connection.once('open', () => {
 // Mongoose Model [Vehicle]
 let Trip = require("../models/trip.model");
 
+//============================================================================================
+log.print("trip.service", "Creating Test Trip");
+Trip.findOne({startTime:"TESTTRIP"}, (err, trip) => { 
+    if (err) {
+        log.print("trip.service", "Error in creating test trip");
+    } else if (trip) {
+        log.print("trip.service", "Test Trip already Exist!");
+    } else {
 
+
+                const testTrip = new Trip({
+                    vehicles: [mongoose.Types.ObjectId("61235c43b6ef1225fcd05a37")],
+                    user: mongoose.Types.ObjectId("6114f493705e4d04485cf653"),
+                    emission: 123,
+                    km: 111,
+                    source: "Some Starting Location",
+                    destination: "Some Destination",
+                    stops: [],
+                    date: new Date(),
+                    startTime: "TESTTRIP",
+                    endTime: "Tomorrow",
+                    totalTime: "Tomorrow - Today",
+                    isLive: false
+                });
+                testTrip.save()
+                
+                log.print("trip.service", "First Trip successfully created!");
+
+    }
+})
+
+
+//====================================================================================
 /* All trips 
     Display the information of all trips in the Db.
 */
@@ -45,7 +77,7 @@ tripServices.route("/all").get((_, res) => {
 tripServices.route("/all/live").get((_, res) => { 
     log.print("/trip/all", "GET");
     
-    // Find all vehicles
+    // Find all trips that have live flag set to true
     Trip.find({isLive: true}, (err, trips) => {
         if (err) {
             log.print("/trip/all", err);

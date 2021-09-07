@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
-//import { FETCH } from '../../utils/fetch.util';
+import AddIcon from '@material-ui/icons/Add';
+import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
     table: {
@@ -21,60 +21,55 @@ const useStyles = makeStyles({
     }
 });
 
-function createData(tripID, date, driverID, tripStats, vehicleRegNo, distance, tripIssues, emission) {
-    return { tripID, date, driverID, tripStats, vehicleRegNo, distance, tripIssues, emission };
-  }
+const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
+    const classes = useStyles();
 
-const trips = [
-    createData(1, '25-08-21', 3000, '9%', '1AB1CD', 20, 'some', 123 ),
-    createData(2, '26-08-21', 3001, '12%', '2CF3ED', 14, 'some', 145 ),
-    createData(3, '26-08-21', 3015, '5%', '1EF3CV', 25, 'some', 246 ),
-    createData(4, '27-08-21', 3024, '24%', '3RG5OP', 120, 'some', 355 ),
-    createData(5, '28-08-21', 3035, '9%', '3BT7GE', 105, 'some', 233 ),
-  ];
+    return (
+        <div style={{ padding: "30px" }}>
+            <TableContainer  className={classes.tableContainer} component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Trip ID</TableCell>
+                            <TableCell>Date of Trip</TableCell>
+                            <TableCell>User Who Started Trip</TableCell>
+                            <TableCell>Emissions Produced</TableCell>
+                            <TableCell>Distance Travelled</TableCell>
+                            <TableCell>Start Time</TableCell>
+                            <TableCell>End Time</TableCell>
+                            <TableCell>Total Trip Time</TableCell>
 
-// Add trips as an argument
-const TripHistoryPage = ({ accessCode, user }) => {
-  //const [vehicles, setVehicles] = useState([]);
-
-  const classes = useStyles();
-
-  return (
-    <div style={{ padding: "30px" }}>
-        <TableContainer  className={classes.tableContainer} component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Trip ID</TableCell>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Driver ID</TableCell>
-                        <TableCell>Trip Stats</TableCell>
-                        <TableCell>Vehicle</TableCell>
-                        <TableCell>Distance</TableCell>
-                        <TableCell>Trip Issues</TableCell>
-                        <TableCell>Emission</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {trips.map((trip) => (
-                        <TableRow key={trip.tripID}>
-                            <TableCell component="th" scope="row">
-                                {trip.tripID}
-                            </TableCell>
-                            <TableCell>{trip.date}</TableCell>
-                            <TableCell>{trip.driverID}</TableCell>
-                            <TableCell>{trip.tripStats}</TableCell>
-                            <TableCell>{trip.vehicleRegNo}</TableCell>
-                            <TableCell>{trip.distance}</TableCell>
-                            <TableCell>{trip.tripIssues}</TableCell>
-                            <TableCell>{trip.emission}</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    </div>
-);
+                    </TableHead>
+                    <TableBody>
+                    {trips.map((trip) => (
+                            <TableRow key={trip._id} onClick={() => onSelect(trip)}>
+                                <TableCell component="th" scope="row">
+                                    {trip._id}
+                                </TableCell>
+                                <TableCell>{trip.date}</TableCell>
+                                <TableCell>{trip.user}</TableCell>
+                                <TableCell>{trip.emission}</TableCell>
+                                <TableCell>{trip.km}</TableCell>
+                                <TableCell>{trip.startTime}</TableCell>
+                                <TableCell>{trip.endTime}</TableCell>
+                                <TableCell>{trip.totalTime}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Grid
+                container
+                direction="row"
+                justify="flex-end"
+                spacing={1}
+                style={{marginTop: "50px"}}
+            >
+            
+            </Grid>
+        </div>
+    );
 }
 
 export default TripHistoryPage;

@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     }
 });
 
-const PastTripsPage = ({ accessCode, user, trips, onSelect}) => {
+const TripDetailPage = ({ accessCode, user}) => {
     const classes = useStyles();
 
     return (
@@ -38,24 +38,10 @@ const PastTripsPage = ({ accessCode, user, trips, onSelect}) => {
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
                             <TableCell>Total Trip Time</TableCell>
-
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {trips.map((vehicle) => (
-                            <TableRow key={trips._id} onClick={() => onSelect(trips)}>
-                                <TableCell component="th" scope="row">
-                                    {trips._id}
-                                </TableCell>
-                                <TableCell>{trips.date}</TableCell>
-                                <TableCell>{trips.user}</TableCell>
-                                <TableCell>{trips.emission}</TableCell>
-                                <TableCell>{trips.km}</TableCell>
-                                <TableCell>{trips.startTime}</TableCell>
-                                <TableCell>{trips.endTime}</TableCell>
-                                <TableCell>{trips.totalTime}</TableCell>
-                            </TableRow>
-                        ))}
+                       
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -72,4 +58,4 @@ const PastTripsPage = ({ accessCode, user, trips, onSelect}) => {
     );
 }
 
-export default PastTripsPage;
+export default TripDetailPage;

@@ -31,7 +31,7 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                     <TableHead>
                         <TableRow>
                             <TableCell>Vehicle ID</TableCell>
-                            <TableCell>Brand</TableCell>
+                            <TableCell>Make</TableCell>
                             <TableCell>Model</TableCell>
                             <TableCell>Registration Number</TableCell>
                             <TableCell>Date Registered</TableCell>
