@@ -25,7 +25,7 @@ const TABS = {
 
 
 const TripPage = ({ accessCode, user }) => {
-    const [trip, setTrips] = useState([]);
+    const [trips, setTrips] = useState([]);
     const [selected, setSelected] = useState(null);
     const [tab, setTab] = useState(TABS.LIST);
     const classes = useStyles();
@@ -49,7 +49,7 @@ const TripPage = ({ accessCode, user }) => {
                 <TripListPage 
                     accessCode={accessCode} 
                     user={user} 
-                    trips={trip}
+                    trips={trips}
                     onSelect={(trip) => {
                         setSelected(trip)
                         setTab(TABS.DETAIL)
@@ -76,4 +76,4 @@ const TripPage = ({ accessCode, user }) => {
     );
 }
 
-export default VehiclePage;
+export default TripPage;
