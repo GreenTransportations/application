@@ -30,14 +30,14 @@ const TripDetailPage = ({trip, toTripHistory}) => {
           container
           direction="column"
           justify="space-around"
-          alignItems="flex-start"
+          alignItems="center"
           spacing={1}
         >
 
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary="Trip ID:" />
+              <ListItemText primary="Trip ID:    " />
               <ListItemText primary= {trip._id} />
             </ListItem>
         
@@ -52,7 +52,7 @@ const TripDetailPage = ({trip, toTripHistory}) => {
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "User Who Started Trip: " />
+              <ListItemText primary= "User Who Started Trip:    " />
               <ListItemText primary= {trip.user} />
             </ListItem>
 
@@ -60,7 +60,7 @@ const TripDetailPage = ({trip, toTripHistory}) => {
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Carbon Emissions Produced: " />
+              <ListItemText primary= "Carbon Emissions Produced:    " />
               <ListItemText primary= {trip.emission} />
             </ListItem>
 
@@ -68,27 +68,27 @@ const TripDetailPage = ({trip, toTripHistory}) => {
           
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Distance Travelled: " />
+              <ListItemText primary= "Distance Travelled:    " />
               <ListItemText primary= {trip.km} />
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Starting Time: " />
+              <ListItemText primary= "Starting Time:    " />
               <ListItemText primary= {trip.startTime} />
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Ending Time: " />
+              <ListItemText primary= "Ending Time:    " />
               <ListItemText primary= {trip.endTime} />
             </ListItem>
             </Grid>
             <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Total Time Taken: " />
+              <ListItemText primary= "Total Time Taken:    " />
               <ListItemText primary= {trip.totalTime} />
             </ListItem>
             </Grid>
@@ -110,7 +110,8 @@ const TripDetailPage = ({trip, toTripHistory}) => {
             style={{marginTop: "50px"}}
         >
             <Grid item>
-                <Button           
+                <Button        
+                    style = {{borderRadius: "180px"}}             
                     variant="contained"
                     color="primary"
                     onClick={toTripHistory}

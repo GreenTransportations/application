@@ -86,6 +86,7 @@ const DashboardPage = () => {
                         color="primary"
                         className={classes.squareButton}
                         endIcon={<FavoriteIcon />}
+
                     >
                         Add New Shortcut
                     </Button>

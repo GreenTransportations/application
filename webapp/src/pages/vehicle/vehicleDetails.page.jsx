@@ -30,7 +30,7 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
           container
           direction="column"
           justify="space-around"
-          alignItems="flex-start"
+          alignItems="center"
           spacing={1}
         >
 
@@ -98,12 +98,13 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
             style={{marginTop: "50px"}}
         >
             <Grid item>
-                <Button           
+                <Button   
+                    style = {{borderRadius: "180px"}}          
                     variant="contained"
                     color="primary"
                     onClick={toVehicleList}
                 >
-                    Back
+                    Back To Vehicle List
                 </Button>
             </Grid>
         </Grid>
