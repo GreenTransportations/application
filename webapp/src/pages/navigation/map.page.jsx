@@ -14,7 +14,7 @@ import {
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Fade, Grid, Paper, Popper, Typography } from '@material-ui/core';
 
 // API Key for Google Maps
 import { API_KEY } from '../../data/api.key';
@@ -42,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
     searchContainer: {
         paddingBottom: "20px",
         margin: "0px"
+    },
+
+    informationContainer: {
+        bottom: "10px",
+        margin: "10px 10px 25px",
+        left: "240",
+        zIndex: "202",
+        position: "absolute",
+        width: "fit-content",
+        backgroundColor: "white",
+        boxShadow: "rgb(0 0 0 / 30%) 0px 1px 4px -1px"
     }
 }));
 
@@ -78,6 +89,16 @@ const MapPage = () => {
     // For Directions
     const [duration, setDuration] = useState(null);
     const [distance, setDistance] = useState(null);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState();
+
+    const handleClick = (newPlacement) => (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen((prev) => placement !== newPlacement || !prev);
+      setPlacement(newPlacement);
+    };
 
     const geoSuccess = position => {
         const currentPosition = {
@@ -116,7 +137,7 @@ const MapPage = () => {
                         }))
                         .reduce((_, i)=>  i, {});
         // Get the string
-        const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes, " + String(HMS.s) + " Seconds";
+        const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes";
         setDuration(HMS_string);
 
         // Get the total distance in km
@@ -221,38 +242,35 @@ const MapPage = () => {
                             color="primary"
                             className={classes.squareButton}
                             endIcon={<AddIcon />}
-                        // onClick={startTripHandler}
+                            onClick={handleClick('right-start')}
                         >
                             Start Trip
                         </Button>
                     </Grid>
-                    {response !== null &&
-                        <>
-                        <Grid item xs={4}>
-                        <ListItem
-                            fullWidth
-                            id="tripinfo"
-                            variant="outlined"
-                        >
-                            <ListItemText primary="Estimated Time:" />
-                            <ListItemText primary={duration} />
-                        </ListItem>
-                        </Grid>
-
-                        <Grid item xs={4}>
-                        <ListItem
-                            fullWidth
-                            id="tripinfo"
-                            variant="outlined"
-                        >
-                            <ListItemText primary="Distance:" />
-                            <ListItemText primary={distance} />
-                        </ListItem>
-                        </Grid>
-                        </>
-                    }
-
                 </Grid>
+
+                {response !== null &&
+                    <Grid
+                        container
+                        className={classes.informationContainer}
+                        direction="column"
+                    >
+                        
+                        <Grid item>
+                            <ListItem id="tripinfo">
+                                <ListItemText primary="Estimated Time:" />
+                                <ListItemText primary={duration} />
+                            </ListItem>
+                        </Grid>
+
+                        <Grid item>
+                            <ListItem id="tripinfo">
+                                <ListItemText primary="Distance:" />
+                                <ListItemText primary={distance} />
+                            </ListItem>
+                        </Grid>
+                    </Grid>
+                }
 
                 <GoogleMap
                     mapContainerStyle={containerStyle}
