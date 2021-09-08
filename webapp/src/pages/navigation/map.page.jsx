@@ -81,6 +81,7 @@ const MapPage = () => {
     const [originAutocomplete, setOriginAutocomplete] = useState(null);
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
     const [response, setResponse] = useState(null);
+    const [shortest, setShortest] = useState(0);
     const [map, setMap] = useState(null);
     // Current Position of User
     const [userPosition, setUserPosition] = useState({});
@@ -120,11 +121,14 @@ const MapPage = () => {
         setMap(null);
     }, [])
 
+    const getRouteDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
+
     const setDirectionDetail = (response) => {
         // Parse the Directions API response of Google Maps
         // to determine the total duration and distance.
-        const legs = response.routes[0].legs;
-        const HMS = [legs
+        console.log(response.routes);
+        const route = response.routes[shortest];
+        const HMS = [route.legs
                         .reduce((acc,i) => acc + i.duration.value, 0)]
                         .map(s => ({
                             h: Math.floor(s / (60*60)),
@@ -141,24 +145,25 @@ const MapPage = () => {
         setDuration(HMS_string);
 
         // Get the total distance in km
-        const distance = legs.reduce((acc, i) => acc + i.distance.value, 0) / 1000; 
+        const distance = getRouteDistance(route) / 1000; 
         setDistance(String(distance) + " km");
 
     }
 
+    const getDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
 
-    const directionsCallback = (response) => {
-        console.log(response);
-
+    const directionsCallback = (response) => {  
         if (response !== null) {
             if (response.status === 'OK') {
                 setDirectionDetail(response);
                 setResponse(response);
+                console.log("RESPONSE", response)
+                const sortedRoute = response.routes
+                    .map((route, index) => ({ ...route, index}))
+                    .sort((a, b) => getDistance(a) >= getDistance(b))
 
-            } else {
-                console.log("Directions Status:");
-                console.log('response: ', response)
-            }
+                setShortest(sortedRoute[0].index);
+            } 
         }
     }
 
@@ -285,16 +290,35 @@ const MapPage = () => {
                             options={{
                                 destination: destination,
                                 origin: origin,
-                                travelMode: 'DRIVING'
+                                travelMode: 'DRIVING',
+                                provideRouteAlternatives: true
                             }}
                             callback={directionsCallback}
                         />
                     }
 
                     {response !== null &&
-                        <DirectionsRenderer
-                            options={{ directions: response }}
-                        />
+                        <>
+                            {response.routes.map((_, index) => 
+                                <>
+                                    {index !== shortest &&
+                                        <DirectionsRenderer
+                                            options={{ 
+                                                directions: response, 
+                                                routeIndex: index
+                                            }}
+                                        />
+                                    }
+                                </>
+                            )}
+                            <DirectionsRenderer
+                                options={{ 
+                                    directions: response, 
+                                    routeIndex: shortest,
+                                    polylineOptions: { strokeColor: "#078f61", strokeWeight: 5}
+                                }}
+                            />
+                        </>
                     }
 
                     {

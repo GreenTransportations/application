@@ -52,7 +52,7 @@ export default function ProfilePage() {
   }
 
     return (
-      <>
+      <div style={{ padding: "30px" }}>
         <Grid
           container
           direction="column"
@@ -129,7 +129,7 @@ export default function ProfilePage() {
           </Grid>
 
         </Grid>
-      </>
+      </div>
 
     );
 }
