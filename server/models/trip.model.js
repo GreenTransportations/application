@@ -38,15 +38,15 @@ var tripSchema = new mongoose.Schema({
         required: true
     },
     startTime: {
-        type: String,
+        type: Date,
         required: false
     },
     endTime: {
-        type: String,
+        type: Date,
         required: false
     },
     totalTime:{
-        type: String,
+        type: Number,
         required: false
     },
     isLive: {

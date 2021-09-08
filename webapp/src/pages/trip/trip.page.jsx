@@ -31,7 +31,7 @@ const TripPage = ({ accessCode, user }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        FETCH.GET("trips", "all", accessCode)
+        FETCH.GET("trip", "all", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()

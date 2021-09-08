@@ -1,4 +1,4 @@
-// Services for the Vehicle Model
+// Services for the Trip Model
 const express = require("express");
 const mongoose = require("mongoose");
 const tripServices = express.Router();
@@ -16,39 +16,42 @@ connection.once('open', () => {
 })
 
 
-// Mongoose Model [Vehicle]
+// Mongoose Model [trip]
 let Trip = require("../models/trip.model");
 
 //============================================================================================
 log.print("trip.service", "Creating Test Trip");
-Trip.findOne({startTime:"TESTTRIP"}, (err, trip) => { 
-    if (err) {
-        log.print("trip.service", "Error in creating test trip");
-    } else if (trip) {
-        log.print("trip.service", "Test Trip already Exist!");
-    } else {
+Trip.where({})
+    .exec((err, trips) => { 
+        if (err) {
+            log.print("trip.service", "Error in creating test trip");
+        } else if (trips.length > 0 ) {
+            log.print("trip.service", "Test Trip already Exist!");
+        } else {
+            const TOTAL_TIME = 2;
+            const NOW = new Date();
+            const END = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate(), NOW.getHours() + TOTAL_TIME);
 
+            const testTrip = new Trip({
+                vehicles: [mongoose.Types.ObjectId("61235c43b6ef1225fcd05a37")],
+                user: mongoose.Types.ObjectId("6114f493705e4d04485cf653"),
+                emission: Math.ceil(Math.random() * 1000),
+                km: Math.ceil(Math.random() * 100),
+                source: "Some Starting Location",
+                destination: "Some Destination",
+                stops: [],
+                date: NOW,
+                startTime: NOW,
+                endTime: END,
+                totalTime: END.getTime() - NOW.getTime(),
+                isLive: false
+            });
+            testTrip.save()
+            
+            log.print("trip.service", "First Trip successfully created!");
 
-                const testTrip = new Trip({
-                    vehicles: [mongoose.Types.ObjectId("61235c43b6ef1225fcd05a37")],
-                    user: mongoose.Types.ObjectId("6114f493705e4d04485cf653"),
-                    emission: 123,
-                    km: 111,
-                    source: "Some Starting Location",
-                    destination: "Some Destination",
-                    stops: [],
-                    date: new Date(),
-                    startTime: "TESTTRIP",
-                    endTime: "Tomorrow",
-                    totalTime: "Tomorrow - Today",
-                    isLive: false
-                });
-                testTrip.save()
-                
-                log.print("trip.service", "First Trip successfully created!");
-
-    }
-})
+        }
+    })
 
 
 //====================================================================================
@@ -59,7 +62,7 @@ Trip.findOne({startTime:"TESTTRIP"}, (err, trip) => {
 tripServices.route("/all").get((_, res) => { 
     log.print("/trip/all", "GET");
     
-    // Find all vehicles
+    // Find all trips
     Trip.find({}, (err, trips) => {
         if (err) {
             log.print("/trip/all", err);
@@ -91,15 +94,16 @@ tripServices.route("/all/live").get((_, res) => {
     });
 })
 
-/* Create a new Vehicle
-    A user is able to create a new Vehicle in this POST request.
+
+/* Create a new trip
+    A user is able to create a new trip in this POST request.
 */
 tripServices.route("/create").post((req, res) => {
-    log.print("/vehicle/create", "POST");
+    log.print("/trip/create", "POST");
     const NOW = new Date();
 
     let newTrip = null;
-    // Create new Vehicle following the model
+    // Create new trip following the model
     try {
         newTrip = new Trip({
             vehicles: req.body.vehicles.map((id) => mongoose.Types.ObjectId(id)),
@@ -118,9 +122,9 @@ tripServices.route("/create").post((req, res) => {
     
         newTrip.save();
     } catch(e) {
-        log.print("/vehicle/create/", e);
+        log.print("/trip/create/", e);
         res.status(500).json({
-            err: "Cannot create new Vehicle"
+            err: "Cannot create new Trip"
         });
     }
 
@@ -133,7 +137,7 @@ tripServices.route("/finish").post((req, res) => {
     log.print("/trip/:id", "POST");
 
     const NOW = new Date();
-    // Update any Vehicle
+    // Update any Trip
     Trip.findById(req.body.id, (err, trip) => {
         if (err) {
             log.print("/trip/:id", err);

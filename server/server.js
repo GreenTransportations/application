@@ -27,7 +27,7 @@ app.use(config.BASE_PATH + "/test", testServices);
 app.use(config.BASE_PATH + "/auth", authServices);
 app.use(config.BASE_PATH + "/user", userServices);
 app.use(config.BASE_PATH + "/vehicle", vehicleServices);
-app.use(config.BASE_PATH + "/trips", tripServices);
+app.use(config.BASE_PATH + "/trip", tripServices);
 
 
 
