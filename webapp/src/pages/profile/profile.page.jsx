@@ -3,24 +3,18 @@ import React from 'react';
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 // Material UI Icons
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import EmailIcon from '@material-ui/icons/Email';
 import BusinessIcon from '@material-ui/icons/Business';
 import PhoneIcon from '@material-ui/icons/Phone';
-import EditIcon from '@material-ui/icons/Edit';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
-// import Sidebar from './sidebar.component';
-import { Divider } from '@material-ui/core';
+import { USER_TYPE } from '../../enums/user.enum';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,18 +32,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ProfilePage() {
+const ProfilePage = ({accessCode, user}) => {
   const classes = useStyles();
-  const user = {
-    id: 1,
-    userName: 'Loc Lien',
-    age: 20,
-    company: 'Green Transport',
-    email: 'xxxx.gmail.com',
-    phoneNumber: 1234567,
-    vehicle: '[Car Brand] [Car Model]'
-
-  }
 
     return (
       <div style={{ padding: "30px" }}>
@@ -61,18 +45,11 @@ export default function ProfilePage() {
           spacing={1}
         >
 
-          {/* <Grid
-            item
-          >
-            <List>
-              {Sidebar}
-            </List>
-          </Grid> */}
-
           <Grid
             item
             justify="center"
             alignItems="center"
+            style={{marginTop:"50px"}}
           >
             <Avatar alt="Loc Lien" src="/src/assets/logo_invert.svg" className={classes.profileAvatar} />
           </Grid>
@@ -82,54 +59,64 @@ export default function ProfilePage() {
             justify="center"
             alignItems="center"
           >
-            {/*user name*/}
-            {user.userName}
-            <EditIcon />
+            <h2>{user.name}</h2>
+            <p>Registered {user.type === USER_TYPE.DRIVER ? "Driver": "Manager"}</p>
           </Grid>
 
-          <Grid item>
-            <ListItem>
-              <ListItemIcon>
-                <CalendarTodayIcon />
-              </ListItemIcon>
-              <ListItemText primary="Date Of Birth: DD/MM/YYYY" />
-            </ListItem>
+          <Grid
+            container
+            direction="column"
+            alignItems="baseline"
+            spacing={1}
+            style={{paddingLeft:"calc((90% - 240px)/2)"}}
+          >
+            <Grid item>
+              <ListItem>
+                Date Of Birth: {new Date(user.DOB).toDateString()}
+              </ListItem>
+            </Grid>
 
-            <ListItem>
-              <ListItemIcon>
-                <LocalShippingIcon />
-              </ListItemIcon>
-              <ListItemText primary="Current Registered Vehicle: [Car Brand] [Car Model] " />
-            </ListItem>
+            <Grid item>
+              <ListItem>
+                Email: {user.email}
+              </ListItem>
+            </Grid>
 
-            <ListItem alignItems= 'flex-start'>
-              <ListItemIcon>
-                <EmailIcon />
-              </ListItemIcon>
-              <ListItemText primary= "Email: " />
-              <ListItemText primary= {user.email} />
-            </ListItem>
+            <Grid item>
+              <ListItem>
+                Mobile: {user.mobile}
+              </ListItem>
+            </Grid>
 
-            <ListItem alignItems= 'flex-start'>
-              <ListItemIcon>
-                <PhoneIcon />
-              </ListItemIcon>
-              <ListItemText primary= "Phone: " />
-              <ListItemText primary= {user.phoneNumber} />
-            </ListItem>
-
-            <ListItem alignItems= 'flex-start'>
-              <ListItemIcon>
-                <BusinessIcon />
-              </ListItemIcon>
-              <ListItemText primary= "Company: " />
-              <ListItemText primary= {user.company} />
-            </ListItem>
-
+            <Grid item>
+              <ListItem>
+                User Type: {user.type}
+              </ListItem>
+            </Grid>
+            {user.type === USER_TYPE.DRIVER &&
+              <>
+                <Grid item>
+                  <ListItem>
+                    Total Mileage: {user.total.mileage} KM
+                  </ListItem>
+                </Grid>
+                <Grid item>
+                  <ListItem>
+                    Total Trips: {user.total.trip} Trips
+                  </ListItem>
+                </Grid>
+                <Grid item>
+                  <ListItem>
+                    Total Carbon Emissions: {user.total.emission} Tonnes of CO2 emissions
+                  </ListItem>
+                </Grid>
+              </>
+            }
           </Grid>
-
         </Grid>
       </div>
 
     );
 }
+
+export default ProfilePage;
