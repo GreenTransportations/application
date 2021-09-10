@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const classes = useStyles();
 
     //Defines the password toggle handler
@@ -65,7 +66,7 @@ const LoginPage = ({ onLogin }) => {
                     const res = await response.json();
                     onLogin(res.accessCode, res.user);
                 } else {
-                    console.log("Error on Login");
+                    setErrorMessage("Login details is Incorrect!")
                 }
             })
     };
@@ -139,6 +140,7 @@ const LoginPage = ({ onLogin }) => {
                           }}
                     />
                 </Grid>
+                <p style={{color:"red"}}> {errorMessage} </p>
             
                 <Grid>
                     <Button

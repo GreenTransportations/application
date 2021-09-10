@@ -71,12 +71,14 @@ PAGE_ROUTES[USER_TYPE.MANAGER] = (accessCode, user) => (
         <Route path="/tests">
             <TestPage accessCode={accessCode} user={user}/>         
         </Route>
-        
         <Route path="/driver/list">
             <DriverList accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/vehicle">
             <VehiclePage accessCode={accessCode} user={user} />
+        </Route>
+        <Route path="/profile">
+            <ProfilePage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     
