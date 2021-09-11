@@ -10,6 +10,7 @@ import {
     Marker
 } from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Material UI Core Components
@@ -77,7 +78,7 @@ const CENTRE = {
 const libraries = ['places'];
 
 
-const MapPage = () => {
+const MapPage = ({accessCode, user, onStartTrip}) => {
     const classes = useStyles();
 
     // Location state storage
@@ -95,6 +96,7 @@ const MapPage = () => {
     // For Directions
     const [duration, setDuration] = useState(null);
     const [distance, setDistance] = useState(null);
+    const [seconds, setSeconds] = useState(null);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
@@ -133,8 +135,9 @@ const MapPage = () => {
         // to determine the total duration and distance.
         console.log(response.routes);
         const route = response.routes[shortest];
-        const HMS = [route.legs
-                        .reduce((acc,i) => acc + i.duration.value, 0)]
+        const seconds = route.legs
+                        .reduce((acc,i) => acc + i.duration.value, 0);
+        const HMS = [seconds]
                         .map(s => ({
                             h: Math.floor(s / (60*60)),
                             next_s: s % (60*60)
@@ -147,11 +150,12 @@ const MapPage = () => {
                         .reduce((_, i)=>  i, {});
         // Get the string
         const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes";
+        setSeconds(seconds);
         setDuration(HMS_string);
 
         // Get the total distance in km
         const distance = getRouteDistance(route) / 1000; 
-        setDistance(String(distance) + " km");
+        setDistance(distance); // Number
 
     }
 
@@ -204,6 +208,47 @@ const MapPage = () => {
         }
     }
 
+    // const debouncedT = useDebouncedCallback(
+    //     (e) => {
+    //         directionsCallback(e);
+    //     },
+    //     1000
+    // );
+
+    const startTripHandle = async (e) => {
+        e.preventDefault();
+
+        const NOW = new Date();
+        const END = new Date();
+        END.setSeconds(END.getSeconds() + seconds);
+
+        const tripInfo = {
+            vehicles: ["61235c43b6ef1225fcd05a37"],
+            user: user._id,
+            emission: Math.ceil(Math.random() * 1000), // Use our Emissions Function here
+            km: distance,
+            source: origin,
+            destination: destination,
+            stops: [],
+            date: NOW,
+            startTime: NOW,
+            endTime: END,
+            totalTime: seconds,
+            isLive: true
+        };
+
+        FETCH.POST("trip", "create", accessCode, tripInfo)
+            .then(async (response) => {
+                if (response.ok) {
+                    console.log("Created new trip");
+                    onStartTrip();
+
+                } else {
+                    console.log("Error on Registering new Trip");
+                }
+            })
+    };
+
 
     return (
         <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
@@ -254,7 +299,7 @@ const MapPage = () => {
                             color="primary"
                             className={classes.squareButton}
                             endIcon={<AddIcon />}
-                            onClick={handleClick('right-start')}
+                            onClick={startTripHandle}
                         >
                             Start Trip
                         </Button>
@@ -278,7 +323,7 @@ const MapPage = () => {
                         <Grid item>
                             <ListItem id="tripinfo">
                                 <ListItemText primary="Distance:" />
-                                <ListItemText primary={distance} />
+                                <ListItemText primary={String(distance) + " km"} />
                             </ListItem>
                         </Grid>
                     </Grid>

@@ -23,6 +23,7 @@ import DriverList from '../driverList/driverList.page';
 import { USER_TYPE } from '../../enums/user.enum';
 import VehiclePage from '../vehicle/vehicle.page';
 import LiveTripPage from '../live_trips/live.trip.page';
+import NavigationPage from '../navigation/navigation.page';
 
 
 // Style
@@ -42,7 +43,7 @@ PAGE_ROUTES[USER_TYPE.DRIVER] = (accessCode, user) => (
             <DashboardPage accessCode={accessCode} user={user}/>         
         </Route>
         <Route path="/map">
-            <MapPage accessCode={accessCode} user={user}/>         
+            <NavigationPage accessCode={accessCode} user={user}/>         
         </Route>
         <Route path="/vehicle">
             <VehiclePage accessCode={accessCode} user={user} />
