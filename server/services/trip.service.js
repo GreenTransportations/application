@@ -100,23 +100,23 @@ tripServices.route("/all/live").get((_, res) => {
 */
 tripServices.route("/create").post((req, res) => {
     log.print("/trip/create", "POST");
-    const NOW = new Date();
+    // const NOW = new Date();
 
     let newTrip = null;
     // Create new trip following the model
     try {
         newTrip = new Trip({
             vehicles: req.body.vehicles.map((id) => mongoose.Types.ObjectId(id)),
-            user: req.user._id,
+            user: req.body.user._id,
             emission: req.body.emission,
             km: req.body.km,
-            source: req.body.source.trim(),
-            destination: req.body.destination.trim(),
+            source: req.body.source,
+            destination: req.body.destination,
             stops: req.body.stops,
-            date: NOW,
-            startTime: NOW,
-            endTime: null,
-            totalTime: null,
+            date: req.body.date,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
+            totalTime: req.body.totalTime,
             isLive: true,
         });
     
