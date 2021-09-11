@@ -224,6 +224,7 @@ const MapPage = () => {
                                 fullWidth
                                 id="origin"
                                 label="Start Location"
+                                placeholder="Enter Origin"
                                 variant="outlined"
                             />
                         </Autocomplete>
@@ -238,6 +239,7 @@ const MapPage = () => {
                                 fullWidth
                                 id="destination"
                                 label="Enter Destination"
+                                placeholder="Enter Destination"
                                 variant="outlined"
                             />
                         </Autocomplete>
