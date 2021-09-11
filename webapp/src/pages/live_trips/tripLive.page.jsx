@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { FETCH } from '../../utils/fetch.util';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -7,7 +8,6 @@ import TextField from '@material-ui/core/TextField';
 import { borders } from '@material-ui/system';
 import {InputAdornment, IconButton } from "@material-ui/core";
 import { MenuItem, Select } from '@material-ui/core';
-import { FETCH } from '../../utils/fetch.util';
 import ReplayIcon from '@material-ui/icons/Replay';
 const useStyles = makeStyles({
     table: {
@@ -26,7 +26,8 @@ const useStyles = makeStyles({
     }
 });
 
-const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
+
+const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
 
     return (
@@ -38,11 +39,8 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
                             <TableCell>Trip ID</TableCell>
                             <TableCell>Date of Trip</TableCell>
                             <TableCell>User Who Started Trip</TableCell>
-                            <TableCell>Emissions Produced</TableCell>
-                            <TableCell>Distance Travelled</TableCell>
                             <TableCell>Start Time</TableCell>
-                            <TableCell>End Time</TableCell>
-                            <TableCell>Total Trip Time</TableCell>
+                            
 
                         </TableRow>
                     </TableHead>
@@ -54,11 +52,8 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
                                 </TableCell>
                                 <TableCell>{trip.date}</TableCell>
                                 <TableCell>{trip.user}</TableCell>
-                                <TableCell>{trip.emission}</TableCell>
-                                <TableCell>{trip.km}</TableCell>
                                 <TableCell>{trip.startTime}</TableCell>
-                                <TableCell>{trip.endTime}</TableCell>
-                                <TableCell>{trip.totalTime}</TableCell>
+                                
                             </TableRow>
                         ))}
                     </TableBody>
@@ -91,4 +86,4 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
     );
 }
 
-export default TripHistoryPage;
+export default TripLivePage;

@@ -2,6 +2,8 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import ReplayIcon from '@material-ui/icons/Replay';
+
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -17,7 +19,7 @@ const useStyles = makeStyles({
     squareButton: {
         color: "white",
         borderRadius: 180,
-        fontWeight: 'light'
+        fontWeight: 'normal'
     }
 });
 
@@ -71,11 +73,28 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                         variant="contained"
                         color="primary"
                         endIcon={<AddIcon />}
+                        className={classes.squareButton}
                         onClick={toVehicleRegistration}
                     >
                         Register a new Vehicle
                     </Button>
                 </Grid>
+                <Grid item>
+
+                <Button 
+                        style = {{borderRadius: "180px"}}          
+                        variant="contained"
+                        color="primary"
+                    
+                        endIcon={<ReplayIcon />}
+                        className={classes.squareButton}
+                        //Find a better function to reload 
+                        //onClick={() => window.location.reload(false)}
+                    >
+                    Reload
+            </Button>
+            </Grid>
+
             </Grid>
         </div>
     );

@@ -22,6 +22,7 @@ import ProfilePage from '../profile/profile.page';
 import DriverList from '../driverList/driverList.page';
 import { USER_TYPE } from '../../enums/user.enum';
 import VehiclePage from '../vehicle/vehicle.page';
+import LiveTripPage from '../live_trips/live.trip.page';
 
 
 // Style
@@ -79,6 +80,9 @@ PAGE_ROUTES[USER_TYPE.MANAGER] = (accessCode, user) => (
         </Route>
         <Route path="/profile">
             <ProfilePage accessCode={accessCode} user={user}/>                    
+        </Route>
+        <Route path="/trips/live">
+            <LiveTripPage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     

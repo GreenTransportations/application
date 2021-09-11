@@ -17,7 +17,12 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
-  }
+  },
+  squareButton: {
+    color: "white",
+    borderRadius: 180,
+    fontWeight: 'normal'
+}
 }));
 
 
@@ -114,6 +119,7 @@ const TripDetailPage = ({trip, toTripHistory}) => {
                     style = {{borderRadius: "180px"}}             
                     variant="contained"
                     color="primary"
+                    className={classes.squareButton}
                     onClick={toTripHistory}
                 >
                     Back To Trip History

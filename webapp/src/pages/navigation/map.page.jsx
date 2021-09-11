@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
         width: "fit-content",
         backgroundColor: "white",
         boxShadow: "rgb(0 0 0 / 30%) 0px 1px 4px -1px"
+    },
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'normal'
     }
 }));
 
