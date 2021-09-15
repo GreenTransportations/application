@@ -120,6 +120,14 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
         setVehicle(event.target.value);
       };
 
+    const handleClose = () => {
+    setOpen(false);
+    };
+
+    const handleOpen = () => {
+    setOpen(true);
+    };
+
     const handleClick = (newPlacement) => (event) => {
       setAnchorEl(event.currentTarget);
       setOpen((prev) => placement !== newPlacement || !prev);
@@ -322,24 +330,24 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                     </Grid>
 
                     <Grid item xs={4}>
-                    <InputLabel id="demo-mutiple-name-label">Select your vehicle</InputLabel>
-                    
+                    <InputLabel id="demo-controlled-open-select-label">Select your vehicle</InputLabel>
                         <Select
-                            
-                            displayEmpty
                             value = {vehicles}
-                            inputProps={{ readOnly: true }}
-                            labelId="demo-simple-select-readonly-label"
-                            id="demo-simple-select-readonly"
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            labelId="demo-controlled-open-select-label"
+                            id="demo-controlled-open-select"
                             style={{width: "250px",borderRadius: "5px"}}
                             variant="outlined"
+                            open={open}
+                            onClose={handleClose}
+                            onOpen={handleOpen}
                             onChange={handleChange}
+                            MenuProps={MenuProps}
                         >
-
                             
                             {vehicles.map((vehicle) => (
-                                <MenuItem key = {vehicle._id} value = {vehicle.reg_no}>
-                                    {vehicle._id}
+                                <MenuItem key = {vehicle._id} value = {vehicle}>
+                                    {vehicle.reg_no} {vehicle.make}
                                 </MenuItem>
                             ))}
                             
