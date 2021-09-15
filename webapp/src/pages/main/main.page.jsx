@@ -14,14 +14,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import DashboardPage from '../dashboard/dashboard.page';
 import MapPage from '../navigation/map.page';
-import TripHistoryPage from '../trip/tripHistory.page';
-import TripDetailPage from '../trip/tripDetail.page';
-import TripsPage from '../trips/pastTrips.page';
+//import TripHistoryPage from '../trip/trip.page';
+import TripPage from '../trip/trip.page';
+//import TripsPage from '../trips/pastTrips.page';
 import TestPage from '../test/test.page';
 import ProfilePage from '../profile/profile.page';
 import DriverList from '../driverList/driverList.page';
 import { USER_TYPE } from '../../enums/user.enum';
 import VehiclePage from '../vehicle/vehicle.page';
+import LiveTripPage from '../live_trips/live.trip.page';
+import NavigationPage from '../navigation/navigation.page';
 
 
 // Style
@@ -41,7 +43,7 @@ PAGE_ROUTES[USER_TYPE.DRIVER] = (accessCode, user) => (
             <DashboardPage accessCode={accessCode} user={user}/>         
         </Route>
         <Route path="/map">
-            <MapPage accessCode={accessCode} user={user}/>         
+            <NavigationPage accessCode={accessCode} user={user}/>         
         </Route>
         <Route path="/vehicle">
             <VehiclePage accessCode={accessCode} user={user} />
@@ -50,7 +52,7 @@ PAGE_ROUTES[USER_TYPE.DRIVER] = (accessCode, user) => (
             <ProfilePage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/trips">
-            <TripHistoryPage accessCode={accessCode} user={user}/>                    
+            <TripPage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     
@@ -71,12 +73,17 @@ PAGE_ROUTES[USER_TYPE.MANAGER] = (accessCode, user) => (
         <Route path="/tests">
             <TestPage accessCode={accessCode} user={user}/>         
         </Route>
-        
         <Route path="/driver/list">
             <DriverList accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/vehicle">
             <VehiclePage accessCode={accessCode} user={user} />
+        </Route>
+        <Route path="/profile">
+            <ProfilePage accessCode={accessCode} user={user}/>                    
+        </Route>
+        <Route path="/trips/live">
+            <LiveTripPage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     

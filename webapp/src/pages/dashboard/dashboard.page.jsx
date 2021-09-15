@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     squareButton: {
         color: "ffffff",
         boxShadow: "none",
-        borderRadius: 180
+        borderRadius: 180,
+        fontWeight: "normal"
     }
 }));
 
@@ -54,7 +55,7 @@ const DashboardPage = () => {
                         className={classes.squareButton}
                         endIcon={<AddIcon />}
                         onClick={() => {
-                            history.push("/nav");
+                            history.push("/map");
                         }}
                     >
                         Start a New Trip
@@ -71,6 +72,9 @@ const DashboardPage = () => {
                         color="primary"
                         className={classes.squareButton}
                         endIcon={<CompareArrowsIcon />}
+                        onClick={() => {
+                            history.push("/trips");
+                        }}
                     >
                         Check Trip History
                     </Button>
@@ -86,6 +90,7 @@ const DashboardPage = () => {
                         color="primary"
                         className={classes.squareButton}
                         endIcon={<FavoriteIcon />}
+
                     >
                         Add New Shortcut
                     </Button>

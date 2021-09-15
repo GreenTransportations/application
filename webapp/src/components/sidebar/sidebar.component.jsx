@@ -18,6 +18,7 @@ import { ReactComponent as GTLogoInvert } from "../../assets/logo_invert.svg";
 
 
 // Material UI Icons
+import LiveTvIcon from '@material-ui/icons/LiveTv';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'; 
@@ -101,6 +102,11 @@ APP_PAGES[USER_TYPE.MANAGER] = [
         title: 'Driver List',
         url: '/driver/list',
         icon: 'group'
+    },
+    {
+        title: 'Live Trips',
+        url: '/trips/live',
+        icon: 'live_tv_icon'
     },
     {
         title: 'Vehicle List',

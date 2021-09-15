@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { borders } from '@material-ui/system';
+import {InputAdornment, IconButton } from "@material-ui/core";
 import { MenuItem, Select } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     squareButton: {
         color: "white",
         borderRadius: 4,
-        fontWeight: 'light'
+        fontWeight: 'normal'
     },
     TextField: {
         [`& fieldset`]:{
@@ -83,7 +84,10 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Make:
                     <Select
-                        style={{width: "240px",borderRadius: "180px"}}
+                        InputProps={{
+                            required: true
+                            }}
+                        style={{width: "250px",borderRadius: "5px"}}
                         label="brand"
                         variant="outlined"
                         value={make}
@@ -114,7 +118,10 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Model:
                     <Select
-                        style={{width: "240px", borderRadius: "180px"}}
+                        InputProps={{
+                            required: true
+                            }}
+                        style={{width: "250px", borderRadius: "5px"}}
                         label="model"
                         variant="outlined"
                         value={model}
@@ -135,10 +142,15 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Registration Number:
                     <TextField
-                        
-                        style = {{[`& fieldset`]:{
-                            borderRadius:180
-                          }}}
+                    InputProps={{
+
+                        endAdornment: (
+                                <InputAdornment>
+                                </InputAdornment>
+                        ),
+                        required: true
+                        }}
+                        style = {{[`& fieldset`]:{width: "250px", borderRadius:180}}}
                         variant="outlined"
                         value={registrationNumber}
                         onChange={(e) => setRegistrationNumber(e.target.value)}
@@ -155,7 +167,16 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Fuel Efficiency:
                     <TextField
-                        style = {{borderRadius: "180px"}}
+                        InputProps={{
+
+                        endAdornment: (
+                                <InputAdornment>
+                                    L/KM
+                                </InputAdornment>
+                        ),
+                        required: true
+                        }}
+                        style = {{width: "250px",borderRadius: "180px"}}
                         variant="outlined"
                         value={fuelEfficiency}
                         onChange={(e) => setFuelEfficiency(e.target.value)}
@@ -171,7 +192,8 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Registration date:
                     <TextField
-                        style={{width: "223px", borderRadius: "180px"}}
+                        required= {true}
+                        style={{width: "250px", borderRadius: "180px"}}
                         type="date"
                         variant="outlined"
                         value={date}
@@ -181,6 +203,8 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
             
             
                 <Grid
+                    style={{borderRadius: "180px"}}
+
                     className={classes.registerRow}
                     container
                     direction="column"
@@ -189,6 +213,15 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Gross Vehicle Mass:
                     <TextField
+                    InputProps={{
+
+                        endAdornment: (
+                                <InputAdornment>
+                                    KG
+                                </InputAdornment>
+                        ),
+                        required: true
+                        }}
                         type="number"
                         variant="outlined"
                         value={gVM}
@@ -197,6 +230,8 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 </Grid>
                 
                 <Grid
+                    style={{ borderRadius: "180px"}}
+
                     className={classes.registerRow}
                     container
                     direction="column"
@@ -205,6 +240,15 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 >
                     Gross Combined mass:
                     <TextField
+                        InputProps={{
+
+                            endAdornment: (
+                                    <InputAdornment>
+                                        KG
+                                    </InputAdornment>
+                            ),
+                            required: true
+                            }}
                         type="number"
                         variant="outlined"
                         value={gCM}
