@@ -103,6 +103,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const [shortest, setShortest] = useState(0);
     const [map, setMap] = useState(null);
     const [vehicles, setVehicle] = useState([]);
+    const [selection, setSelection] = useState("")
     // Current Position of User
     const [userPosition, setUserPosition] = useState({});
     // const [ libraries ] = useState(['places']);
@@ -117,7 +118,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const [placement, setPlacement] = useState();
 
     const handleChange = (event) => {
-        setVehicle(event.target.value);
+        setSelection(event.target.value);
       };
 
     const handleClose = () => {
@@ -330,9 +331,8 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                     </Grid>
 
                     <Grid item xs={4}>
-                    <InputLabel id="demo-controlled-open-select-label">Select your vehicle</InputLabel>
+                        <InputLabel id="demo-controlled-open-select-label">Select your vehicle</InputLabel>
                         <Select
-                            value = {vehicles}
                             inputProps={{ 'aria-label': 'Without label' }}
                             labelId="demo-controlled-open-select-label"
                             id="demo-controlled-open-select"
@@ -342,11 +342,11 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                             onClose={handleClose}
                             onOpen={handleOpen}
                             onChange={handleChange}
-                            MenuProps={MenuProps}
+                            value = {selection}
                         >
                             
                             {vehicles.map((vehicle) => (
-                                <MenuItem key = {vehicle._id} value = {vehicle}>
+                                <MenuItem value = {vehicle.reg_no}>
                                     {vehicle.reg_no} {vehicle.make}
                                 </MenuItem>
                             ))}
