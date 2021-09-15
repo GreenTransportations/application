@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
 import {
     GoogleMap,
     useJsApiLoader,
@@ -63,6 +64,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
 
 const containerStyle = {
     width: '100%',
@@ -103,6 +115,10 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const [placement, setPlacement] = useState();
+
+    const handleChange = (event) => {
+        setVehicle(event.target.value);
+      };
 
     const handleClick = (newPlacement) => (event) => {
       setAnchorEl(event.currentTarget);
@@ -306,27 +322,30 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                     </Grid>
 
                     <Grid item xs={4}>
-                    (
+                    <InputLabel id="demo-mutiple-name-label">Select your vehicle</InputLabel>
+                    
                         <Select
+                            
+                            displayEmpty
+                            value = {vehicles}
                             inputProps={{ readOnly: true }}
                             labelId="demo-simple-select-readonly-label"
                             id="demo-simple-select-readonly"
                             style={{width: "250px",borderRadius: "5px"}}
-                            label="brand"
                             variant="outlined"
-                            onChange={(e) => setVehicle(e.target.value)}
+                            onChange={handleChange}
                         >
 
                             
-                            {vehicles.map((vehicle) => 
-                                <option key = {vehicle._id} value = {vehicle.reg_no}>
-                                    {vehicle.reg_no}
-                                </option>
-                            )}
+                            {vehicles.map((vehicle) => (
+                                <MenuItem key = {vehicle._id} value = {vehicle.reg_no}>
+                                    {vehicle._id}
+                                </MenuItem>
+                            ))}
                             
                             
                         </Select>
-                    )
+                    
                     </Grid>
                     
 
