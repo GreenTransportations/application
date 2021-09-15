@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader, Autocomplete, LoadScript, DirectionsService,DirectionsRenderer } from '@react-google-maps/api';
+import React, { useState, useEffect } from 'react';
+import { MenuItem, Select } from '@material-ui/core';
+import {
+    GoogleMap,
+    useJsApiLoader,
+    Autocomplete,
+    LoadScript,
+    useLoadScript,
+    DirectionsService,
+    DirectionsRenderer,
+    Marker
+} from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Fade, Grid, Paper, Popper, Typography } from '@material-ui/core';
 
 // API Key for Google Maps
 import { API_KEY } from '../../data/api.key';
 
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
-import { TextField, Input } from '@material-ui/core';
+import { Input } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -22,15 +35,31 @@ const useStyles = makeStyles((theme) => ({
         height: "90vh",
     },
 
-    pageContainer: { 
-        paddingTop: "30px", 
-        margin:"0px", 
-        overflow:"hidden"
+    pageContainer: {
+        paddingTop: "30px",
+        margin: "0px",
+        overflow: "hidden"
     },
 
-    searchContainer: { 
-        paddingBottom: "20px", 
-        margin:"0px" 
+    searchContainer: {
+        paddingBottom: "20px",
+        margin: "0px"
+    },
+
+    informationContainer: {
+        bottom: "10px",
+        margin: "10px 10px 25px",
+        left: "240",
+        zIndex: "202",
+        position: "absolute",
+        width: "fit-content",
+        backgroundColor: "white",
+        boxShadow: "rgb(0 0 0 / 30%) 0px 1px 4px -1px"
+    },
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'normal'
     }
 }));
 
@@ -47,8 +76,10 @@ const CENTRE = {
     lng: 144.96389711157144
 };
 
+const libraries = ['places'];
 
-const MapPage = () => {
+
+const MapPage = ({accessCode, user, onStartTrip}) => {
     const classes = useStyles();
 
     // Location state storage
@@ -57,7 +88,52 @@ const MapPage = () => {
     const [originAutocomplete, setOriginAutocomplete] = useState(null);
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
     const [response, setResponse] = useState(null);
+    const [shortest, setShortest] = useState(0);
     const [map, setMap] = useState(null);
+    const [vehicles, setVehicle] = useState([]);
+    // Current Position of User
+    const [userPosition, setUserPosition] = useState({});
+    // const [ libraries ] = useState(['places']);
+
+    // For Directions
+    const [duration, setDuration] = useState(null);
+    const [distance, setDistance] = useState(null);
+    const [seconds, setSeconds] = useState(null);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState();
+
+    const handleClick = (newPlacement) => (event) => {
+      setAnchorEl(event.currentTarget);
+      setOpen((prev) => placement !== newPlacement || !prev);
+      setPlacement(newPlacement);
+    };
+
+    const geoSuccess = position => {
+        const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+        setUserPosition(currentPosition);
+    };
+
+    useEffect(() => {
+        FETCH.GET("vehicle", "all", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setVehicle(data);
+                    console.log(data);
+                } else {
+                    console.log("ERROR");
+                }
+            })
+    }, [accessCode, user])
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(geoSuccess);
+    });
 
     const onLoad = (map) => {
         console.log("Map loaded");
@@ -67,16 +143,51 @@ const MapPage = () => {
         setMap(null);
     }, [])
 
-    
-    const directionsCallback = (response) => {
-        console.log(response);
+    const getRouteDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
 
+    const setDirectionDetail = (response) => {
+        // Parse the Directions API response of Google Maps
+        // to determine the total duration and distance.
+        console.log(response.routes);
+        const route = response.routes[shortest];
+        const seconds = route.legs
+                        .reduce((acc,i) => acc + i.duration.value, 0);
+        const HMS = [seconds]
+                        .map(s => ({
+                            h: Math.floor(s / (60*60)),
+                            next_s: s % (60*60)
+                        }))
+                        .map(s => ({
+                            ...s,
+                            m: Math.floor(s.next_s / 60),
+                            s: s.next_s % 60
+                        }))
+                        .reduce((_, i)=>  i, {});
+        // Get the string
+        const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes";
+        setSeconds(seconds);
+        setDuration(HMS_string);
+
+        // Get the total distance in km
+        const distance = getRouteDistance(route) / 1000; 
+        setDistance(distance); // Number
+
+    }
+
+    const getDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
+
+    const directionsCallback = (response) => {  
         if (response !== null) {
             if (response.status === 'OK') {
+                setDirectionDetail(response);
                 setResponse(response);
-            } else {
-                console.log('response: ', response)
-            }
+                console.log("RESPONSE", response)
+                const sortedRoute = response.routes
+                    .map((route, index) => ({ ...route, index}))
+                    .sort((a, b) => getDistance(a) >= getDistance(b))
+
+                setShortest(sortedRoute[0].index);
+            } 
         }
     }
 
@@ -112,8 +223,50 @@ const MapPage = () => {
         }
     }
 
+    // const debouncedT = useDebouncedCallback(
+    //     (e) => {
+    //         directionsCallback(e);
+    //     },
+    //     1000
+    // );
+
+    const startTripHandle = async (e) => {
+        e.preventDefault();
+
+        const NOW = new Date();
+        const END = new Date();
+        END.setSeconds(END.getSeconds() + seconds);
+
+        const tripInfo = {
+            vehicles: ["61235c43b6ef1225fcd05a37"],
+            user: user._id,
+            emission: Math.ceil(Math.random() * 1000), // Use our Emissions Function here
+            km: distance,
+            source: origin,
+            destination: destination,
+            stops: [],
+            date: NOW,
+            startTime: NOW,
+            endTime: END,
+            totalTime: seconds,
+            isLive: true
+        };
+
+        FETCH.POST("trip", "create", accessCode, tripInfo)
+            .then(async (response) => {
+                if (response.ok) {
+                    console.log("Created new trip");
+                    onStartTrip();
+
+                } else {
+                    console.log("Error on Registering new Trip");
+                }
+            })
+    };
+
+
     return (
-        <LoadScript id="script-loader" googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={["places"]}>
+        <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
             <div className={classes.pageContainer}>
                 <Grid
                     container
@@ -131,6 +284,7 @@ const MapPage = () => {
                                 fullWidth
                                 id="origin"
                                 label="Start Location"
+                                placeholder="Enter Origin"
                                 variant="outlined"
                             />
                         </Autocomplete>
@@ -145,10 +299,36 @@ const MapPage = () => {
                                 fullWidth
                                 id="destination"
                                 label="Enter Destination"
+                                placeholder="Enter Destination"
                                 variant="outlined"
                             />
                         </Autocomplete>
                     </Grid>
+
+                    <Grid item xs={4}>
+                    (
+                        <Select
+                            inputProps={{ readOnly: true }}
+                            labelId="demo-simple-select-readonly-label"
+                            id="demo-simple-select-readonly"
+                            style={{width: "250px",borderRadius: "5px"}}
+                            label="brand"
+                            variant="outlined"
+                            onChange={(e) => setVehicle(e.target.value)}
+                        >
+
+                            
+                            {vehicles.map((vehicle) => 
+                                <option key = {vehicle._id} value = {vehicle.reg_no}>
+                                    {vehicle.reg_no}
+                                </option>
+                            )}
+                            
+                            
+                        </Select>
+                    )
+                    </Grid>
+                    
 
                     <Grid item xs={2}>
                         <Button
@@ -159,36 +339,85 @@ const MapPage = () => {
                             color="primary"
                             className={classes.squareButton}
                             endIcon={<AddIcon />}
-                            // onClick={startTripHandler}
+                            onClick={startTripHandle}
                         >
                             Start Trip
                         </Button>
                     </Grid>
                 </Grid>
 
+                {response !== null &&
+                    <Grid
+                        container
+                        className={classes.informationContainer}
+                        direction="column"
+                    >
+                        
+                        <Grid item>
+                            <ListItem id="tripinfo">
+                                <ListItemText primary="Estimated Time:" />
+                                <ListItemText primary={duration} />
+                            </ListItem>
+                        </Grid>
+
+                        <Grid item>
+                            <ListItem id="tripinfo">
+                                <ListItemText primary="Distance:" />
+                                <ListItemText primary={String(distance) + " km"} />
+                            </ListItem>
+                        </Grid>
+                    </Grid>
+                }
+
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     // className={classes.gmap}
-                    center={CENTRE}
+                    center={userPosition}
                     zoom={12}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                 >
-                    {(origin !== '' && destination !== '') && 
+                    {(origin !== '' && destination !== '') &&
                         <DirectionsService
-                            options={{ 
+                            options={{
                                 destination: destination,
                                 origin: origin,
-                                travelMode: 'DRIVING'
+                                travelMode: 'DRIVING',
+                                provideRouteAlternatives: true
                             }}
                             callback={directionsCallback}
                         />
                     }
-                    
-                    {response !== null && 
-                        <DirectionsRenderer
-                            options={{ directions: response }}
-                        />
+
+                    {response !== null &&
+                        <>
+                            {response.routes.map((_, index) => 
+                                <>
+                                    {index !== shortest &&
+                                        <DirectionsRenderer
+                                            options={{ 
+                                                directions: response, 
+                                                routeIndex: index
+                                            }}
+                                        />
+                                    }
+                                </>
+                            )}
+                            <DirectionsRenderer
+                                options={{ 
+                                    directions: response, 
+                                    routeIndex: shortest,
+                                    polylineOptions: { strokeColor: "#078f61", strokeWeight: 5}
+                                }}
+                            />
+                        </>
+                    }
+
+                    {
+                        userPosition.lat &&
+                        (
+                            <Marker position={userPosition} />
+                        )
                     }
                 </GoogleMap>
             </div>
