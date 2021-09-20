@@ -103,7 +103,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const [shortest, setShortest] = useState(0);
     const [map, setMap] = useState(null);
     const [vehicles, setVehicle] = useState([]);
-    const [selection, setSelection] = useState("")
+    const [vehicleSelection, setSelection] = useState("")
     // Current Position of User
     const [userPosition, setUserPosition] = useState({});
     // const [ libraries ] = useState(['places']);
@@ -262,8 +262,9 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
         const END = new Date();
         END.setSeconds(END.getSeconds() + seconds);
 
+
         const tripInfo = {
-            vehicles: ["61235c43b6ef1225fcd05a37"],
+            vehicles: [vehicleSelection],
             user: user._id,
             emission: Math.ceil(Math.random() * 1000), // Use our Emissions Function here
             km: distance,
@@ -342,11 +343,11 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                             onClose={handleClose}
                             onOpen={handleOpen}
                             onChange={handleChange}
-                            value = {selection}
+                            value = {vehicleSelection}
                         >
                             
                             {vehicles.map((vehicle) => (
-                                <MenuItem value = {vehicle.reg_no}>
+                                <MenuItem value = {vehicle._id}>
                                     {vehicle.reg_no} {vehicle.make}
                                 </MenuItem>
                             ))}
