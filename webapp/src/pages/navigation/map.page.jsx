@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MenuItem, Select } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
+import getEmissions from './emissions';
 import {
     GoogleMap,
     useJsApiLoader,
@@ -262,11 +263,14 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
         const END = new Date();
         END.setSeconds(END.getSeconds() + seconds);
 
+        const vehicleObj = vehicles.filter(x => x._id === vehicleSelection);
+        const emissions = getEmissions(vehicleObj, distance); // emissions function
+
 
         const tripInfo = {
             vehicles: [vehicleSelection],
             user: user._id,
-            emission: Math.ceil(Math.random() * 1000), // Use our Emissions Function here
+            emission: emissions,
             km: distance,
             source: origin,
             destination: destination,
