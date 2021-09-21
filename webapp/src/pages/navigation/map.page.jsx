@@ -4,10 +4,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import getEmissions from './emissions';
 import {
     GoogleMap,
-    useJsApiLoader,
     Autocomplete,
     LoadScript,
-    useLoadScript,
     DirectionsService,
     DirectionsRenderer,
     Marker
@@ -91,6 +89,9 @@ const CENTRE = {
 
 const libraries = ['places'];
 
+const SESSION_STORAGE_KEY_ORIGIN = "MapPage.Origin";
+const SESSION_STORAGE_KEY_DESTINATION = "MapPage.Destination";
+
 
 const MapPage = ({accessCode, user, onStartTrip}) => {
     const classes = useStyles();
@@ -98,10 +99,18 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     // Location state storage
     const [origin, setOrigin] = useState(null);
     const [destination, setDestination] = useState(null);
+
+    const [prevOrigin, setPrevOrigin] = useState(null);
+    const [prevDestination, setPrevDestination] = useState(null);
+
     const [originAutocomplete, setOriginAutocomplete] = useState(null);
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
+
     const [response, setResponse] = useState(null);
     const [shortest, setShortest] = useState(0);
+
+    const [isFetched, setIsFetched] = useState(false);
+
     const [map, setMap] = useState(null);
     const [vehicles, setVehicle] = useState([]);
     const [vehicleSelection, setSelection] = useState("")
@@ -120,14 +129,14 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
 
     const handleChange = (event) => {
         setSelection(event.target.value);
-      };
+    };
 
     const handleClose = () => {
-    setOpen(false);
+        setOpen(false);
     };
 
     const handleOpen = () => {
-    setOpen(true);
+        setOpen(true);
     };
 
     const handleClick = (newPlacement) => (event) => {
@@ -144,22 +153,33 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
         setUserPosition(currentPosition);
     };
 
+    const loadSessionStorage = () => {
+        const sessionStorage = window.sessionStorage;
+        let sessionStorageOrigin = sessionStorage.getItem(SESSION_STORAGE_KEY_ORIGIN);
+        let sessionStorageDestination = sessionStorage.getItem(SESSION_STORAGE_KEY_DESTINATION);
+        if (sessionStorageOrigin) {
+            sessionStorageOrigin = JSON.parse(sessionStorageOrigin);
+            setOrigin(sessionStorageOrigin);
+        }
+        if (sessionStorageDestination) {
+            sessionStorageDestination = JSON.parse(sessionStorageDestination);
+            setDestination(sessionStorageDestination);
+        }
+    }
     useEffect(() => {
         FETCH.GET("vehicle", "all", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
                     setVehicle(data);
+                    loadSessionStorage();
+                    navigator.geolocation.getCurrentPosition(geoSuccess);
                     console.log(data);
                 } else {
                     console.log("ERROR");
                 }
             })
     }, [accessCode, user])
-
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(geoSuccess);
-    });
 
     const onLoad = (map) => {
         console.log("Map loaded");
@@ -205,6 +225,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const directionsCallback = (response) => {  
         if (response !== null) {
             if (response.status === 'OK') {
+                setIsFetched(true);
                 setDirectionDetail(response);
                 setResponse(response);
                 console.log("RESPONSE", response)
@@ -220,14 +241,25 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const onAutoLoadOrigin = (autocomplete) => {
         console.log('source autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
-        setOriginAutocomplete(autocomplete);
+        if (originAutocomplete === null) {
+            setOriginAutocomplete(autocomplete);
+        }
     }
 
     const onAutoPlaceChangedOrigin = () => {
         if (originAutocomplete !== null) {
             let place = originAutocomplete.getPlace()
             console.log('New origin:', place);
-            setOrigin(`${place.name}, ${place.formatted_address}`);
+            let newOrigin = `${place.name}, ${place.formatted_address}`
+
+            if (newOrigin !== prevOrigin) {
+                const sessionStorage = window.sessionStorage;
+                sessionStorage.setItem(SESSION_STORAGE_KEY_ORIGIN, JSON.stringify(newOrigin));
+
+                setPrevOrigin(origin);
+                setOrigin(newOrigin);
+                setIsFetched(false);
+            }
         } else {
             console.log('Autocomplete origin is not loaded yet!')
         }
@@ -236,25 +268,29 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const onAutoLoadDest = (autocomplete) => {
         console.log('dest autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
-        setDestinationAutocomplete(autocomplete);
+        if (destinationAutocomplete === null) {
+            setDestinationAutocomplete(autocomplete);
+        }
     }
 
     const onAutoPlaceChangedDest = () => {
         if (destinationAutocomplete !== null) {
             let place = destinationAutocomplete.getPlace()
             console.log('New destination:', place);
-            setDestination(`${place.name}, ${place.formatted_address}`);
+            let newDestination = `${place.name}, ${place.formatted_address}`
+
+            if (newDestination !== prevDestination) {
+                const sessionStorage = window.sessionStorage;
+                sessionStorage.setItem(SESSION_STORAGE_KEY_DESTINATION, JSON.stringify(newDestination));
+
+                setPrevDestination(destination);
+                setDestination(newDestination);
+                setIsFetched(false);
+            }
         } else {
             console.log('Autocomplete destination is not loaded yet!')
         }
     }
-
-    // const debouncedT = useDebouncedCallback(
-    //     (e) => {
-    //         directionsCallback(e);
-    //     },
-    //     1000
-    // );
 
     const startTripHandle = async (e) => {
         e.preventDefault();
@@ -350,8 +386,8 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                             value = {vehicleSelection}
                         >
                             
-                            {vehicles.map((vehicle) => (
-                                <MenuItem value = {vehicle._id}>
+                            {vehicles.map((vehicle, index) => (
+                                <MenuItem key={index} value = {vehicle._id}>
                                     {vehicle.reg_no} {vehicle.make}
                                 </MenuItem>
                             ))}
@@ -403,13 +439,12 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
 
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    // className={classes.gmap}
                     center={userPosition}
                     zoom={12}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                 >
-                    {(origin !== '' && destination !== '') &&
+                    {(origin !== null && destination !== null && !isFetched)  &&
                         <DirectionsService
                             options={{
                                 destination: destination,
