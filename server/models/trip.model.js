@@ -22,7 +22,7 @@ var tripSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
-    source:{
+    origin:{
         type: String, // change to Location Model later
         required: true
     },

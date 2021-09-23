@@ -5,7 +5,6 @@ import getEmissions from './emissions';
 import {
     GoogleMap,
     Autocomplete,
-    LoadScript,
     DirectionsService,
     DirectionsRenderer,
     Marker
@@ -16,39 +15,27 @@ import { FETCH } from '../../utils/fetch.util';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Fade, Grid, Paper, Popper, Typography } from '@material-ui/core';
-
-// API Key for Google Maps
-import { API_KEY } from '../../data/api.key';
+import { Button, Grid } from '@material-ui/core';
 
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
-import { Input } from '@material-ui/core';
+import { TextField, FormControl } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 // Style
 const useStyles = makeStyles((theme) => ({
-    gmap: {
-        border: 0,
-        width: "100%",
-        height: "90vh",
-    },
 
     pageContainer: {
-        paddingTop: "30px",
+        paddingTop: "0px",
         margin: "0px",
         overflow: "hidden"
     },
 
-    searchContainer: {
-        paddingBottom: "20px",
-        margin: "0px"
-    },
-
     informationContainer: {
-        bottom: "10px",
-        margin: "10px 10px 25px",
+        bottom: "5px",
+        margin: "10px 10px 20px",
+        padding: "20px",
         left: "240",
         zIndex: "202",
         position: "absolute",
@@ -63,37 +50,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
 
 const containerStyle = {
     width: '100%',
-    height: '90vh',
+    height: '100vh',
 
 };
-
-
-const CENTRE = {
-    lat: -37.81046710108333,
-    lng: 144.96389711157144
-};
-
-const libraries = ['places'];
 
 const SESSION_STORAGE_KEY_ORIGIN = "MapPage.Origin";
 const SESSION_STORAGE_KEY_DESTINATION = "MapPage.Destination";
 
 
-const MapPage = ({accessCode, user, onStartTrip}) => {
+const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     const classes = useStyles();
 
     // Location state storage
@@ -123,9 +91,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
     const [distance, setDistance] = useState(null);
     const [seconds, setSeconds] = useState(null);
 
-    const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
-    const [placement, setPlacement] = useState();
 
     const handleChange = (event) => {
         setSelection(event.target.value);
@@ -137,12 +103,6 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
 
     const handleOpen = () => {
         setOpen(true);
-    };
-
-    const handleClick = (newPlacement) => (event) => {
-      setAnchorEl(event.currentTarget);
-      setOpen((prev) => placement !== newPlacement || !prev);
-      setPlacement(newPlacement);
     };
 
     const geoSuccess = position => {
@@ -308,7 +268,7 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
             user: user._id,
             emission: emissions,
             km: distance,
-            source: origin,
+            origin: origin,
             destination: destination,
             stops: [],
             date: NOW,
@@ -322,7 +282,8 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
             .then(async (response) => {
                 if (response.ok) {
                     console.log("Created new trip");
-                    onStartTrip();
+                    const data = await response.json();
+                    onStartTrip(data);
 
                 } else {
                     console.log("Error on Registering new Trip");
@@ -332,95 +293,67 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
 
 
     return (
-        <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
-            <div className={classes.pageContainer}>
-                <Grid
-                    container
-                    className={classes.searchContainer}
-                    direction="row"
-                    justify="space-around"
-                    spacing={1}
-                >
-                    <Grid item xs={4}>
-                        <Autocomplete
-                            onLoad={onAutoLoadOrigin}
-                            onPlaceChanged={onAutoPlaceChangedOrigin}
-                        >
-                            <Input
-                                fullWidth
-                                id="origin"
-                                label="Start Location"
-                                placeholder="Enter Origin"
-                                variant="outlined"
-                            />
-                        </Autocomplete>
-                    </Grid>
+        <div className={classes.pageContainer}>
+            <Grid
+                container
+                className={classes.informationContainer}
+                direction="column"
+                spacing={2}
+            >
+                <Grid item>
+                    <Autocomplete
+                        onLoad={onAutoLoadOrigin}
+                        onPlaceChanged={onAutoPlaceChangedOrigin}
+                    >
+                        <TextField
+                            fullWidth
+                            id="origin"
+                            label="Start Location"
+                            placeholder="Enter Origin"
+                            variant="outlined"
+                        />
+                    </Autocomplete>
+                </Grid>
 
-                    <Grid item xs={4}>
-                        <Autocomplete
-                            onLoad={onAutoLoadDest}
-                            onPlaceChanged={onAutoPlaceChangedDest}
-                        >
-                            <Input
-                                fullWidth
-                                id="destination"
-                                label="Enter Destination"
-                                placeholder="Enter Destination"
-                                variant="outlined"
-                            />
-                        </Autocomplete>
-                    </Grid>
+                <Grid item>
+                    <Autocomplete
+                        onLoad={onAutoLoadDest}
+                        onPlaceChanged={onAutoPlaceChangedDest}
+                    >
+                        <TextField
+                            fullWidth
+                            id="destination"
+                            label="Enter Destination"
+                            placeholder="Enter Destination"
+                            variant="outlined"
+                        />
+                    </Autocomplete>
+                </Grid>
 
-                    <Grid item xs={4}>
-                        <InputLabel id="demo-controlled-open-select-label">Select your vehicle</InputLabel>
+                <Grid item>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label" style={{paddingLeft:"15px"}}>Select your vehicle</InputLabel>
                         <Select
-                            inputProps={{ 'aria-label': 'Without label' }}
-                            labelId="demo-controlled-open-select-label"
-                            id="demo-controlled-open-select"
-                            style={{width: "250px",borderRadius: "5px"}}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            fullWidth
                             variant="outlined"
                             open={open}
                             onClose={handleClose}
                             onOpen={handleOpen}
                             onChange={handleChange}
-                            value = {vehicleSelection}
+                            value={vehicleSelection}
                         >
-                            
                             {vehicles.map((vehicle, index) => (
                                 <MenuItem key={index} value = {vehicle._id}>
                                     {vehicle.reg_no} {vehicle.make}
                                 </MenuItem>
                             ))}
-                            
-                            
                         </Select>
-                    
-                    </Grid>
-                    
-
-                    <Grid item xs={2}>
-                        <Button
-                            style={{ borderRadius: "180px" }}
-                            fullWidth
-
-                            variant="contained"
-                            color="primary"
-                            className={classes.squareButton}
-                            endIcon={<AddIcon />}
-                            onClick={startTripHandle}
-                        >
-                            Start Trip
-                        </Button>
-                    </Grid>
+                    </FormControl>
                 </Grid>
-
                 {response !== null &&
-                    <Grid
-                        container
-                        className={classes.informationContainer}
-                        direction="column"
-                    >
-                        
+                    <>
                         <Grid item>
                             <ListItem id="tripinfo">
                                 <ListItemText primary="Estimated Time:" />
@@ -434,62 +367,73 @@ const MapPage = ({accessCode, user, onStartTrip}) => {
                                 <ListItemText primary={String(distance) + " km"} />
                             </ListItem>
                         </Grid>
-                    </Grid>
+                    </>
+                }
+                
+                <Grid item>
+                    <Button
+                        fullWidth
+
+                        variant="contained"
+                        color="primary"
+                        className={classes.squareButton}
+                        endIcon={<AddIcon />}
+                        onClick={startTripHandle}
+                    >
+                        Start Trip
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={userPosition}
+                zoom={12}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+            >
+                {(origin !== null && destination !== null && !isFetched)  &&
+                    <DirectionsService
+                        options={{
+                            destination: destination,
+                            origin: origin,
+                            travelMode: 'DRIVING',
+                            provideRouteAlternatives: true
+                        }}
+                        callback={directionsCallback}
+                    />
                 }
 
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={userPosition}
-                    zoom={12}
-                    onLoad={onLoad}
-                    onUnmount={onUnmount}
-                >
-                    {(origin !== null && destination !== null && !isFetched)  &&
-                        <DirectionsService
-                            options={{
-                                destination: destination,
-                                origin: origin,
-                                travelMode: 'DRIVING',
-                                provideRouteAlternatives: true
+                {response !== null &&
+                    <>
+                        {response.routes.map((_, index) => 
+                            <>
+                                {index !== shortest &&
+                                    <DirectionsRenderer
+                                        options={{ 
+                                            directions: response, 
+                                            routeIndex: index
+                                        }}
+                                    />
+                                }
+                            </>
+                        )}
+                        <DirectionsRenderer
+                            options={{ 
+                                directions: response, 
+                                routeIndex: shortest,
+                                polylineOptions: { strokeColor: "#078f61", strokeWeight: 5}
                             }}
-                            callback={directionsCallback}
                         />
-                    }
+                    </>
+                }
 
-                    {response !== null &&
-                        <>
-                            {response.routes.map((_, index) => 
-                                <>
-                                    {index !== shortest &&
-                                        <DirectionsRenderer
-                                            options={{ 
-                                                directions: response, 
-                                                routeIndex: index
-                                            }}
-                                        />
-                                    }
-                                </>
-                            )}
-                            <DirectionsRenderer
-                                options={{ 
-                                    directions: response, 
-                                    routeIndex: shortest,
-                                    polylineOptions: { strokeColor: "#078f61", strokeWeight: 5}
-                                }}
-                            />
-                        </>
-                    }
-
-                    {
-                        userPosition.lat &&
-                        (
-                            <Marker position={userPosition} />
-                        )
-                    }
-                </GoogleMap>
-            </div>
-        </LoadScript>
+                { userPosition.lat &&
+                    <Marker position={userPosition} />
+                }
+            </GoogleMap>
+        </div>
     )
 }
 
-export default React.memo(MapPage)
+export default React.memo(NavigationCreatePage)
