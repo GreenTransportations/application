@@ -66,7 +66,7 @@ const LoginPage = ({ onLogin }) => {
                     const res = await response.json();
                     onLogin(res.accessCode, res.user);
                 } else {
-                    setErrorMessage("Login details is Incorrect!")
+                    setErrorMessage("Login details are incorrect!")
                 }
             })
     };
