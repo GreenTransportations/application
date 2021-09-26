@@ -50,6 +50,7 @@ const SignupPage = ({ onSignUp }) => {
     const [username, setUsername] = useState("");
     const [type, setType] = useState("DRIVER");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const classes = useStyles();
 
     const signupHandle = async (e) => {
@@ -67,11 +68,21 @@ const SignupPage = ({ onSignUp }) => {
 
         FETCH.POST("auth", "signup", "", userInfo)
             .then(async (response) => {
-                if (response.ok) {
+                let emptyFlag = false;
+
+                for(let registrationKey in userInfo){
+                    if(userInfo[registrationKey].isEmpty){
+                        emptyFlag = true;
+                    }
+                }
+                
+                if (response.ok && emptyFlag == false) {
                     const res = await response.json();
                     onSignUp(res.accessCode);
                 } else {
-                    console.log("Error on Signup");
+                    //console.log("Error on Signup");
+                    setErrorMessage("Some registration details are missing!");
+
                 }
             })
     };
@@ -205,6 +216,10 @@ const SignupPage = ({ onSignUp }) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Grid>
+
+                <p style={{color:"red"}}> {errorMessage} </p>
+
+
                 <Grid>
                     <Button
                     style = {{borderRadius: "180px"}}

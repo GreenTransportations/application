@@ -43,6 +43,8 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
     const [gVM, setGVM] = useState("");
     const [gCM, setGCM] = useState("");
     const classes = useStyles();
+    const [errorMessage, setErrorMessage] = useState("");
+
 
 
     const registrationHandle = async (e) => {
@@ -60,7 +62,16 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
 
         FETCH.POST("vehicle", "create", accessCode, vehicleInfo)
             .then(async (response) => {
-                if (response.ok) {
+                let emptyFlag = false;
+                
+                for(let registrationKey in vehicleInfo){
+                    if(vehicleInfo[registrationKey].isEmpty){
+                        emptyFlag = true;
+                    }
+                }
+
+
+                if (response.ok && emptyFlag == false) {
                     //console.log("Created new vehicle");
 
                     const newVehicle = await response.json();
@@ -68,6 +79,7 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
 
                 } else {
                     console.log("Error on Registering new Vehicle");
+                    setErrorMessage("Some vehicle details are missing!");
                 }
             })
     };
@@ -273,6 +285,10 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                             Back
                         </Button>
                     </Grid>
+
+                    <p style={{color:"red"}}> {errorMessage} </p>
+
+
                     <Grid item>
                         <Button
                             style = {{borderRadius: "180px"}}          
