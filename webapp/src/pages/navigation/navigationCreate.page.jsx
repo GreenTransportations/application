@@ -22,6 +22,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { TextField, FormControl } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { API_KEY } from '../../data/api.key';
 
 // Style
 const useStyles = makeStyles((theme) => ({
@@ -452,7 +453,7 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 mapContainerStyle={containerStyle}
                 center={userPosition}
                 zoom={12}
-                options={{ mapId: "548bc0ede57400fd" }}
+                options={{ mapId: API_KEY.MAP_ID }}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
             >
