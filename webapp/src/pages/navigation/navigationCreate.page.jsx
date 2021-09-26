@@ -59,6 +59,7 @@ const containerStyle = {
 
 const SESSION_STORAGE_KEY_ORIGIN = "MapPage.Origin";
 const SESSION_STORAGE_KEY_DESTINATION = "MapPage.Destination";
+const SESSION_STORAGE_KEY_WAYPOINT = "MapPage.Waypoint";
 
 
 const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
@@ -66,12 +67,15 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
 
     // Location state storage
     const [origin, setOrigin] = useState(null);
+    const [waypoint, setWaypoint] = useState(null);
     const [destination, setDestination] = useState(null);
 
     const [prevOrigin, setPrevOrigin] = useState(null);
+    const [prevWaypoint, setPrevWayPoint] = useState(null);
     const [prevDestination, setPrevDestination] = useState(null);
 
     const [originAutocomplete, setOriginAutocomplete] = useState(null);
+    const [waypointAutocomplete, setWaypointAutocomplete] = useState(null);
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
 
     const [response, setResponse] = useState(null);
@@ -117,6 +121,7 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         const sessionStorage = window.sessionStorage;
         let sessionStorageOrigin = sessionStorage.getItem(SESSION_STORAGE_KEY_ORIGIN);
         let sessionStorageDestination = sessionStorage.getItem(SESSION_STORAGE_KEY_DESTINATION);
+        let sessionStorageWaypoint = sessionStorage.getItem(SESSION_STORAGE_KEY_WAYPOINT);
         if (sessionStorageOrigin) {
             sessionStorageOrigin = JSON.parse(sessionStorageOrigin);
             setOrigin(sessionStorageOrigin);
@@ -124,6 +129,10 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         if (sessionStorageDestination) {
             sessionStorageDestination = JSON.parse(sessionStorageDestination);
             setDestination(sessionStorageDestination);
+        }
+        if (sessionStorageWaypoint) {
+            sessionStorageWaypoint = JSON.parse(sessionStorageWaypoint);
+            setWaypoint(sessionStorageWaypoint);
         }
     }
     useEffect(() => {
@@ -209,10 +218,14 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     const onAutoPlaceChangedOrigin = () => {
         if (originAutocomplete !== null) {
             let place = originAutocomplete.getPlace()
-            console.log('New origin:', place);
-            let newOrigin = `${place.name}, ${place.formatted_address}`
+            let newOrigin = null;
+            if (place.name !== "" && place.formatted_address){
+                console.log('New origin:', place);
+                newOrigin = `${place.name}, ${place.formatted_address}`
+            }
 
-            if (newOrigin !== prevOrigin) {
+
+            if (newOrigin !== origin) {
                 const sessionStorage = window.sessionStorage;
                 sessionStorage.setItem(SESSION_STORAGE_KEY_ORIGIN, JSON.stringify(newOrigin));
 
@@ -225,6 +238,37 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         }
     }
 
+    const onAutoLoadWaypoint = (autocomplete) => {
+        console.log('waypoint autocomplete loaded');
+        console.log('autocomplete: ', autocomplete);
+        if (waypointAutocomplete === null) {
+            setWaypointAutocomplete(autocomplete);
+        }
+    }
+
+    const onAutoPlaceChangedWaypoint = () => {
+        if (waypointAutocomplete !== null) {
+            let place = waypointAutocomplete.getPlace()
+            let newWaypoint = null;
+            if (place.name !== "" && place.formatted_address){
+                console.log('New waypoint:', place);
+                newWaypoint = `${place.name}, ${place.formatted_address}`
+            }
+
+            if (newWaypoint !== waypoint) {
+                const sessionStorage = window.sessionStorage;
+                sessionStorage.setItem(SESSION_STORAGE_KEY_WAYPOINT, JSON.stringify(newWaypoint));
+
+                setPrevWayPoint(waypoint);
+                setWaypoint(newWaypoint);
+                setIsFetched(false);
+            }
+        } else {
+            console.log('Autocomplete waypoint is not loaded yet!')
+        }
+    }
+
+
     const onAutoLoadDest = (autocomplete) => {
         console.log('dest autocomplete loaded');
         console.log('autocomplete: ', autocomplete);
@@ -236,10 +280,14 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     const onAutoPlaceChangedDest = () => {
         if (destinationAutocomplete !== null) {
             let place = destinationAutocomplete.getPlace()
-            console.log('New destination:', place);
-            let newDestination = `${place.name}, ${place.formatted_address}`
+            let newDestination = null;
+            if (place.name !== "" && place.formatted_address){
+                console.log('New destination:', place);
+                newDestination = `${place.name}, ${place.formatted_address}`
+            }
 
-            if (newDestination !== prevDestination) {
+
+            if (newDestination !== destination) {
                 const sessionStorage = window.sessionStorage;
                 sessionStorage.setItem(SESSION_STORAGE_KEY_DESTINATION, JSON.stringify(newDestination));
 
@@ -310,6 +358,21 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                             id="origin"
                             label="Start Location"
                             placeholder="Enter Origin"
+                            variant="outlined"
+                        />
+                    </Autocomplete>
+                </Grid>
+
+                <Grid item>
+                    <Autocomplete
+                        onLoad={onAutoLoadWaypoint}
+                        onPlaceChanged={onAutoPlaceChangedWaypoint}
+                    >
+                        <TextField
+                            fullWidth
+                            id="waypoint"
+                            label="Waypoint"
+                            placeholder="Add Stop"
                             variant="outlined"
                         />
                     </Autocomplete>
@@ -389,6 +452,7 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 mapContainerStyle={containerStyle}
                 center={userPosition}
                 zoom={12}
+                options={{ mapId: "548bc0ede57400fd" }}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
             >
@@ -397,6 +461,11 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                         options={{
                             destination: destination,
                             origin: origin,
+                            waypoints: waypoint ? [{
+                                location: waypoint,
+                                stopover: true
+                            }]: [],
+                            optimizeWaypoints: waypoint ? true: false,
                             travelMode: 'DRIVING',
                             provideRouteAlternatives: true
                         }}
