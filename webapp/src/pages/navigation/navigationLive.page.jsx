@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     informationContainer: {
         bottom: "5px",
         margin: "10px 10px 20px",
-        padding: "20px",
+        padding: "0px",
         left: "240",
         zIndex: "202",
         position: "absolute",
