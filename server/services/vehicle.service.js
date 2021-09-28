@@ -1,12 +1,15 @@
 // Services for the Vehicle Model
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
+
 const vehicleServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
 const { log } = require("../utils/log.util");
 const { validateHeader, validateUser } = require("../utils/common.util");
+const vehicleJSON = require('../models/vehicles.json');
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,7 +23,50 @@ connection.once('open', () => {
 // Mongoose Model [Vehicle]
 let Vehicle = require("../models/vehicle.model");
 
+// =============================================================================================================
+// Populate the database with the vehicle.json data, if it is not already there
+log.print("vehicle.service", "Initialising Vehicle Database...");
+const createVehicle = (vObj) => {
+    // reg_no must be unique
+    Vehicle.findOne({reg_no: vObj.reg_no}, (err, vehicle) => {
+        if (err) {
+            log.print("vehicle.service", "Error in creating vehicle");
+            log.print(err);
+        } else if (vehicle) {
+            log.print("vehicle.service", vehicle.reg_no + " " + "already exists!");
+            log.print(vehicle.reg_no);
+        } else {
+            const NOW = new Date();
+            const fueleff = vObj.fuel_eff.split('L/100km')[0];// L/100km
+            const newVehicle = new Vehicle({
+                make: vObj.make,
+                series: vObj.series,
+                model: vObj.model,
+                date: NOW,
+                reg_no: vObj.reg_no,
+                fuel_eff: fueleff,
+                gvm: vObj.gvm,
+                gcm: vObj.gcm
+            });
 
+            newVehicle.save()
+            
+            log.print("vehicle.service", vObj.reg_no + " " + "successfully created!");
+        }
+    })
+}
+
+
+let all_vehicles = Object.entries(vehicleJSON);
+all_vehicles = all_vehicles.map(kv => ({series: kv[0], models: kv[1]}));
+all_vehicles.forEach(series_list => {
+    series_list.models
+    .forEach(car => createVehicle(car))
+});
+
+
+
+// =============================================================================================================
 vehicleServices.use(validateHeader, validateUser)
 /* All Vehicles 
     Display the information of all vehicles in the Db.
