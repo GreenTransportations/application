@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const VehicleDetailPage = ({vehicle, toVehicleList}) => {
+const LiveTripDetailPage = ({trip, toTripHistory}) => {
   const classes = useStyles();
 
     return (
@@ -42,54 +42,40 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary="Make:" />
-              <ListItemText primary= {vehicle.make} />
+              <ListItemText primary="Trip ID:    " />
+              <ListItemText primary= {trip._id} />
             </ListItem>
+        
+            <Grid item>
+            <ListItem alignItems= 'flex-start'>
+              <ListItemText primary= "Date Trip Was Started: " />
+              <ListItemText primary= {new Date(trip.date).toLocaleDateString()} />
+            </ListItem>
+
+            </Grid>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Model: " />
-              <ListItemText primary= {vehicle.model} />
+              <ListItemText primary= "User Who Started Trip:    " />
+              <ListItemText primary= {trip.user} />
             </ListItem>
 
             </Grid>
-          <Grid item>
-
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Registration Number: " />
-              <ListItemText primary= {vehicle.reg_no} />
-            </ListItem>
-
-            </Grid>
+          
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Date Registered: " />
-              <ListItemText primary= {new Date(vehicle.date).toLocaleDateString()} />
+              <ListItemText primary= "Starting Time:    " />
+              <ListItemText primary= {trip.startTime} />
             </ListItem>
 
             </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Fuel Efficiency (L/km): " />
-              <ListItemText primary= {vehicle.fuel_eff} />
-            </ListItem>
+          
+            
 
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "GVM: " />
-              <ListItemText primary= {vehicle.gvm} />
-            </ListItem>
+        
 
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "GCM: " />
-              <ListItemText primary= {vehicle.gcm} />
-            </ListItem>
 
-            </Grid>
           <Grid item>
           </Grid>
 
@@ -103,14 +89,14 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
             style={{marginTop: "50px"}}
         >
             <Grid item>
-                <Button   
-                    style = {{borderRadius: "180px"}}          
+                <Button        
+                    style = {{borderRadius: "180px"}}             
                     variant="contained"
                     color="primary"
                     className={classes.squareButton}
-                    onClick={toVehicleList}
+                    onClick={toTripHistory}
                 >
-                    Back To Vehicle List
+                    Back To Trip History
                 </Button>
             </Grid>
         </Grid>
@@ -119,4 +105,4 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
     );
 }
 
-export default VehicleDetailPage;
+export default LiveTripDetailPage;
