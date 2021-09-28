@@ -34,7 +34,6 @@ const createVehicle = (vObj) => {
             log.print(err);
         } else if (vehicle) {
             log.print("vehicle.service", vehicle.reg_no + " " + "already exists!");
-            log.print(vehicle.reg_no);
         } else {
             const NOW = new Date();
             const fueleff = vObj.fuel_eff.split('L/100km')[0];// L/100km
