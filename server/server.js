@@ -15,7 +15,7 @@ const authServices = require("./services/auth.service");
 const userServices = require("./services/user.service");
 const vehicleServices = require("./services/vehicle.service");
 const tripServices = require("./services/trip.service");
-
+const reportServices = require("./services/report.service");
 
 // Middleware
 app.use(cors());
@@ -28,6 +28,7 @@ app.use(config.BASE_PATH + "/auth", authServices);
 app.use(config.BASE_PATH + "/user", userServices);
 app.use(config.BASE_PATH + "/vehicle", vehicleServices);
 app.use(config.BASE_PATH + "/trip", tripServices);
+app.use(config.BASE_PATH + "/report", reportServices);
 
 
 

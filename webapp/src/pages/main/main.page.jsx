@@ -1,6 +1,7 @@
 import React, { useState }  from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
+import { USER_TYPE } from '../../enums/user.enum';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,17 +11,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 // Other Components
-//import Header from '../../components/header/header.component';
 import Sidebar from '../../components/sidebar/sidebar.component';
 import DashboardPage from '../dashboard/dashboard.page';
-import MapPage from '../navigation/map.page';
-//import TripHistoryPage from '../trip/trip.page';
 import TripPage from '../trip/trip.page';
-//import TripsPage from '../trips/pastTrips.page';
 import TestPage from '../test/test.page';
 import ProfilePage from '../profile/profile.page';
 import DriverList from '../driverList/driverList.page';
-import { USER_TYPE } from '../../enums/user.enum';
 import VehiclePage from '../vehicle/vehicle.page';
 import LiveTripPage from '../live_trips/live.trip.page';
 import NavigationPage from '../navigation/navigation.page';

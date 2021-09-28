@@ -6,6 +6,7 @@ const tripServices = express.Router();
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
 const { log } = require("../utils/log.util");
+const { validateHeader, validateUser } = require("../utils/common.util");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -21,6 +22,7 @@ let Trip = require("../models/trip.model");
 
 //============================================================================================
 log.print("trip.service", "Creating Test Trip");
+
 Trip.where({})
     .exec((err, trips) => { 
         if (err) {
@@ -37,7 +39,7 @@ Trip.where({})
                 user: mongoose.Types.ObjectId("6114f493705e4d04485cf653"),
                 emission: Math.ceil(Math.random() * 1000),
                 km: Math.ceil(Math.random() * 100),
-                source: "Some Starting Location",
+                origin: "Some Starting Location",
                 destination: "Some Destination",
                 stops: [],
                 date: NOW,
@@ -53,7 +55,7 @@ Trip.where({})
         }
     })
 
-
+tripServices.use(validateHeader, validateUser)
 //====================================================================================
 /* All trips 
     Display the information of all trips in the Db.
@@ -94,6 +96,21 @@ tripServices.route("/all/live").get((_, res) => {
     });
 })
 
+tripServices.route("/my/live").get((req, res) => {
+    log.print("/trip/my/live", "GET");
+    Trip.findOne({ user: req.user._id, isLive: true }).exec((err, trip) => {
+        if (err) {
+            log.print("/trip/all", err);
+            res.status(500).json({
+                err: "Error in finding trip"
+            });
+        } else {
+            // Return the trips object to success
+            res.status(200).json(trip);
+        }
+    })
+})
+
 
 /* Create a new trip
     A user is able to create a new trip in this POST request.
@@ -107,10 +124,10 @@ tripServices.route("/create").post((req, res) => {
     try {
         newTrip = new Trip({
             vehicles: req.body.vehicles.map((id) => mongoose.Types.ObjectId(id)),
-            user: req.body.user._id,
+            user: req.user._id,
             emission: req.body.emission,
             km: req.body.km,
-            source: req.body.source,
+            origin: req.body.origin,
             destination: req.body.destination,
             stops: req.body.stops,
             date: req.body.date,
@@ -122,7 +139,7 @@ tripServices.route("/create").post((req, res) => {
     
         newTrip.save();
     } catch(e) {
-        log.print("/trip/create/", e);
+        log.print("/trip/create", e);
         res.status(500).json({
             err: "Cannot create new Trip"
         });

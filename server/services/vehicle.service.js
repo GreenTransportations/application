@@ -6,6 +6,7 @@ const vehicleServices = express.Router();
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
 const { log } = require("../utils/log.util");
+const { validateHeader, validateUser } = require("../utils/common.util");
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,6 +21,7 @@ connection.once('open', () => {
 let Vehicle = require("../models/vehicle.model");
 
 
+vehicleServices.use(validateHeader, validateUser)
 /* All Vehicles 
     Display the information of all vehicles in the Db.
 */

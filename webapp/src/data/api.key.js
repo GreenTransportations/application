@@ -1,5 +1,6 @@
 export const API_KEY = {
     GOOGLE: "AIzaSyDH3yAY1TJ22nd3o7Sz0Ks2ssJ3gEG5fkw",
     GOOGLE_ALEX_OLD: "AIzaSyAyl4N_MGORkCknTTsLVYaVidQUL4_BCyM",
-    GOOGLE_ALEX: "AIzaSyB-rX33cy196BcJjBnVgw5D9qfYRlT9gLY"
+    GOOGLE_ALEX: "AIzaSyB-rX33cy196BcJjBnVgw5D9qfYRlT9gLY",
+    MAP_ID: "548bc0ede57400fd"
 }
