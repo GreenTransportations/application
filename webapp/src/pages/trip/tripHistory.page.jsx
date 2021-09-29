@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import * as dayjs from 'dayjs'
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { borders } from '@material-ui/system';
@@ -25,24 +25,25 @@ const useStyles = makeStyles({
         fontWeight: 'normal'
     }
 });
+    //<TableCell>{trip.user}</TableCell>
+
 
 const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
-
+    let counter = 1;
+    //const inc = 1;
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Trip ID</TableCell>
-                            <TableCell>Date of Trip</TableCell>
-                            <TableCell>User Who Started Trip</TableCell>
-                            <TableCell>Emissions Produced</TableCell>
-                            <TableCell>Distance Travelled</TableCell>
-                            <TableCell>Start Time</TableCell>
-                            <TableCell>End Time</TableCell>
-                            <TableCell>Total Trip Time</TableCell>
+                            <TableCell><b>Trip ID</b></TableCell>
+                            <TableCell><b>Start Date</b></TableCell>
+                            <TableCell><b>End Date</b></TableCell>
+                            <TableCell><b>Emissions Produced</b></TableCell>
+                            <TableCell><b>Distance Travelled</b></TableCell>
+                            <TableCell><b>Total Trip Time</b></TableCell>
 
                         </TableRow>
                     </TableHead>
@@ -50,15 +51,17 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
                     {trips.map((trip) => (
                             <TableRow key={trip._id} onClick={() => onSelect(trip)}>
                                 <TableCell component="th" scope="row">
-                                    {trip._id}
+                                    {counter++}
+                                    
                                 </TableCell>
-                                <TableCell>{trip.date}</TableCell>
-                                <TableCell>{trip.user}</TableCell>
-                                <TableCell>{trip.emission}</TableCell>
-                                <TableCell>{trip.km}</TableCell>
-                                <TableCell>{trip.startTime}</TableCell>
-                                <TableCell>{trip.endTime}</TableCell>
-                                <TableCell>{trip.totalTime}</TableCell>
+                                <TableCell>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{trip.emission.toFixed(4)} G/KM</TableCell>
+                                <TableCell>{trip.km.toFixed(2)} KM</TableCell>
+                                
+                                <TableCell>{dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')} H  {
+                                    dayjs(trip.endTime).diff(dayjs(trip.startTime), 'minute') - dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')*60
+                                } M</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
