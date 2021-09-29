@@ -113,13 +113,57 @@ vehicleServices.route("/:id").get((req, res) => {
 vehicleServices.route("/create").post((req, res) => {
     log.print("/vehicle/create", "POST");
 
+    let this_date = new Date(req.body.date);
+
+    if (!req.body.make || req.body.make.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing make!"
+        });
+        return;
+
+    } else if (!req.body.model || req.body.model.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing model!"
+        });
+        return;
+
+    }  else if (!(this_date instanceof Date && !isNaN(this_date))) {
+        res.status(401).json({
+            err: "invalid date!"
+        });
+        return;
+
+    } else if (!req.body.reg_no ||  req.body.reg_no.trim() === 0) {
+        res.status(401).json({
+            err: "invalid registration number!"
+        });
+        return;
+
+    } else if (!req.body.fuel_eff || req.body.fuel_eff.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing fuel efficiency!"
+        });
+        return;
+
+    } else if (!req.body.gvm || req.body.gvm.trim().length === 0) {
+        res.status(401).json({
+            err: "Invalid GVM!"
+        });
+        return;
+    } else if (!req.body.gcm || req.body.gcm.trim().length === 0) {
+        res.status(401).json({
+            err: "Invalid GCM!"
+        });
+        return;
+    }
+
     let newVehicle= null;
     // Create new Vehicle following the model
     try{
         newVehicle = new Vehicle({
             make: req.body.make.trim(),
             model: req.body.model.trim(),
-            date: new Date(req.body.date.trim()),
+            date: this_date,
             reg_no: req.body.reg_no.trim(),
             fuel_eff: req.body.fuel_eff.trim(),
             gvm: req.body.gvm.trim(),
@@ -133,6 +177,7 @@ vehicleServices.route("/create").post((req, res) => {
         res.status(500).json({
             err: "Cannot create new Vehicle"
         });
+        return;
     }
 
     res.status(200).json(newVehicle);

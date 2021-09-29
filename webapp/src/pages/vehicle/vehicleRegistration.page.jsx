@@ -80,6 +80,9 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 } else {
                     console.log("Error on Registering new Vehicle");
                     setErrorMessage("Some vehicle details are missing!");
+                    if(response.err){
+                        console.log(response.err);
+                    }
                 }
             })
     };
