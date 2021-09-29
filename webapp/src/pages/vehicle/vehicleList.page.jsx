@@ -1,4 +1,5 @@
 import React from 'react';
+import * as dayjs from 'dayjs'
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
 
 const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegistration}) => {
     const classes = useStyles();
+    let counter = 1;
 
     return (
         <div style={{ padding: "30px" }}>
@@ -32,29 +34,29 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Vehicle ID</TableCell>
-                            <TableCell>Make</TableCell>
-                            <TableCell>Model</TableCell>
-                            <TableCell>Registration Number</TableCell>
-                            <TableCell>Date Registered</TableCell>
-                            <TableCell>Fuel Efficiency</TableCell>
-                            <TableCell>Gross Vehicle Mass</TableCell>
-                            <TableCell>Gross Combined Mass</TableCell>
+                            <TableCell><b>Vehicle ID</b></TableCell>
+                            <TableCell><b>Make</b></TableCell>
+                            <TableCell><b>Model</b></TableCell>
+                            <TableCell><b>Registration Number</b></TableCell>
+                            <TableCell><b>Date Registered</b></TableCell>
+                            <TableCell><b>Fuel Efficiency</b></TableCell>
+                            <TableCell><b>Gross Vehicle Mass</b></TableCell>
+                            <TableCell><b>Gross Combined Mass</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {vehicles.map((vehicle) => (
                             <TableRow key={vehicle._id} onClick={() => onSelect(vehicle)}>
                                 <TableCell component="th" scope="row">
-                                    {vehicle._id}
+                                    {counter++}
                                 </TableCell>
                                 <TableCell>{vehicle.make}</TableCell>
                                 <TableCell>{vehicle.model}</TableCell>
                                 <TableCell>{vehicle.reg_no}</TableCell>
-                                <TableCell>{vehicle.date}</TableCell>
-                                <TableCell>{vehicle.fuel_eff}</TableCell>
-                                <TableCell>{vehicle.gvm}</TableCell>
-                                <TableCell>{vehicle.gcm}</TableCell>
+                                <TableCell>{dayjs(vehicle.date).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{vehicle.fuel_eff} L/100KM</TableCell>
+                                <TableCell>{vehicle.gvm} KG</TableCell>
+                                <TableCell>{vehicle.gcm} KG</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

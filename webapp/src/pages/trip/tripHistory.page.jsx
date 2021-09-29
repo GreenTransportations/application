@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
-    let counter = 0;
+    let counter = 1;
     //const inc = 1;
     return (
         <div style={{ padding: "30px" }}>
@@ -38,12 +38,12 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Trip ID</TableCell>
-                            <TableCell>Start Date</TableCell>
-                            <TableCell>End Date</TableCell>
-                            <TableCell>Emissions Produced</TableCell>
-                            <TableCell>Distance Travelled</TableCell>
-                            <TableCell>Total Trip Time</TableCell>
+                            <TableCell><b>Trip ID</b></TableCell>
+                            <TableCell><b>Start Date</b></TableCell>
+                            <TableCell><b>End Date</b></TableCell>
+                            <TableCell><b>Emissions Produced</b></TableCell>
+                            <TableCell><b>Distance Travelled</b></TableCell>
+                            <TableCell><b>Total Trip Time</b></TableCell>
 
                         </TableRow>
                     </TableHead>

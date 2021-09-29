@@ -60,7 +60,7 @@ const ProfilePage = ({accessCode, user}) => {
             alignItems="center"
           >
             <h2>{user.name}</h2>
-            <p>Registered {user.type === USER_TYPE.DRIVER ? "Driver": "Manager"}</p>
+            <p><b>Registered {user.type === USER_TYPE.DRIVER ? "Driver": "Manager"}</b></p>
           </Grid>
 
           <Grid
@@ -71,43 +71,35 @@ const ProfilePage = ({accessCode, user}) => {
             style={{paddingLeft:"calc((90% - 240px)/2)"}}
           >
             <Grid item>
-              <ListItem>
-                Date Of Birth: {new Date(user.DOB).toDateString()}
-              </ListItem>
+              <ListItem><b>Date Of Birth</b>: {new Date(user.DOB).toDateString()}</ListItem>
             </Grid>
 
             <Grid item>
-              <ListItem>
-                Email: {user.email}
-              </ListItem>
+              <ListItem><b>Email</b>: {user.email}</ListItem>
             </Grid>
 
             <Grid item>
-              <ListItem>
-                Mobile: {user.mobile}
-              </ListItem>
+              <ListItem><b>Mobile</b>: {user.mobile}</ListItem>
             </Grid>
 
             <Grid item>
-              <ListItem>
-                User Type: {user.type}
-              </ListItem>
+              <ListItem><b>User Type</b>: {user.type}</ListItem>
             </Grid>
             {user.type === USER_TYPE.DRIVER &&
               <>
                 <Grid item>
                   <ListItem>
-                    Total Mileage: {user.total.mileage} KM
+                  <b>Total Mileage</b>: {user.total.mileage} KM
                   </ListItem>
                 </Grid>
                 <Grid item>
                   <ListItem>
-                    Total Trips: {user.total.trip} Trips
+                  <b>Total Trips</b>: {user.total.trip} Trips
                   </ListItem>
                 </Grid>
                 <Grid item>
                   <ListItem>
-                    Total Carbon Emissions: {user.total.emission} Tonnes of CO2 emissions
+                  <b>Total Carbon Emissions</b>: {user.total.emission} Tonnes of CO2 emissions
                   </ListItem>
                 </Grid>
               </>
