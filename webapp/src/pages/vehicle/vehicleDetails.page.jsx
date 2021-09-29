@@ -42,51 +42,51 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary="Make:" />
-              <ListItemText primary= {vehicle.make} />
+            <ListItemText>  <b>Make: </b> </ListItemText>
+              <ListItemText>{vehicle.make} </ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Model: " />
-              <ListItemText primary= {vehicle.model} />
+              <ListItemText>  <b>Model: </b> </ListItemText>
+              <ListItemText>{vehicle.model} </ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Registration Number: " />
-              <ListItemText primary= {vehicle.reg_no} />
+              <ListItemText> <b>Registration Number: </b> </ListItemText>
+              <ListItemText>{vehicle.reg_no} </ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Date Registered: " />
-              <ListItemText primary= {new Date(vehicle.date).toLocaleDateString()} />
+            <ListItemText> <b>Date Registered: </b> </ListItemText>
+              <ListItemText> {new Date(vehicle.date).toLocaleDateString()} </ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Fuel Efficiency (L/km): " />
-              <ListItemText primary= {vehicle.fuel_eff} />
+            <ListItemText>  <b>Fuel Efficiency: </b> </ListItemText>
+              <ListItemText> {vehicle.fuel_eff} L/100KM</ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "GVM: " />
-              <ListItemText primary= {vehicle.gvm} />
+            <ListItemText>  <b>GVM: </b> </ListItemText>
+              <ListItemText>{vehicle.gvm} KG </ListItemText>
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "GCM: " />
-              <ListItemText primary= {vehicle.gcm} />
+            <ListItemText>  <b>GCM: </b> </ListItemText>
+              <ListItemText>{vehicle.gcm} KG </ListItemText>
             </ListItem>
 
             </Grid>

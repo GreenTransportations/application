@@ -53,7 +53,7 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                                 <TableCell>{vehicle.make}</TableCell>
                                 <TableCell>{vehicle.model}</TableCell>
                                 <TableCell>{vehicle.reg_no}</TableCell>
-                                <TableCell>{dayjs(vehicle.date).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{dayjs(vehicle.date).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell>{vehicle.fuel_eff} L/100KM</TableCell>
                                 <TableCell>{vehicle.gvm} KG</TableCell>
                                 <TableCell>{vehicle.gcm} KG</TableCell>

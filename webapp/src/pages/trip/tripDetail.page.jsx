@@ -1,4 +1,5 @@
 import React from 'react';
+import * as dayjs from 'dayjs'
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,62 +41,40 @@ const TripDetailPage = ({trip, toTripHistory}) => {
         >
 
           <Grid item>
-
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary="Trip ID:    " />
-              <ListItemText primary= {trip._id} />
-            </ListItem>
-        
-            <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Date Trip Was Started: " />
-              <ListItemText primary= {new Date(trip.date).toLocaleDateString()} />
-            </ListItem>
-
-            </Grid>
-
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "User Who Started Trip:    " />
-              <ListItemText primary= {trip.user} />
+            <ListItemText>  <b>Starting Time: </b> </ListItemText>
+              <ListItemText primary= {dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')} />
             </ListItem>
 
             </Grid>
           <Grid item>
+            <ListItem alignItems= 'flex-start'>
+            <ListItemText>  <b>Ending Time: </b> </ListItemText>
+              <ListItemText primary= {dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')} />
+            </ListItem>
+            </Grid>
+          <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Carbon Emissions Produced:    " />
-              <ListItemText primary= {trip.emission} />
+            <ListItemText>  <b>Carbon Emissions Produced:</b> </ListItemText>
+              <ListItemText> {trip.emission.toFixed(4)} G/KM </ListItemText>
             </ListItem>
 
             </Grid>
           
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Distance Travelled:    " />
-              <ListItemText primary= {trip.km} />
+            <ListItemText>  <b>Distance Travelled: </b> </ListItemText>
+              <ListItemText>{trip.km.toFixed(2)} KM </ListItemText>
             </ListItem>
 
             </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Starting Time:    " />
-              <ListItemText primary= {trip.startTime} />
-            </ListItem>
-
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Ending Time:    " />
-              <ListItemText primary= {trip.endTime} />
-            </ListItem>
-            </Grid>
+          
             <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Total Time Taken:    " />
-              <ListItemText primary= {trip.totalTime} />
-            </ListItem>
+            <ListItemText>  <b>Total Time Taken: </b> </ListItemText>
+              <ListItemText>{dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')} H  {dayjs(trip.endTime).diff(dayjs(trip.startTime), 'minute') - dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')*60} M</ListItemText>
+              </ListItem>
             </Grid>
             
 
