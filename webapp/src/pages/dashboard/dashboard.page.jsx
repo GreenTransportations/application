@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as dayjs from 'dayjs'
 
 
 // Material UI Core Components
@@ -28,10 +29,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DashboardPage = () => {
+const DashboardPage = ({ accessCode, user }) => {
     const history = useHistory();
     const location =  useLocation();
     const classes = useStyles();
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div
             style={{padding: "30px"}}
@@ -80,23 +92,9 @@ const DashboardPage = () => {
                     </Button>
                 </Grid>
                 
-                <Grid 
-                    item
-                    xs={3}
-                >
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.squareButton}
-                        endIcon={<FavoriteIcon />}
-
-                    >
-                        Add New Shortcut
-                    </Button>
-                </Grid>
+            
             </Grid>
-            <TripTable />
+            <TripTable accessCode={accessCode} user={user}/>
         </div>
     )
 }

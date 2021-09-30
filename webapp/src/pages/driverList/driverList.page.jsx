@@ -40,12 +40,11 @@ const DriverList = ({ accessCode, user }) => {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Driver ID</TableCell>
-                            <TableCell>Full Name</TableCell>
-                            <TableCell>Average Emissions</TableCell>
-                            <TableCell>Contact Number</TableCell>
-                            <TableCell>Total Mileage</TableCell>
-                            <TableCell>Currently Live</TableCell>
+                            <TableCell><b>Driver ID</b></TableCell>
+                            <TableCell><b>Full Name</b></TableCell>
+                            <TableCell><b>Average Emissions</b></TableCell>
+                            <TableCell><b>Contact Number</b></TableCell>
+                            <TableCell><b>Total Mileage</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -58,7 +57,6 @@ const DriverList = ({ accessCode, user }) => {
                                 <TableCell>{driver.total.trip > 0 ? driver.total.emission / driver.total.trip : 0}</TableCell>
                                 <TableCell>{driver.mobile}</TableCell>
                                 <TableCell>{driver.total.mileage} KM</TableCell>
-                                <TableCell>NOT IMPLEMENTED YET</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
