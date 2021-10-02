@@ -119,14 +119,15 @@ const DashboardPage = ({accessCode, user}) => {
                 container
                 direction="row"
                 spacing={1}
+                justify = "center"
             >
 
                 <Grid 
                     item
-                    xs={6}
+                    xs={12}
                 >
                         <BarChart
-                            width={width / 2 - 240}
+                            width={width/1.5}
                             height={400}
                             data={weeklyReport}
                             margin={{
