@@ -39,21 +39,20 @@ const ReportPage = ({ accessCode, user }) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        console.log(newPage, "New Page")
+        setPage(newPage);
     };
-const handleChangeRowsPerPage = (event) => {
-    console.log("Changed Rows")
-    //setRowsPerPage(parseInt(event.target.value,10));
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    const handleChangeRowsPerPage = (event) => {
+        console.log("Changed Rows")
+        //setRowsPerPage(parseInt(event.target.value,10));
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
-const dateHandle = async (e) => {
-    e.preventDefault();
-    const dateNow = dayjs(endDate).format('YYYY');
-        FETCH.GET("report", dateNow+"/weekly", accessCode)
+    useEffect(() => {
+        const dateNow = dayjs(endDate).format('YYYY');
+        FETCH.GET("report", dateNow + "/weekly", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
@@ -62,50 +61,66 @@ const dateHandle = async (e) => {
                 } else {
                     console.log("ERROR");
                 }
-            })
+            });
+    }, [accessCode, user])
 
-}
+    const dateHandle = async (e) => {
+        // e.preventDefault();
+        const dateNow = dayjs(endDate).format('YYYY');
+        FETCH.GET("report", dateNow + "/weekly", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setReport(data);
+                    console.log(data);
+                } else {
+                    console.log("ERROR");
+                }
+            });
+    }
 
     return (
         <>
-        <TextField
-            required= {true}
-            style={{width: "250px", borderRadius: "180px", paddingTop: "50px"}}
-            type="date"
-            variant="outlined"
-            value={endDate}
-            onChange={(e) => {setEndDate(e.target.value); 
-                dateHandle(e)}}
-        />
-        <TableContainer  className={classes.tableContainer} component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell><b>Week</b></TableCell>
-                        <TableCell><b>Total Trip Distance</b></TableCell>
-                        <TableCell><b>Total Trip Time</b></TableCell>
-                        <TableCell><b>Total Produced Emissions</b></TableCell>
-                        <TableCell><b>Trips Taken</b></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {reports
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((report) => (
-                        <TableRow key={report.week}>
-                            <TableCell component="th" scope="row">
-                                {report.week}
-                            </TableCell>
-                            <TableCell>{report.km.toFixed(2)} KM</TableCell>
-                            <TableCell>{HMS_converter((report.totalTime/1000).toFixed(0))}</TableCell>
-                            <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
-                            <TableCell>{report.count} Trips</TableCell>
+            <TextField
+                required={true}
+                style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
+                type="date"
+                variant="outlined"
+                value={endDate}
+                onChange={(e) => {
+                    setEndDate(e.target.value);
+                    dateHandle(e)
+                }}
+            />
+            <TableContainer className={classes.tableContainer} component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><b>Week</b></TableCell>
+                            <TableCell><b>Total Trip Distance</b></TableCell>
+                            <TableCell><b>Total Trip Time</b></TableCell>
+                            <TableCell><b>Total Produced Emissions</b></TableCell>
+                            <TableCell><b>Trips Taken</b></TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-        <TablePagination
+                    </TableHead>
+                    <TableBody>
+                        {reports
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((report) => (
+                                <TableRow key={report.week}>
+                                    <TableCell component="th" scope="row">
+                                        {report.week}
+                                    </TableCell>
+                                    <TableCell>{report.km.toFixed(2)} KM</TableCell>
+                                    <TableCell>{HMS_converter((report.totalTime / 1000).toFixed(0))}</TableCell>
+                                    <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
+                                    <TableCell>{report.count} Trips</TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
                 rowsPerPageOptions={[5, 10, 50]}
                 component="div"
                 count={reports.length}
@@ -113,7 +128,7 @@ const dateHandle = async (e) => {
                 page={page}
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
-                
+
             />
         </>
 
