@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
-
+import React, { PureComponent, useEffect, useState } from 'react';
+import {
+  BarChart,
+  Bar,
+  Brush,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +26,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 // Other Components
 import TripTable from '../../components/table/trip.table.component';
+import { FETCH } from '../../utils/fetch.util';
 
 
 // Style
@@ -28,10 +40,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DashboardPage = () => {
+const DashboardPage = ({accessCode, user}) => {
     const history = useHistory();
     const location =  useLocation();
     const classes = useStyles();
+    const [weeklyReport, setWeeklyReport] = useState([]);
+    const [emissionGraph, setEmissionGraph] = useState([]);
+
+    useEffect(() => {
+        FETCH.GET("report", "2021/weekly", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    console.log(data);
+                    setWeeklyReport(data);
+                    console.log(data.map(({week, emission}) => ({ week, emission})));
+                    setEmissionGraph(data.map(({week, emission}) => ({ week, emission})))
+                } else {
+
+                }
+            })
+    }, [accessCode, user])
+
+    const width = window.innerWidth;
+    
     return (
         <div
             style={{padding: "30px"}}
@@ -43,7 +75,6 @@ const DashboardPage = () => {
                 alignItems="center"
                 spacing={1}
             >
-
                 <Grid 
                     item
                     xs={3}
@@ -96,6 +127,38 @@ const DashboardPage = () => {
                     </Button>
                 </Grid>
             </Grid>
+            <Grid
+                container
+                direction="row"
+                spacing={1}
+            >
+
+                <Grid 
+                    item
+                    xs={6}
+                >
+                        <BarChart
+                            width={width / 2 - 240}
+                            height={400}
+                            data={weeklyReport}
+                            margin={{
+                                top: 5,
+                                right: 0,
+                                left: 0,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="week" />
+                            <YAxis dataKey="emission"/>
+                            <Tooltip />
+                            <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+                            <Brush dataKey="name" height={30} stroke="#078f61" />
+                            <Bar dataKey="emission" fill="#078f61" />
+                        </BarChart>
+                </Grid>
+            </Grid>
+
             <TripTable />
         </div>
     )
