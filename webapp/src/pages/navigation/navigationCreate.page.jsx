@@ -118,6 +118,14 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         setUserPosition(currentPosition);
     };
 
+    const isDayTime = () => {
+        const now = new Date();
+        if (now.getHours() > 6) {
+            return true;
+        }
+        return false;
+    }
+
     const loadSessionStorage = () => {
         const sessionStorage = window.sessionStorage;
         let sessionStorageOrigin = sessionStorage.getItem(SESSION_STORAGE_KEY_ORIGIN);
@@ -453,7 +461,7 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 mapContainerStyle={containerStyle}
                 center={userPosition}
                 zoom={12}
-                options={{ mapId: API_KEY.MAP_ID }}
+                options={isDayTime ? {}: { mapId: API_KEY.MAP_ID }}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
             >
