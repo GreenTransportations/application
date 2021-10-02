@@ -42,17 +42,7 @@ const handleChangePage = (event, newPage) => {
     console.log(newPage, "New Page")
     setPage(newPage);
     };
-function secondsToHms(d) {
-        d = Number(d);
-        var h = Math.floor(d / 3600);
-        var m = Math.floor(d % 3600 / 60);
-        var s = Math.floor(d % 3600 % 60);
-    
-        var hDisplay = h > 0 ? h + (h == 1 ? " H " : " H ") : "";
-        var mDisplay = m > 0 ? m + (m == 1 ? " M " : " M ") : "";
-        var sDisplay = s > 0 ? s + (s == 1 ? " S" : " S") : "";
-        return hDisplay + mDisplay + sDisplay; 
-    }
+
 const handleChangeRowsPerPage = (event) => {
     console.log("Changed Rows")
     //setRowsPerPage(parseInt(event.target.value,10));
@@ -96,7 +86,7 @@ const handleChangeRowsPerPage = (event) => {
                                 {report.week}
                             </TableCell>
                             <TableCell>{report.km.toFixed(2)} KM</TableCell>
-                            <TableCell>{secondsToHms((report.totalTime/1000).toFixed(0))}</TableCell>
+                            <TableCell>{HMS_converter(report.totalTime/1000)}</TableCell>
                             <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
                             <TableCell>{report.count} Trips</TableCell>
                         </TableRow>

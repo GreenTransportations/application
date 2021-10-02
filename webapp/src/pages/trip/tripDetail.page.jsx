@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddIcon from '@material-ui/icons/Add';
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,7 +106,7 @@ const TripDetailPage = ({trip, toTripHistory}) => {
             <Grid item>
             <ListItem alignItems= 'flex-start'>
             <ListItemText>  <b>Total Time Taken: </b> </ListItemText>
-              <ListItemText>{secondsToHms(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}</ListItemText>
+              <ListItemText>{HMS_converter(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}</ListItemText>
               </ListItem>
             </Grid>
             

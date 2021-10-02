@@ -9,6 +9,8 @@ import AddIcon from '@material-ui/icons/Add';
 import ReplayIcon from '@material-ui/icons/Replay';
 
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
 
 const useStyles = makeStyles({
     table: {
@@ -47,17 +49,7 @@ const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
     };
-function secondsToHms(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
 
-    var hDisplay = h > 0 ? h + (h == 1 ? " H " : " H ") : "";
-    var mDisplay = m > 0 ? m + (m == 1 ? " M " : " M ") : "";
-    var sDisplay = s > 0 ? s + (s == 1 ? " S" : " S") : "";
-    return hDisplay + mDisplay + sDisplay; 
-}
 const dateHandle = async (e) => {
     e.preventDefault();
     const dateNow = dayjs(endDate).format('YYYY');
@@ -105,7 +97,7 @@ const dateHandle = async (e) => {
                                 {report.week}
                             </TableCell>
                             <TableCell>{report.km.toFixed(2)} KM</TableCell>
-                            <TableCell>{secondsToHms((report.totalTime/1000).toFixed(0))}</TableCell>
+                            <TableCell>{HMS_converter((report.totalTime/1000).toFixed(0))}</TableCell>
                             <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
                             <TableCell>{report.count} Trips</TableCell>
                         </TableRow>
