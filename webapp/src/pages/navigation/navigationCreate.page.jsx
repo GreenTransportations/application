@@ -11,6 +11,7 @@ import {
 } from '@react-google-maps/api';
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { FETCH } from '../../utils/fetch.util';
+import { HMS_converter } from '../../utils/HMS.util';
 
 
 // Material UI Core Components
@@ -176,19 +177,7 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         const route = response.routes[shortest];
         const seconds = route.legs
                         .reduce((acc,i) => acc + i.duration.value, 0);
-        const HMS = [seconds]
-                        .map(s => ({
-                            h: Math.floor(s / (60*60)),
-                            next_s: s % (60*60)
-                        }))
-                        .map(s => ({
-                            ...s,
-                            m: Math.floor(s.next_s / 60),
-                            s: s.next_s % 60
-                        }))
-                        .reduce((_, i)=>  i, {});
-        // Get the string
-        const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes";
+        const HMS_string = HMS_converter(seconds);
         setSeconds(seconds);
         setDuration(HMS_string);
 

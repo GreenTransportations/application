@@ -1,7 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import * as dayjs from 'dayjs'
+
+import * as dayjs from 'dayjs';
+import { DayJs_HMS } from '../../utils/DayJs_HMS.util';
+
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { borders } from '@material-ui/system';
@@ -59,9 +62,7 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
                                 <TableCell>{trip.emission.toFixed(4)} G/KM</TableCell>
                                 <TableCell>{trip.km.toFixed(2)} KM</TableCell>
                                 
-                                <TableCell>{dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')} H  {
-                                    dayjs(trip.endTime).diff(dayjs(trip.startTime), 'minute') - dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')*60
-                                } M</TableCell>
+                                <TableCell>{DayJs_HMS(trip)}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

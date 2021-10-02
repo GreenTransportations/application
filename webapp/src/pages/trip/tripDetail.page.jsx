@@ -1,5 +1,6 @@
 import React from 'react';
 import * as dayjs from 'dayjs'
+import { DayJs_HMS } from '../../utils/DayJs_HMS.util';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -73,7 +74,7 @@ const TripDetailPage = ({trip, toTripHistory}) => {
             <Grid item>
             <ListItem alignItems= 'flex-start'>
             <ListItemText>  <b>Total Time Taken: </b> </ListItemText>
-              <ListItemText>{dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')} H  {dayjs(trip.endTime).diff(dayjs(trip.startTime), 'minute') - dayjs(trip.endTime).diff(dayjs(trip.startTime), 'hour')*60} M</ListItemText>
+              <ListItemText>{DayJs_HMS(trip)}</ListItemText>
               </ListItem>
             </Grid>
             

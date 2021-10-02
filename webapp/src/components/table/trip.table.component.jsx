@@ -14,6 +14,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
+
 
 // Style
 const useStyles = makeStyles({
@@ -27,22 +30,6 @@ const useStyles = makeStyles({
 
     }
 });
-
-//Initialising the attribute names 
-/*
-function createData(tripNumber, date, client, stats, vehicle, distance, status, emissions) {
-    return { tripNumber, date, client, stats, vehicle, distance, status, emissions };
-}
-*/
-//Hardcoding the data values in 
-/*const rows = [
-    createData('001', "DD-MM-YY", "1", 9, "Vh1", 20, true, 123),
-    createData('002', "DD-MM-YY", "2", 11, "Vh2", 35, true, 234),
-    createData('003', "DD-MM-YY", "7", -5, "Vh3", 199, false, 345),
-    createData('004', "DD-MM-YY", "4", 16, "Vh1", 132, false, 456),
-    createData('005', "DD-MM-YY", "5", 10, "Vh2", 12, true, 567),
-];
-*/
 
 const TripTable = ({ accessCode, user }) => {
     const classes = useStyles();
@@ -80,7 +67,7 @@ const TripTable = ({ accessCode, user }) => {
                                 {report.week}
                             </TableCell>
                             <TableCell>{report.km.toFixed(2)} KM</TableCell>
-                            <TableCell>{report.totalTime/60000} Minutes</TableCell>
+                            <TableCell>{HMS_converter(report.totalTime/1000)}</TableCell>
                             <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
                             <TableCell>{report.count} Trips</TableCell>
                         </TableRow>
