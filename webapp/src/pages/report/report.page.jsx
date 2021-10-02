@@ -31,7 +31,8 @@ const ReportPage = ({ accessCode, user }) => {
     const classes = useStyles();
     let counter = 1;
     //const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const now = new Date();
+    const [endDate, setEndDate] = useState(now.toISOString().split('T')[0]);
     const [reports, setReport] = useState([]);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
@@ -59,9 +60,6 @@ function secondsToHms(d) {
 }
 const dateHandle = async (e) => {
     e.preventDefault();
-    const reportInfo = {
-        endDate: endDate
-    };
     const dateNow = dayjs(endDate).format('YYYY');
         FETCH.GET("report", dateNow+"/weekly", accessCode)
             .then(async (response) => {
