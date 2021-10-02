@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Label,
 } from 'recharts';
 import * as dayjs from 'dayjs'
 
@@ -138,9 +139,13 @@ const DashboardPage = ({accessCode, user}) => {
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="week" />
-                            <YAxis dataKey="emission"/>
-                            <Tooltip />
+                            <XAxis dataKey="week">
+                                <Label value="Week of the Year" offset={0} position="insideBottom" />
+                            </XAxis>
+                            <YAxis dataKey="emission">
+                                <Label value="C02 (metric tonnes)" angle={-90} position="insideLeft" />
+                            </YAxis>
+                            <Tooltip offset={30}/>
                             <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
                             <Brush dataKey="name" height={30} stroke="#078f61" />
                             <Bar dataKey="emission" fill="#078f61" />
