@@ -1,5 +1,6 @@
 import React from 'react';
 import * as dayjs from 'dayjs'
+import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -27,7 +28,21 @@ const useStyles = makeStyles({
 const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegistration}) => {
     const classes = useStyles();
     let counter = 1;
+    //Default valuess for rows and page
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = React.useState(0);
 
+const handleChangePage = (event, newPage) => {
+    console.log(newPage, "New Page")
+    setPage(newPage);
+    };
+    
+const handleChangeRowsPerPage = (event) => {
+    console.log("Changed Rows")
+    //setRowsPerPage(parseInt(event.target.value,10));
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+    };
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>
@@ -45,10 +60,12 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {vehicles.map((vehicle) => (
+                        {vehicles
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((vehicle) => (
                             <TableRow key={vehicle._id} onClick={() => onSelect(vehicle)}>
                                 <TableCell component="th" scope="row">
-                                    {counter++}
+                                {(counter++) + (page * rowsPerPage)}
                                 </TableCell>
                                 <TableCell>{vehicle.make}</TableCell>
                                 <TableCell>{vehicle.model}</TableCell>
@@ -62,6 +79,17 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 50]}
+                component="div"
+                count={vehicles.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                
+            />
+
             <Grid
                 container
                 direction="row"

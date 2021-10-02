@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
@@ -20,6 +21,24 @@ const DriverList = ({ accessCode, user }) => {
     const [drivers, setDrivers] = useState([]);
     const classes = useStyles();
 
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = React.useState(0);
+
+const handleChangePage = (event, newPage) => {
+    console.log(newPage, "New Page")
+    setPage(newPage);
+    };
+    
+const handleChangeRowsPerPage = (event) => {
+    console.log("Changed Rows")
+    //setRowsPerPage(parseInt(event.target.value,10));
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+    };
+
+    let counter = 1;
+    
+    
     useEffect(() => {
         FETCH.GET("user", "all?type=DRIVER", accessCode)
             .then(async (response) => {
@@ -32,7 +51,7 @@ const DriverList = ({ accessCode, user }) => {
                 }
             })
     }, [accessCode, user])
-    
+
 
     return (
         <div style={{ padding: "30px" }}>
@@ -48,10 +67,12 @@ const DriverList = ({ accessCode, user }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {drivers.map((driver) => (
+                        {drivers
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((driver) => (
                             <TableRow key={driver._id}>
                                 <TableCell component="th" scope="row">
-                                    {driver._id}
+                                    {(counter++) + (page * rowsPerPage)}
                                 </TableCell>
                                 <TableCell>{driver.name}</TableCell>
                                 <TableCell>{driver.total.trip > 0 ? driver.total.emission / driver.total.trip : 0}</TableCell>
@@ -62,6 +83,16 @@ const DriverList = ({ accessCode, user }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 50]}
+                component="div"
+                count={drivers.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                
+            />
         </div>
     );
 }

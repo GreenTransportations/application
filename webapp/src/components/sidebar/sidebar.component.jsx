@@ -11,7 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
 // Other Components
 import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 import { ReactComponent as GTLogoInvert } from "../../assets/logo_invert.svg";
@@ -22,6 +21,7 @@ import LiveTvIcon from '@material-ui/icons/LiveTv';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'; 
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import BugReportIcon from '@material-ui/icons/BugReport';
@@ -111,7 +111,7 @@ APP_PAGES[USER_TYPE.MANAGER] = [
     {
         title: 'Reports',
         url: '/report',
-        icon: 'live_tv_icon'
+        icon: 'assessment'
     },
     {
         title: 'Vehicle List',

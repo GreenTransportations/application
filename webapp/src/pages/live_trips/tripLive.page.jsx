@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FETCH } from '../../utils/fetch.util';
 import * as dayjs from 'dayjs'
+import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -31,7 +32,19 @@ const useStyles = makeStyles({
 const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
     let counter = 1;
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = React.useState(0);
 
+const handleChangePage = (event, newPage) => {
+    console.log(newPage, "New Page")
+    setPage(newPage);
+    };
+    const handleChangeRowsPerPage = (event) => {
+        console.log("Changed Rows")
+        //setRowsPerPage(parseInt(event.target.value,10));
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+        };
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>
@@ -41,24 +54,39 @@ const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
                             <TableCell><b>Trip ID</b></TableCell>
                             <TableCell><b>Start Time</b></TableCell>
                             <TableCell><b>Estimated Travel Distance</b></TableCell>
+                            <TableCell><b>Starting Location</b></TableCell>
+                            <TableCell><b>Destination</b></TableCell>
 
 
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {trips.map((trip) => (
+                    {trips
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((trip) => (
                             <TableRow key={trip._id} onClick={() => onSelect(trip)}>
                                 <TableCell component="th" scope="row">
                                     {counter++}
                                 </TableCell>
                                 <TableCell>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}</TableCell>
                                 <TableCell>{trip.km.toFixed(2)} KM</TableCell>
+                                <TableCell>{trip.origin}</TableCell>
+                                <TableCell>{trip.destination}</TableCell>
 
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 50]}
+                component="div"
+                count={trips.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}             
+            />
             <Grid
                 container
                 direction="row"
