@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 
 
@@ -78,10 +79,10 @@ const TripTable = ({ accessCode, user }) => {
                             <TableCell component="th" scope="row">
                                 {report.week}
                             </TableCell>
-                            <TableCell>{report.km}</TableCell>
-                            <TableCell>{report.totalTime}</TableCell>
-                            <TableCell>{report.emission}</TableCell>
-                            <TableCell>{report.count}</TableCell>
+                            <TableCell>{report.km.toFixed(2)} KM</TableCell>
+                            <TableCell>{report.totalTime/60000} Minutes</TableCell>
+                            <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
+                            <TableCell>{report.count} Trips</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

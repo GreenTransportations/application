@@ -109,6 +109,11 @@ APP_PAGES[USER_TYPE.MANAGER] = [
         icon: 'live_tv_icon'
     },
     {
+        title: 'Reports',
+        url: '/report',
+        icon: 'live_tv_icon'
+    },
+    {
         title: 'Vehicle List',
         url: '/vehicle',
         icon: 'local_shipping'

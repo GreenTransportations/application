@@ -19,6 +19,7 @@ import ProfilePage from '../profile/profile.page';
 import DriverList from '../driverList/driverList.page';
 import VehiclePage from '../vehicle/vehicle.page';
 import LiveTripPage from '../live_trips/live.trip.page';
+import ReportPage from '../report/report.page';
 import NavigationPage from '../navigation/navigation.page';
 
 
@@ -80,6 +81,9 @@ PAGE_ROUTES[USER_TYPE.MANAGER] = (accessCode, user) => (
         </Route>
         <Route path="/trips/live">
             <LiveTripPage accessCode={accessCode} user={user}/>                    
+        </Route>
+        <Route path="/report">
+            <ReportPage accessCode={accessCode} user={user}/>                    
         </Route>
         <Route path="/">
             <Redirect to="/dashboard" />     
