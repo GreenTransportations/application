@@ -11,6 +11,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import * as dayjs from 'dayjs'
+
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -111,21 +113,7 @@ const DashboardPage = ({accessCode, user}) => {
                     </Button>
                 </Grid>
                 
-                <Grid 
-                    item
-                    xs={3}
-                >
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.squareButton}
-                        endIcon={<FavoriteIcon />}
-
-                    >
-                        Add New Shortcut
-                    </Button>
-                </Grid>
+            
             </Grid>
             <Grid
                 container
@@ -158,8 +146,7 @@ const DashboardPage = ({accessCode, user}) => {
                         </BarChart>
                 </Grid>
             </Grid>
-
-            <TripTable />
+            <TripTable accessCode={accessCode} user={user}/>
         </div>
     )
 }

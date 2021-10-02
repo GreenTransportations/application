@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FETCH } from '../../utils/fetch.util';
+import * as dayjs from 'dayjs'
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
@@ -29,6 +30,7 @@ const useStyles = makeStyles({
 
 const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
+    let counter = 1;
 
     return (
         <div style={{ padding: "30px" }}>
@@ -36,11 +38,10 @@ const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Trip ID</TableCell>
-                            <TableCell>Date of Trip</TableCell>
-                            <TableCell>User Who Started Trip</TableCell>
-                            <TableCell>Start Time</TableCell>
-                            
+                            <TableCell><b>Trip ID</b></TableCell>
+                            <TableCell><b>Start Time</b></TableCell>
+                            <TableCell><b>Estimated Travel Distance</b></TableCell>
+
 
                         </TableRow>
                     </TableHead>
@@ -48,12 +49,11 @@ const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
                     {trips.map((trip) => (
                             <TableRow key={trip._id} onClick={() => onSelect(trip)}>
                                 <TableCell component="th" scope="row">
-                                    {trip._id}
+                                    {counter++}
                                 </TableCell>
-                                <TableCell>{trip.date}</TableCell>
-                                <TableCell>{trip.user}</TableCell>
-                                <TableCell>{trip.startTime}</TableCell>
-                                
+                                <TableCell>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{trip.km.toFixed(2)} KM</TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>

@@ -1,4 +1,5 @@
 import React from 'react';
+import * as dayjs from 'dayjs'
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,38 +40,23 @@ const LiveTripDetailPage = ({trip, toTripHistory}) => {
           spacing={1}
         >
 
+    
+          
           <Grid item>
-
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary="Trip ID:    " />
-              <ListItemText primary= {trip._id} />
+            <ListItemText>  <b>Starting Time: </b> </ListItemText>
+            <ListItemText>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}</ListItemText>
             </ListItem>
-        
+
+            </Grid>
+
             <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Date Trip Was Started: " />
-              <ListItemText primary= {new Date(trip.date).toLocaleDateString()} />
+            <ListItemText>  <b>Estimated Travel Distance: </b> </ListItemText>
+            <ListItemText>{trip.km.toFixed(2)} KM</ListItemText>
             </ListItem>
 
             </Grid>
-
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "User Who Started Trip:    " />
-              <ListItemText primary= {trip.user} />
-            </ListItem>
-
-            </Grid>
-          
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-              <ListItemText primary= "Starting Time:    " />
-              <ListItemText primary= {trip.startTime} />
-            </ListItem>
-
-            </Grid>
-          
             
 
         

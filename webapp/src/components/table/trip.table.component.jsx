@@ -1,4 +1,6 @@
-import React from 'react';
+import { FETCH } from '../../utils/fetch.util';
+import React, { useEffect, useState } from 'react';
+import * as dayjs from 'dayjs'
 
 
 // Material UI Core Components
@@ -25,50 +27,61 @@ const useStyles = makeStyles({
     }
 });
 
+//Initialising the attribute names 
+/*
 function createData(tripNumber, date, client, stats, vehicle, distance, status, emissions) {
     return { tripNumber, date, client, stats, vehicle, distance, status, emissions };
 }
-
-
-const rows = [
+*/
+//Hardcoding the data values in 
+/*const rows = [
     createData('001', "DD-MM-YY", "1", 9, "Vh1", 20, true, 123),
     createData('002', "DD-MM-YY", "2", 11, "Vh2", 35, true, 234),
     createData('003', "DD-MM-YY", "7", -5, "Vh3", 199, false, 345),
     createData('004', "DD-MM-YY", "4", 16, "Vh1", 132, false, 456),
     createData('005', "DD-MM-YY", "5", 10, "Vh2", 12, true, 567),
 ];
+*/
 
-const TripTable = () => {
+const TripTable = ({ accessCode, user }) => {
     const classes = useStyles();
+    const [reports, setReport] = useState([]);
+    const dateNow = dayjs().format('YYYY');
+    useEffect(() => {
+        FETCH.GET("report", dateNow+"/weekly", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setReport(data);
+                    console.log(data);
+                } else {
+                    console.log("ERROR");
+                }
+            })
+    }, [accessCode, user])
 
     return (
         <TableContainer  className={classes.tableContainer} component={Paper}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Trip</TableCell>
-                        <TableCell align="right">Date</TableCell>
-                        <TableCell align="right">Client</TableCell>
-                        <TableCell align="right">Trip Stats</TableCell>
-                        <TableCell align="right">Vehicle Taken</TableCell>
-                        <TableCell align="right">Trip Distance</TableCell>
-                        <TableCell align="right">Trip Status</TableCell>
-                        <TableCell align="right">Emissions</TableCell>
+                        <TableCell><b>Week</b></TableCell>
+                        <TableCell><b>Total Trip Distance</b></TableCell>
+                        <TableCell><b>Total Trip Time</b></TableCell>
+                        <TableCell><b>Total Produced Emissions</b></TableCell>
+                        <TableCell><b>Trips Taken</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.tripNumber}>
+                    {reports.map((report) => (
+                        <TableRow key={report.week}>
                             <TableCell component="th" scope="row">
-                                {row.tripNumber}
+                                {report.week}
                             </TableCell>
-                            <TableCell align="right">{row.date}</TableCell>
-                            <TableCell align="right">#{row.client}</TableCell>
-                            <TableCell align="right">{row.stats}%</TableCell>
-                            <TableCell align="right">{row.vehicle}</TableCell>
-                            <TableCell align="right">{row.distance}KM</TableCell>
-                            <TableCell align="right">{row.status}</TableCell>
-                            <TableCell align="right">{row.emissions}</TableCell>
+                            <TableCell>{report.km}</TableCell>
+                            <TableCell>{report.totalTime}</TableCell>
+                            <TableCell>{report.emission}</TableCell>
+                            <TableCell>{report.count}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
