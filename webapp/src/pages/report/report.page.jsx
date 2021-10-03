@@ -6,7 +6,29 @@ import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
+import {
+    BarChart,
+    Bar,
+    Brush,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    Label,
+} from 'recharts';
+
+import {
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableCell,
+    Paper,
+    Grid,
+    Button
+} from '@material-ui/core';
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
 
@@ -38,6 +60,8 @@ const ReportPage = ({ accessCode, user }) => {
     const [reports, setReport] = useState([]);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
+
+    const width = window.innerWidth;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -127,13 +151,50 @@ const ReportPage = ({ accessCode, user }) => {
 
             />
 
-            {reports && (reports.length > 0) && 
-            <PDFDownloadLink document={<ReportPDF reports={reports} endDate={endDate} />} fileName="emissions-summary.pdf">
-                {({blob, url, loading, error}) => 
-                    loading ? 'Loading Document...' : 'Download PDF Summary'
-                }
+            <Grid
+                container
+                direction="row"
+                spacing={1}
+                justify="space-around"
+                alignItems="center"
+            >
 
-            </PDFDownloadLink>
+                <Grid
+                    item
+                >
+                    <BarChart
+                        width={width/2}
+                        height={400}
+                        data={reports}
+                        margin={{
+                            top: 5,
+                            right: 0,
+                            left: 0,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Brush dataKey="name" height={40} stroke="#078f61" />
+                        <XAxis dataKey="week">
+                            <Label value="Week of the Year" offset={-25} position="insideBottom" />
+                        </XAxis>
+                        <YAxis dataKey="emission">
+                            <Label value="C02 (metric tonnes)" angle={-90} position="insideLeft" />
+                        </YAxis>
+                        <Tooltip offset={30} />
+                        <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+                        <Bar dataKey="emission" fill="#078f61" />
+                    </BarChart>
+                </Grid>
+            </Grid>
+
+            {reports && (reports.length > 0) &&
+                <PDFDownloadLink document={<ReportPDF reports={reports} endDate={endDate} />} fileName="emissions-summary.pdf">
+                    {({ blob, url, loading, error }) =>
+                        loading ? 'Loading Document...' : 'Download PDF Summary'
+                    }
+
+                </PDFDownloadLink>
             }
         </div>
 
