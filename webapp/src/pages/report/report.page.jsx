@@ -12,6 +12,10 @@ import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
 
+// PDF
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { ReportPDF } from './report.pdf';
+
 const useStyles = makeStyles({
     table: {
         minWidth: 650,
@@ -130,6 +134,15 @@ const ReportPage = ({ accessCode, user }) => {
                 onChangeRowsPerPage={handleChangeRowsPerPage}
 
             />
+
+            {reports && (reports.length > 0) && 
+            <PDFDownloadLink document={<ReportPDF reports={reports} endDate={endDate} />} fileName="emissions-summary.pdf">
+                {({blob, url, loading, error}) => 
+                    loading ? 'Loading Document...' : 'Download PDF Summary'
+                }
+
+            </PDFDownloadLink>
+            }
         </>
 
     );
