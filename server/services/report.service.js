@@ -35,11 +35,19 @@ reportServices.route("/:year/weekly").get((req, res) => {
 
     let query = { isLive: false, date: {} };
     let year = Number.parseInt(req.params.year)
-    if (req.query && req.query.month) {
-        let month = req.query.month;
-        
-        query["date"]["$gte"] = new Date(year, month, 0);
-        query["date"]["$lt"] = new Date(year, month + 1, 0);
+    if (req.query) {
+        let startDate = new Date(year, 0, 0);
+        let endDate = new Date(year + 1, 0, 0);
+        if (req.query.startDate) {
+            startDate = new Date(req.query.startDate);
+        }
+
+        if (req.query.endDate) {
+            endDate = new Date(req.query.endDate);
+        }
+
+        query["date"]["$gte"] = startDate;
+        query["date"]["$lt"] = endDate;
 
     } else {
         query["date"]["$gte"] = new Date(year, 0, 0);

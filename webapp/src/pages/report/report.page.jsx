@@ -34,6 +34,8 @@ const useStyles = makeStyles({
 const ReportPage = ({ accessCode, user }) => {
     const classes = useStyles();
     const now = new Date();
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 0);
+    const [startDate, setStartDate] = useState(lastMonth.toISOString().split('T')[0]);
     const [endDate, setEndDate] = useState(now.toISOString().split('T')[0]);
     const [reports, setReport] = useState([]);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -47,24 +49,13 @@ const ReportPage = ({ accessCode, user }) => {
         setPage(0);
     };
 
-    useEffect(() => {
-        let endDate = new Date().toISOString().split('T')[0];
-        const dateNow = dayjs(endDate).format('YYYY');
-        FETCH.GET("report", dateNow + "/weekly", accessCode)
-            .then(async (response) => {
-                if (response.ok) {
-                    const data = await response.json()
-                    setReport(data);
-                } else {
-                    console.log("ERROR");
-                }
-            });
-    }, [accessCode, user])
 
-    const dateHandle = async (e) => {
+    const dateHandle = async (startDate, endDate) => {
         // e.preventDefault();
         const dateNow = dayjs(endDate).format('YYYY');
-        FETCH.GET("report", dateNow + "/weekly", accessCode)
+        let startDateQuery = `startDate=${new Date(startDate).toISOString().split('T')[0]}`;
+        let endDateQuery = `endDate=${new Date(endDate).toISOString().split('T')[0]}`;
+        FETCH.GET("report", `${dateNow}/weekly?${startDateQuery}&${endDateQuery}`, accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
@@ -75,6 +66,12 @@ const ReportPage = ({ accessCode, user }) => {
             });
     }
 
+    useEffect(() => {
+        const now = new Date();
+        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 0);
+        dateHandle(lastMonth, now);
+    }, [accessCode, user])
+
     return (
         <div style={{ padding: "30px" }}>
             <TextField
@@ -82,10 +79,25 @@ const ReportPage = ({ accessCode, user }) => {
                 style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
                 type="date"
                 variant="outlined"
+                value={startDate}
+                onChange={(e) => {
+                    if (new Date(e.target.value) <= new Date(endDate)) {
+                        setStartDate(e.target.value);
+                        dateHandle(e.target.value, endDate)
+                    }
+                }}
+            />
+            <TextField
+                required={true}
+                style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
+                type="date"
+                variant="outlined"
                 value={endDate}
                 onChange={(e) => {
-                    setEndDate(e.target.value);
-                    dateHandle(e)
+                    if (new Date(e.target.value) >= new Date(startDate)) {
+                        setEndDate(e.target.value);
+                        dateHandle(startDate, e.target.value)
+                    }
                 }}
             />
             <TableContainer className={classes.tableContainer} component={Paper}>

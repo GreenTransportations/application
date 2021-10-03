@@ -45,7 +45,8 @@ const DashboardPage = ({accessCode, user}) => {
     const [weeklyReport, setWeeklyReport] = useState([]);
 
     useEffect(() => {
-        FETCH.GET("report", "2021/weekly", accessCode)
+        const year = new Date().getFullYear();
+        FETCH.GET("report", year + "/weekly", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
