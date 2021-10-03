@@ -10,7 +10,7 @@ mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopolog
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    log.print("trip.service", "MongoDB database connection established successfully");
+    log.print("trip.script", "MongoDB database connection established successfully");
 })
 
 

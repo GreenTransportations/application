@@ -19,41 +19,9 @@ connection.once('open', () => {
 
 // Mongoose Model [trip]
 let Trip = require("../models/trip.model");
+let User = require("../models/user.model");
 
-//============================================================================================
-log.print("trip.service", "Creating Test Trip");
 
-Trip.where({})
-    .exec((err, trips) => { 
-        if (err) {
-            log.print("trip.service", "Error in creating test trip");
-        } else if (trips.length > 0 ) {
-            log.print("trip.service", "Test Trip already Exist!");
-        } else {
-            const TOTAL_TIME = 2;
-            const NOW = new Date();
-            const END = new Date(NOW.getFullYear(), NOW.getMonth(), NOW.getDate(), NOW.getHours() + TOTAL_TIME);
-
-            const testTrip = new Trip({
-                vehicles: [mongoose.Types.ObjectId("61235c43b6ef1225fcd05a37")],
-                user: mongoose.Types.ObjectId("6114f493705e4d04485cf653"),
-                emission: Math.ceil(Math.random() * 1000),
-                km: Math.ceil(Math.random() * 100),
-                origin: "Some Starting Location",
-                destination: "Some Destination",
-                stops: [],
-                date: NOW,
-                startTime: NOW,
-                endTime: END,
-                totalTime: END.getTime() - NOW.getTime(),
-                isLive: false
-            });
-            testTrip.save()
-            
-            log.print("trip.service", "First Trip successfully created!");
-
-        }
-    })
 
 tripServices.use(validateHeader, validateUser)
 //====================================================================================
@@ -163,11 +131,27 @@ tripServices.route("/finish").post((req, res) => {
             });
             
         } else {
-            trip.endTime = NOW;
-            trip.totalTime = NOW.getTime() - trip.startTime.getTime();
-            trip.isLive = false;
-            trip.save();
-            res.status(200).json(trip);
+
+            User.findById(trip.user, (err, user) => {
+                if (err) {
+                    log.print("/trip/:id", err);
+                    res.status(500).json({
+                        err: "Error in finding Trip with this ID"
+                    });
+                    
+                } else {
+                    trip.endTime = NOW;
+                    trip.totalTime = NOW.getTime() - trip.startTime.getTime();
+                    trip.isLive = false;
+                    trip.save();
+                    
+                    user.total.mileage += trip.km;
+                    user.total.emission += trip.emission;
+                    user.total.trip += 1;
+                    user.save();
+                    res.status(200).json(trip);
+                }
+            })
         }
     });
 })

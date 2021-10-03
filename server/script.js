@@ -2,12 +2,13 @@ const config = require("./configs/server.config");
 const { log } = require("./utils/log.util");
 
 
+const { recalculateDriverTotal } = require("./scripts/user.script");
 const { generateTrip } = require("./scripts/trip.script");
 
 
 // Main Script
 const mainScript = async () => {
-    generateTrip(100);
+    // recalculateDriverTotal();
 }
 
 
