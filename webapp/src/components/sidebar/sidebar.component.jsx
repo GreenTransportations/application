@@ -12,19 +12,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 // Other Components
-import { ReactComponent as GTLogo } from "../../assets/logo.svg";
 import { ReactComponent as GTLogoInvert } from "../../assets/logo_invert.svg";
 
 
 // Material UI Icons
-import LiveTvIcon from '@material-ui/icons/LiveTv';
-import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import LocalShippingIcon from '@material-ui/icons/LocalShipping'; 
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import BugReportIcon from '@material-ui/icons/BugReport';
 import { USER_TYPE } from '../../enums/user.enum';
 import { Icon } from '@material-ui/core';
 
@@ -32,7 +24,6 @@ import { Icon } from '@material-ui/core';
 // Style
 const DRAWER_WIDTH = 240;
 const HIGHLIGHT_WIDTH = DRAWER_WIDTH / 1.15;
-const HIGHLIGHTPX = HIGHLIGHT_WIDTH.toString().concat("px")
 // literal string concat: "${HIGHLIGHT_WIDTH}px"
 const useStyles = makeStyles((theme) => ({
     drawer: {

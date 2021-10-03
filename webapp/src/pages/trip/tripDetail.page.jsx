@@ -1,6 +1,5 @@
 import React from 'react';
 import * as dayjs from 'dayjs'
-import { DayJs_HMS } from '../../utils/DayJs_HMS.util';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +9,6 @@ import Button from '@material-ui/core/Button';
 // Material UI Icons
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddIcon from '@material-ui/icons/Add';
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
 
@@ -28,17 +26,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'normal'
 }
 }));
-function secondsToHms(d) {
-  d = Number(d);
-  var h = Math.floor(d / 3600);
-  var m = Math.floor(d % 3600 / 60);
-  var s = Math.floor(d % 3600 % 60);
-
-  var hDisplay = h > 0 ? h + (h == 1 ? " H " : " H ") : "";
-  var mDisplay = m > 0 ? m + (m == 1 ? " M " : " M ") : "";
-  var sDisplay = s > 0 ? s + (s == 1 ? " S" : " S") : "";
-  return hDisplay + mDisplay + sDisplay; 
-} 
 
 const TripDetailPage = ({trip, toTripHistory}) => {
   const classes = useStyles();

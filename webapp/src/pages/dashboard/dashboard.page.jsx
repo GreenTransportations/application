@@ -1,30 +1,26 @@
-import React, { PureComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BarChart,
   Bar,
   Brush,
-  ReferenceLine,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
   Label,
 } from 'recharts';
-import * as dayjs from 'dayjs'
 
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid } from '@material-ui/core';
-import { useHistory, useLocation} from 'react-router';
+import { useHistory } from 'react-router';
 
 
 // Material UI Icons
 import AddIcon from '@material-ui/icons/Add';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 // Other Components
@@ -45,22 +41,17 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardPage = ({accessCode, user}) => {
     const history = useHistory();
-    const location =  useLocation();
     const classes = useStyles();
     const [weeklyReport, setWeeklyReport] = useState([]);
-    const [emissionGraph, setEmissionGraph] = useState([]);
 
     useEffect(() => {
         FETCH.GET("report", "2021/weekly", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
-                    console.log(data);
-                    setWeeklyReport(data);
-                    console.log(data.map(({week, emission}) => ({ week, emission})));
-                    setEmissionGraph(data.map(({week, emission}) => ({ week, emission})))
+                    setWeeklyReport(data.map(report => ({...report, emission: report.emission.toFixed(4)})));
                 } else {
-
+                    console.log("ERROR");
                 }
             })
     }, [accessCode, user])
@@ -120,15 +111,15 @@ const DashboardPage = ({accessCode, user}) => {
                 container
                 direction="row"
                 spacing={1}
-                justify = "center"
+                justify="space-around"
+                alignItems="center"
             >
 
                 <Grid 
                     item
-                    xs={12}
                 >
                         <BarChart
-                            width={width/1.5}
+                            width={width / 1.3}
                             height={400}
                             data={weeklyReport}
                             margin={{
@@ -139,15 +130,15 @@ const DashboardPage = ({accessCode, user}) => {
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
+                            <Brush dataKey="name" height={40} stroke="#078f61" />
                             <XAxis dataKey="week">
-                                <Label value="Week of the Year" offset={0} position="insideBottom" />
+                                <Label value="Week of the Year" offset={-25} position="insideBottom" />
                             </XAxis>
                             <YAxis dataKey="emission">
                                 <Label value="C02 (metric tonnes)" angle={-90} position="insideLeft" />
                             </YAxis>
                             <Tooltip offset={30}/>
                             <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
-                            <Brush dataKey="name" height={30} stroke="#078f61" />
                             <Bar dataKey="emission" fill="#078f61" />
                         </BarChart>
                 </Grid>

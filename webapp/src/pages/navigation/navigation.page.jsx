@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { FETCH } from '../../utils/fetch.util';
+import { LoadScript } from '@react-google-maps/api';
+
 import NavigationCreatePage from './navigationCreate.page';
 import NavigationLivePage from './navigationLive.page';
 import LiveTripPage from '../live_trips/live.trip.page';
-import { LoadScript } from '@react-google-maps/api';
 
 // API Key for Google Maps
 import { API_KEY } from '../../data/api.key';
@@ -28,7 +29,6 @@ const NavigationPage = ({ accessCode, user }) => {
                     const data = await response.json();
                     if (data) {
                         setLiveTrip(data);
-                        console.log(data)
                         setTab(TABS.LIVE);
                     }
 

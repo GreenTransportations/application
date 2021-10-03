@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { FETCH } from '../../utils/fetch.util';
+import React from 'react';
 import * as dayjs from 'dayjs'
 import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import { borders } from '@material-ui/system';
-import {InputAdornment, IconButton } from "@material-ui/core";
-import { MenuItem, Select } from '@material-ui/core';
 import ReplayIcon from '@material-ui/icons/Replay';
 const useStyles = makeStyles({
     table: {
@@ -35,16 +29,15 @@ const TripLivePage = ({ accessCode, user, trips, onSelect}) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
+
     const handleChangeRowsPerPage = (event) => {
-        console.log("Changed Rows")
-        //setRowsPerPage(parseInt(event.target.value,10));
         setRowsPerPage(+event.target.value);
         setPage(0);
-        };
+    };
+
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>

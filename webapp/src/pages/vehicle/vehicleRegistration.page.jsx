@@ -6,9 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import { borders } from '@material-ui/system';
-import {InputAdornment, IconButton } from "@material-ui/core";
+import { InputAdornment } from "@material-ui/core";
 import { MenuItem, Select } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 
@@ -71,16 +69,14 @@ const VehicleRegistrationPage = ({ accessCode, onRegister, toVehicleList }) => {
                 }
 
 
-                if (response.ok && emptyFlag == false) {
-                    //console.log("Created new vehicle");
+                if (response.ok && emptyFlag === false) {
 
                     const newVehicle = await response.json();
                     onRegister(newVehicle);
 
                 } else {
-                    console.log("Error on Registering new Vehicle");
                     setErrorMessage("Some vehicle details are missing!");
-                    if(response.err){
+                    if (response.err) {
                         console.log(response.err);
                     }
                 }

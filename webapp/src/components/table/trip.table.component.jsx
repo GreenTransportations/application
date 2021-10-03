@@ -34,29 +34,25 @@ const useStyles = makeStyles({
 const TripTable = ({ accessCode, user }) => {
     const classes = useStyles();
     const [reports, setReport] = useState([]);
-    const dateNow = dayjs().format('YYYY');
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
-const handleChangeRowsPerPage = (event) => {
-    console.log("Changed Rows")
-    //setRowsPerPage(parseInt(event.target.value,10));
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     useEffect(() => {
-        FETCH.GET("report", dateNow+"/weekly", accessCode)
+        const now =  dayjs().format('YYYY')
+        FETCH.GET("report", now+"/weekly", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
                     setReport(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -76,31 +75,22 @@ const SignupPage = ({ onSignUp }) => {
                     }
                 }
                 
-                if (response.ok && emptyFlag == false) {
+                if (response.ok && emptyFlag === false) {
                     const res = await response.json();
                     onSignUp(res.accessCode);
                 } else {
-                    //console.log("Error on Signup");
                     setErrorMessage("Some registration details are missing!");
 
                 }
             })
     };
 
-    // TODO: Set these Grid elements using a list function.
     return (
         <div>
             <Grid>
                 <Grid>
                     <GTLogo />
                 </Grid>
-                {/* <>
-                {vals.map(v => (
-                    <SignupField
-                    val={v.attri}
-                    icon={v.icon}/>
-                ))}
-                </> */}
                 <Grid
                     className={classes.signupRow}
                     container

@@ -14,7 +14,6 @@ import { Button, Grid} from '@material-ui/core';
 
 
 // Material UI Icons
-import AddIcon from '@material-ui/icons/Add';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -59,13 +58,11 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
 
     const [isFetched, setIsFetched] = useState(false);
 
-    const [map, setMap] = useState(null);
     const [userPosition, setUserPosition] = useState({});
 
     // For Directions
     const [duration, setDuration] = useState(null);
     const [distance, setDistance] = useState(null);
-    const [seconds, setSeconds] = useState(null);
 
 
     const geoSuccess = position => {
@@ -84,16 +81,11 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
         console.log("Map loaded");
     }
 
-    const onUnmount = React.useCallback(function callback(map) {
-        setMap(null);
-    }, [])
-
     const getRouteDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
 
     const setDirectionDetail = (response) => {
         // Parse the Directions API response of Google Maps
         // to determine the total duration and distance.
-        console.log(response.routes);
         const route = response.routes[shortest];
         const seconds = route.legs
                         .reduce((acc,i) => acc + i.duration.value, 0);
@@ -110,7 +102,6 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
                         .reduce((_, i)=>  i, {});
         // Get the string
         const HMS_string = String(HMS.h) + " Hours, " + String(HMS.m) + " Minutes";
-        setSeconds(seconds);
         setDuration(HMS_string);
 
         // Get the total distance in km
@@ -127,7 +118,6 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
                 setIsFetched(true);
                 setDirectionDetail(response);
                 setResponse(response);
-                console.log("RESPONSE", response)
                 const sortedRoute = response.routes
                     .map((route, index) => ({ ...route, index}))
                     .sort((a, b) => getDistance(a) >= getDistance(b))
@@ -146,7 +136,6 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
         FETCH.POST("trip", "finish", accessCode, tripInfo)
             .then(async (response) => {
                 if (response.ok) {
-                    const data = await response.json();
                     onEndTrip();
 
                 } else {
@@ -198,7 +187,6 @@ const NavigationLivePage = ({accessCode, user, trip, onEndTrip}) => {
                 center={userPosition}
                 zoom={12}
                 onLoad={onLoad}
-                onUnmount={onUnmount}
             >
                 {(!isFetched)  &&
                     <DirectionsService
