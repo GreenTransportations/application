@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 import VehicleListPage from './vehicleList.page';
 import VehicleRegistrationPage from './vehicleRegistration.page';
 import VehicleDetailPage from './vehicleDetails.page';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-        boxShadow: "none"
-    },
-    tableContainer: {
-        boxShadow: "none",
-        marginTop: "30px"
-
-    }
-});
 
 const TABS = {
     LIST: "LIST",
@@ -30,7 +17,6 @@ const VehiclePage = ({ accessCode, user }) => {
     const [vehicles, setVehicles] = useState([]);
     const [selected, setSelected] = useState(null);
     const [tab, setTab] = useState(TABS.LIST);
-    const classes = useStyles();
 
     useEffect(() => {
         FETCH.GET("vehicle", "all", accessCode)
@@ -38,7 +24,6 @@ const VehiclePage = ({ accessCode, user }) => {
                 if (response.ok) {
                     const data = await response.json()
                     setVehicles(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }

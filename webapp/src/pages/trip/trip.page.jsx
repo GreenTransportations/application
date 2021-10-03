@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
 import { FETCH } from '../../utils/fetch.util';
 import TripDetailPage from './tripDetail.page';
 import TripListPage from './tripHistory.page';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-        boxShadow: "none"
-    },
-    tableContainer: {
-        boxShadow: "none",
-        marginTop: "30px"
-
-    }
-});
 
 const TABS = {
     LIST: "LIST",
@@ -28,7 +15,6 @@ const TripPage = ({ accessCode, user }) => {
     const [trips, setTrips] = useState([]);
     const [selected, setSelected] = useState(null);
     const [tab, setTab] = useState(TABS.LIST);
-    const classes = useStyles();
 
     useEffect(() => {
         FETCH.GET("trip", "all", accessCode)
@@ -36,7 +22,6 @@ const TripPage = ({ accessCode, user }) => {
                 if (response.ok) {
                     const data = await response.json()
                     setTrips(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }

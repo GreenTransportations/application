@@ -24,16 +24,13 @@ const DriverList = ({ accessCode, user }) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
     
-const handleChangeRowsPerPage = (event) => {
-    console.log("Changed Rows")
-    //setRowsPerPage(parseInt(event.target.value,10));
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     let counter = 1;
@@ -45,7 +42,6 @@ const handleChangeRowsPerPage = (event) => {
                 if (response.ok) {
                     const data = await response.json()
                     setDrivers(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }

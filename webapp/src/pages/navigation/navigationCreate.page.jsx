@@ -72,10 +72,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     const [waypoint, setWaypoint] = useState(null);
     const [destination, setDestination] = useState(null);
 
-    const [prevOrigin, setPrevOrigin] = useState(null);
-    const [prevWaypoint, setPrevWayPoint] = useState(null);
-    const [prevDestination, setPrevDestination] = useState(null);
-
     const [originAutocomplete, setOriginAutocomplete] = useState(null);
     const [waypointAutocomplete, setWaypointAutocomplete] = useState(null);
     const [destinationAutocomplete, setDestinationAutocomplete] = useState(null);
@@ -85,12 +81,10 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
 
     const [isFetched, setIsFetched] = useState(false);
 
-    const [map, setMap] = useState(null);
     const [vehicles, setVehicle] = useState([]);
     const [vehicleSelection, setSelection] = useState("")
     // Current Position of User
     const [userPosition, setUserPosition] = useState({});
-    // const [ libraries ] = useState(['places']);
 
     // For Directions
     const [duration, setDuration] = useState(null);
@@ -153,7 +147,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                     setVehicle(data);
                     loadSessionStorage();
                     navigator.geolocation.getCurrentPosition(geoSuccess);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }
@@ -164,16 +157,12 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         console.log("Map loaded");
     }
 
-    const onUnmount = React.useCallback(function callback(map) {
-        setMap(null);
-    }, [])
 
     const getRouteDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
 
     const setDirectionDetail = (response) => {
         // Parse the Directions API response of Google Maps
         // to determine the total duration and distance.
-        console.log(response.routes);
         const route = response.routes[shortest];
         const seconds = route.legs
                         .reduce((acc,i) => acc + i.duration.value, 0);
@@ -195,7 +184,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 setIsFetched(true);
                 setDirectionDetail(response);
                 setResponse(response);
-                console.log("RESPONSE", response)
                 const sortedRoute = response.routes
                     .map((route, index) => ({ ...route, index}))
                     .sort((a, b) => getDistance(a) >= getDistance(b))
@@ -206,8 +194,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     }
 
     const onAutoLoadOrigin = (autocomplete) => {
-        console.log('source autocomplete loaded');
-        console.log('autocomplete: ', autocomplete);
         if (originAutocomplete === null) {
             setOriginAutocomplete(autocomplete);
         }
@@ -218,7 +204,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
             let place = originAutocomplete.getPlace()
             let newOrigin = null;
             if (place.name !== "" && place.formatted_address){
-                console.log('New origin:', place);
                 newOrigin = `${place.name}, ${place.formatted_address}`
             }
 
@@ -227,7 +212,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 const sessionStorage = window.sessionStorage;
                 sessionStorage.setItem(SESSION_STORAGE_KEY_ORIGIN, JSON.stringify(newOrigin));
 
-                setPrevOrigin(origin);
                 setOrigin(newOrigin);
                 setIsFetched(false);
             }
@@ -237,8 +221,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
     }
 
     const onAutoLoadWaypoint = (autocomplete) => {
-        console.log('waypoint autocomplete loaded');
-        console.log('autocomplete: ', autocomplete);
         if (waypointAutocomplete === null) {
             setWaypointAutocomplete(autocomplete);
         }
@@ -249,7 +231,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
             let place = waypointAutocomplete.getPlace()
             let newWaypoint = null;
             if (place.name !== "" && place.formatted_address){
-                console.log('New waypoint:', place);
                 newWaypoint = `${place.name}, ${place.formatted_address}`
             }
 
@@ -257,7 +238,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 const sessionStorage = window.sessionStorage;
                 sessionStorage.setItem(SESSION_STORAGE_KEY_WAYPOINT, JSON.stringify(newWaypoint));
 
-                setPrevWayPoint(waypoint);
                 setWaypoint(newWaypoint);
                 setIsFetched(false);
             }
@@ -268,8 +248,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
 
 
     const onAutoLoadDest = (autocomplete) => {
-        console.log('dest autocomplete loaded');
-        console.log('autocomplete: ', autocomplete);
         if (destinationAutocomplete === null) {
             setDestinationAutocomplete(autocomplete);
         }
@@ -280,7 +258,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
             let place = destinationAutocomplete.getPlace()
             let newDestination = null;
             if (place.name !== "" && place.formatted_address){
-                console.log('New destination:', place);
                 newDestination = `${place.name}, ${place.formatted_address}`
             }
 
@@ -289,7 +266,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 const sessionStorage = window.sessionStorage;
                 sessionStorage.setItem(SESSION_STORAGE_KEY_DESTINATION, JSON.stringify(newDestination));
 
-                setPrevDestination(destination);
                 setDestination(newDestination);
                 setIsFetched(false);
             }
@@ -327,7 +303,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
         FETCH.POST("trip", "create", accessCode, tripInfo)
             .then(async (response) => {
                 if (response.ok) {
-                    console.log("Created new trip");
                     const data = await response.json();
                     onStartTrip(data);
 
@@ -452,7 +427,6 @@ const NavigationCreatePage = ({accessCode, user, onStartTrip}) => {
                 zoom={12}
                 options={isDayTime ? {}: { mapId: API_KEY.MAP_ID }}
                 onLoad={onLoad}
-                onUnmount={onUnmount}
             >
                 {(origin !== null && destination !== null && !isFetched)  &&
                     <DirectionsService

@@ -7,24 +7,10 @@ import Avatar from '@material-ui/core/Avatar';
 
 // Material UI Icons
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import EmailIcon from '@material-ui/icons/Email';
-import BusinessIcon from '@material-ui/icons/Business';
-import PhoneIcon from '@material-ui/icons/Phone';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import { USER_TYPE } from '../../enums/user.enum';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    justifyContent: "center",
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-
   profileAvatar: {
     width: theme.spacing(30),
     height: theme.spacing(30),

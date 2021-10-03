@@ -28,20 +28,16 @@ const useStyles = makeStyles({
 const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegistration}) => {
     const classes = useStyles();
     let counter = 1;
-    //Default valuess for rows and page
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
     
-const handleChangeRowsPerPage = (event) => {
-    console.log("Changed Rows")
-    //setRowsPerPage(parseInt(event.target.value,10));
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
     return (
         <div style={{ padding: "30px" }}>
@@ -112,17 +108,17 @@ const handleChangeRowsPerPage = (event) => {
                 <Grid item>
 
                 <Button 
-                        style = {{borderRadius: "180px"}}          
-                        variant="contained"
-                        color="primary"
-                    
-                        endIcon={<ReplayIcon />}
-                        className={classes.squareButton}
-                        //Find a better function to reload 
-                        //onClick={() => window.location.reload(false)}
-                    >
+                    style = {{borderRadius: "180px"}}          
+                    variant="contained"
+                    color="primary"
+                
+                    endIcon={<ReplayIcon />}
+                    className={classes.squareButton}
+                    //Find a better function to reload 
+                    //onClick={() => window.location.reload(false)}
+                >
                     Reload
-            </Button>
+                </Button>
             </Grid>
 
             </Grid>

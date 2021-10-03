@@ -5,10 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import ReplayIcon from '@material-ui/icons/Replay';
 
-import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
+import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper } from '@material-ui/core';
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
 
@@ -31,8 +29,6 @@ const useStyles = makeStyles({
 
 const ReportPage = ({ accessCode, user }) => {
     const classes = useStyles();
-    let counter = 1;
-    //const [startDate, setStartDate] = useState("");
     const now = new Date();
     const [endDate, setEndDate] = useState(now.toISOString().split('T')[0]);
     const [reports, setReport] = useState([]);
@@ -40,24 +36,21 @@ const ReportPage = ({ accessCode, user }) => {
     const [page, setPage] = React.useState(0);
 
     const handleChangePage = (event, newPage) => {
-        console.log(newPage, "New Page")
         setPage(newPage);
     };
     const handleChangeRowsPerPage = (event) => {
-        console.log("Changed Rows")
-        //setRowsPerPage(parseInt(event.target.value,10));
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
     useEffect(() => {
+        let endDate = new Date().toISOString().split('T')[0];
         const dateNow = dayjs(endDate).format('YYYY');
         FETCH.GET("report", dateNow + "/weekly", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()
                     setReport(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }
@@ -72,7 +65,6 @@ const ReportPage = ({ accessCode, user }) => {
                 if (response.ok) {
                     const data = await response.json()
                     setReport(data);
-                    console.log(data);
                 } else {
                     console.log("ERROR");
                 }
@@ -80,7 +72,7 @@ const ReportPage = ({ accessCode, user }) => {
     }
 
     return (
-        <>
+        <div style={{ padding: "30px" }}>
             <TextField
                 required={true}
                 style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
@@ -130,7 +122,7 @@ const ReportPage = ({ accessCode, user }) => {
                 onChangeRowsPerPage={handleChangeRowsPerPage}
 
             />
-        </>
+        </div>
 
     );
 }

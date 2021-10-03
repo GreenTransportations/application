@@ -1,19 +1,12 @@
 import React from 'react';
-import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 
 import * as dayjs from 'dayjs';
-import { DayJs_HMS } from '../../utils/DayJs_HMS.util';
 
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import { borders } from '@material-ui/system';
-import {InputAdornment, IconButton } from "@material-ui/core";
-import { MenuItem, Select } from '@material-ui/core';
-import { FETCH } from '../../utils/fetch.util';
 import ReplayIcon from '@material-ui/icons/Replay';
+import TablePagination from '@material-ui/core/TablePagination';
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
 
@@ -33,7 +26,6 @@ const useStyles = makeStyles({
         fontWeight: 'normal'
     }
 });
-    //<TableCell>{trip.user}</TableCell>
 
 
 const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
@@ -42,18 +34,15 @@ const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [page, setPage] = React.useState(0);
 
-const handleChangePage = (event, newPage) => {
-    console.log(newPage, "New Page")
-    setPage(newPage);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
-const handleChangeRowsPerPage = (event) => {
-    console.log("Changed Rows")
-    //setRowsPerPage(parseInt(event.target.value,10));
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
-    //const inc = 1;
+
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>
@@ -104,20 +93,17 @@ const handleChangeRowsPerPage = (event) => {
                 spacing={1}
                 style={{marginTop: "50px", alignContent: "right"}}
             >
-            
-            <Grid item>
-            <Button 
+                <Grid item>
+                    <Button 
                         style = {{borderRadius: "180px"}}          
                         variant="contained"
                         color="primary"
                         endIcon={<ReplayIcon />}
                         className={classes.squareButton}
-                        //Find a better function to reload 
-                        //onClick={() => window.location.reload(false)}
                     >
-                    Reload
-            </Button>
-            </Grid>
+                        Reload
+                    </Button>
+                </Grid>
             </Grid>
 
         </div>
