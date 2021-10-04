@@ -115,7 +115,7 @@ const SignupPage = ({ onSignUp }) => {
                 >
                     <Today className={classes.signupRowIcon} />
                     <TextField
-                        style={{width: "200px"}}
+                        style={{width: "223px"}}
                         type="date"
                         variant="outlined"
                         value={dob}
@@ -161,7 +161,7 @@ const SignupPage = ({ onSignUp }) => {
                 >
                     <SupervisorAccount className={classes.signupRowIcon} />
                     <Select
-                        style={{width: "200px", alignItems:"left"}}
+                        style={{width: "223px", alignItems:"left"}}
                         label="type"
                         variant="outlined"
                         value={type}
