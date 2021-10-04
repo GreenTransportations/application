@@ -1,5 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import * as dayjs from 'dayjs'
+
+import {
+    GoogleMap,
+    DirectionsService,
+    DirectionsRenderer,
+    LoadScript
+} from '@react-google-maps/api';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,98 +18,155 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 // Utils
 import { HMS_converter } from '../../utils/HMS.util';
+import { API_KEY } from '../../data/api.key';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    justifyContent: "center",
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
+    root: {
+        justifyContent: "center",
+        display: 'flex',
+        '& > *': {
+        margin: theme.spacing(1),
+        },
     },
-  },
-  squareButton: {
-    color: "white",
-    borderRadius: 180,
-    fontWeight: 'normal'
-}
+    squareButton: {
+        color: "white",
+        borderRadius: 180,
+        fontWeight: 'normal'
+    }
 }));
 
+const containerStyle = {
+    width: '100%',
+    height: '50vh',
+
+};
+
+const libraries = ['places'];
+
 const TripDetailPage = ({trip, toTripHistory}) => {
-  const classes = useStyles();
+    const [response, setResponse] = useState(null);
+    const [shortest, setShortest] = useState(0);
+
+    const [isFetched, setIsFetched] = useState(false);
+    const [userPosition, setUserPosition] = useState({});
+    const classes = useStyles();
+
+    
+    const geoSuccess = position => {
+        const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+        setUserPosition(currentPosition);
+    };
+    
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(geoSuccess);
+    }, [])
+    
+    const onLoad = (map) => {
+        console.log("Map loaded");
+    }
+    
+    const getDistance = (route) => route.legs.reduce((acc, i) => acc + i.distance.value, 0);
+
+    const directionsCallback = (response) => {  
+            if (response !== null) {
+                if (response.status === 'OK') {
+                    setIsFetched(true);
+                    setResponse(response);
+                    const sortedRoute = response.routes
+                        .map((route, index) => ({ ...route, index}))
+                        .sort((a, b) => getDistance(a) >= getDistance(b))
+
+                    setShortest(sortedRoute[0].index);
+                } 
+            }
+    }
 
     return (
-      <div style={{ padding: "30px" }}>
+        <LoadScript googleMapsApiKey={API_KEY.GOOGLE_ALEX} libraries={libraries}>
+        <div style={{ padding: "30px" }}>
         <Grid
-          container
-          direction="column"
-          justify="space-around"
-          alignItems="center"
-          spacing={1}
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
         >
+            <Grid
+                container xs={6}
+                direction="column"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                spacing={3}
+            > 
+                <Grid item>
+                    <b>Starting Time: </b>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}
+                </Grid>
 
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Starting Time: </b> </ListItemText>
-              <ListItemText primary= {dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')} />
-            </ListItem>
+                <Grid item>
+                    <b>Ending Time: </b>{dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')}
+                </Grid>
 
+                <Grid item>
+                    <b>Carbon Emissions Produced: </b>{trip.emission.toFixed(4)}
+                </Grid>
+
+                <Grid item>
+                    <b>Starting Location: </b>{trip.origin}
+                </Grid>
+
+                <Grid item>
+                    <b>Destination: </b>{trip.destination}
+                </Grid>
+
+                <Grid item>
+                    <b>Distance Travelled: </b>{trip.km.toFixed(2)}
+                </Grid>
+                
+                <Grid item>
+                    <b>Total Time Taken: </b>{HMS_converter(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}
+                </Grid>
             </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Ending Time: </b> </ListItemText>
-              <ListItemText primary= {dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')} />
-            </ListItem>
-            </Grid>
-          <Grid item>
+            <Grid
+                container xs={6}
+                direction="column"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                spacing={3}
+            > 
+            <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={userPosition}
+                    zoom={12}
+                    onLoad={onLoad}
+                >
+                    {(!isFetched)  &&
+                        <DirectionsService
+                            options={{
+                                destination: trip.destination,
+                                origin: trip.origin,
+                                travelMode: 'DRIVING',
+                                provideRouteAlternatives: true
+                            }}
+                            callback={directionsCallback}
+                        />
+                    }
 
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Carbon Emissions Produced:</b> </ListItemText>
-              <ListItemText> {trip.emission.toFixed(4)} Metric Tonnes </ListItemText>
-            </ListItem>
-
-            </Grid>
-
-            <Grid item>
-
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Starting Location:</b> </ListItemText>
-              <ListItemText> {trip.origin}</ListItemText>
-            </ListItem>
-
-            </Grid>
-
-            <Grid item>
-
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Destination:</b> </ListItemText>
-              <ListItemText> {trip.destination}</ListItemText>
-            </ListItem>
-
-            </Grid>
-
-
-          
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Distance Travelled: </b> </ListItemText>
-              <ListItemText>{trip.km.toFixed(2)} KM </ListItemText>
-            </ListItem>
-
-            </Grid>
-          
-            <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Total Time Taken: </b> </ListItemText>
-              <ListItemText>{HMS_converter(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}</ListItemText>
-              </ListItem>
+                    {response !== null &&
+                        <>
+                            <DirectionsRenderer
+                                options={{ 
+                                    directions: response, 
+                                    routeIndex: shortest,
+                                    polylineOptions: { strokeColor: "#078f61", strokeWeight: 5}
+                                }}
+                            />
+                        </>
+                    }
+                </GoogleMap>
             </Grid>
             
-
-        
-
-
-          <Grid item>
-          </Grid>
 
         </Grid>
         
@@ -125,8 +189,8 @@ const TripDetailPage = ({trip, toTripHistory}) => {
                 </Button>
             </Grid>
         </Grid>
-      </div>
-
+        </div>
+        </LoadScript>
     );
 }
 

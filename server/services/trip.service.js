@@ -47,6 +47,24 @@ tripServices.route("/all").get((_, res) => {
 })
 
 
+tripServices.route("/all/my").get((req, res) => { 
+    log.print("/trip/all/my", "GET");
+    
+    // Find all trips
+    Trip.find({ user: req.user._id }, (err, trips) => {
+        if (err) {
+            log.print("/trip/all/my", err);
+            res.status(500).json({
+                err: "Error in finding trips"
+            });
+        } else {
+            // Return the trips object to success
+            res.status(200).json(trips);
+        }
+    });
+})
+
+
 tripServices.route("/all/live").get((_, res) => { 
     log.print("/trip/all", "GET");
     
