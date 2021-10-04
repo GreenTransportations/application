@@ -1,0 +1,847 @@
+{
+    "n_series": [
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NLR 45-150",
+            "date": "27-08-2021",
+            "reg_no": "F1ML34",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 4500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NMR 45-150",
+            "date": "27-08-2021",
+            "reg_no": "JMW5MI",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 4500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NNR 55-150 AMT TRAYPACK",
+            "date": "27-08-2021",
+            "reg_no": "RHAZMI",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 5500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NPR 65-190",
+            "date": "27-08-2021",
+            "reg_no": "J1SIFC",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 6500,
+            "gcm": 10000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NPS 75-155",
+            "date": "27-08-2021",
+            "reg_no": "GGKXK2",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 7500,
+            "gcm": 10000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "N",
+            "model": "NQR 80-190 TIPPER",
+            "date": "27-08-2021",
+            "reg_no": "JGB7I8",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 8000,
+            "gcm": 11500
+        }
+    ],
+
+    "f_series": [
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FRD 107-210",
+            "date": "27-08-2021",
+            "reg_no": "UOXTIA",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 10700,
+            "gcm": 14200
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FRR 110-240 AMT IESC",
+            "date": "27-08-2021",
+            "reg_no": "2R97OQ",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 11000,
+            "gcm": 14500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSD 120-260",
+            "date": "27-08-2021",
+            "reg_no": "8IOCUN",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 12000,
+            "gcm": 20000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSR 120-240",
+            "date": "27-08-2021",
+            "reg_no": "4EK396",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 12000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FSS 110-210",
+            "date": "27-08-2021",
+            "reg_no": "X0CG59",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 11000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FTR 150-260 AUTO",
+            "date": "27-08-2021",
+            "reg_no": "3I4MBI",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 15000,
+            "gcm": 20500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FTS 139-260",
+            "date": "27-08-2021",
+            "reg_no": "X63JMB",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 13900,
+            "gcm": 20500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVD 165-260 AUTO CREW",
+            "date": "27-08-2021",
+            "reg_no": "C69HXL",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVL 240-300",
+            "date": "27-08-2021",
+            "reg_no": "NQNTAP",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVM 230-300",
+            "date": "27-08-2021",
+            "reg_no": "1XR1DX",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 23000,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVR 165-300",
+            "date": "27-08-2021",
+            "reg_no": "1FL2ZJ",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVY 240-300 AGITATOR",
+            "date": "27-08-2021",
+            "reg_no": "G5JU1I",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 36000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "F",
+            "model": "FVZ 240-300 DUAL CONTROL",
+            "date": "27-08-2021",
+            "reg_no": "Z9T6AR",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 36000
+        }
+    ],
+
+    "fx_series": [
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXD 165-350",
+            "date": "27-08-2021",
+            "reg_no": "HJYOMC",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXL 240-350",
+            "date": "27-08-2021",
+            "reg_no": "GXTTK0",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXR 165-350",
+            "date": "27-08-2021",
+            "reg_no": "3F46VT",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "FXY 240-350",
+            "date": "27-08-2021",
+            "reg_no": "EHF10H",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 45000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FX",
+            "model": "GXD 165-350 PM",
+            "date": "27-08-2021",
+            "reg_no": "ZFE21F",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 16500,
+            "gcm": 38000
+        }
+    ],
+
+    "fy_series": [
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYH 300-350 PTO",
+            "date": "27-08-2021",
+            "reg_no": "ZHQKGO",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 30000,
+            "gcm": 45000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYJ 300-350 AUTO AGITATOR",
+            "date": "27-08-2021",
+            "reg_no": "VQS7G6",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 30000,
+            "gcm": 42500
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "FY",
+            "model": "FYX 350-350 AUTO",
+            "date": "27-08-2021",
+            "reg_no": "649PLY",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 35000,
+            "gcm": 42500
+        }
+    ],
+
+    "giga_series": [
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "CXY 240-420",
+            "date": "27-08-2021",
+            "reg_no": "QWQFAW",
+            "fuel_eff": "14.81L/100km",
+            "gvm": 24000,
+            "gcm": 54000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "CXZ 240-460",
+            "date": "27-08-2021",
+            "reg_no": "JIWT35",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 24000,
+            "gcm": 57000
+        },
+
+        {
+            "make": "Isuzu",
+            "series": "GIGA",
+            "model": "EXY 260-520 GIGAMAX",
+            "date": "27-08-2021",
+            "reg_no": "45AF77",
+            "fuel_eff": "21.5L/100km",
+            "gvm": 26000,
+            "gcm": 70000
+        }
+    ],
+
+
+    "lf_series": [
+        {
+            "make": "DAF",
+            "series": "LF",
+            "model": "LF 260",
+            "date": "27-08-2021",
+            "reg_no": "FNYG9Y",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 12000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "DAF",
+            "series": "LF",
+            "model": "LF 290",
+            "date": "27-08-2021",
+            "reg_no": "5LATY5",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 18000,
+            "gcm": 28000
+        }
+    ],
+
+    "cf_series": [
+        {
+            "make": "DAF",
+            "series": "CF",
+            "model": "LF 75",
+            "date": "27-08-2021",
+            "reg_no": "6YO35N",
+            "fuel_eff": "21.6L/100km",
+            "gvm": 24600,
+            "gcm": 38000
+        },
+
+        {
+            "make": "DAF",
+            "series": "cF",
+            "model": "CF 85",
+            "date": "27-08-2021",
+            "reg_no": "VJEO4W",
+            "fuel_eff": "41.6L/100km",
+            "gvm": 37000,
+            "gcm": 58000
+        }
+    ],
+
+    "Western Star": [
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "2800",
+            "date": "27-08-2021",
+            "reg_no": "M1QM65",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 15000,
+            "gcm": 22000
+        },
+
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "4700",
+            "date": "27-08-2021",
+            "reg_no": "0JSNBX",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 14600,
+            "gcm": 24000
+        },
+
+        {
+            "make": "Western Star",
+            "series": "Western Star",
+            "model": "4800",
+            "date": "27-08-2021",
+            "reg_no": "WE7U5O",
+            "fuel_eff": "10.9L/100km",
+            "gvm": 16000,
+            "gcm": 28000
+        }
+    ],
+
+    "Mack": [
+        {
+            "make": "Mack",
+            "series": "Mack",
+            "model": "Anthem",
+            "date": "27-08-2021",
+            "reg_no": "3JQYX9",
+            "fuel_eff": "28.68L/100km",
+            "gvm": 35000,
+            "gcm": 50000
+        },
+
+        {
+            "make": "Mack",
+            "series": "Mack",
+            "model": "Anthem",
+            "date": "27-08-2021",
+            "reg_no": "16FFQX",
+            "fuel_eff": "28.68L/100km",
+            "gvm": 37500,
+            "gcm": 70000
+        },
+
+        {
+            "make": "Mack",
+            "series": "Mack",
+            "model": "Super-Liner",
+            "date": "27-08-2021",
+            "reg_no": "C68PH9",
+            "fuel_eff": "28.68L/100km",
+            "gvm": 31100,
+            "gcm": 70000
+        },
+
+        {
+            "make": "Mack",
+            "series": "Mack",
+            "model": "Trident",
+            "date": "27-08-2021",
+            "reg_no": "VVNUZ3",
+            "fuel_eff": "28.68L/100km",
+            "gvm": 29300,
+            "gcm": 50000
+        },
+
+        {
+            "make": "Mack",
+            "series": "Mack",
+            "model": "Metro-Liner",
+            "date": "27-08-2021",
+            "reg_no": "HKN8SI",
+            "fuel_eff": "28.68L/100km",
+            "gvm": 31000,
+            "gcm": 32500
+        }
+    ],
+
+    "T-series": [
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T360",
+            "date": "27-08-2021",
+            "reg_no": "TFK3BC",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 28500,
+            "gcm": 36000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T410",
+            "date": "27-08-2021",
+            "reg_no": "04OLSD",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 50000,
+            "gcm": 70000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T410 SAR",
+            "date": "27-08-2021",
+            "reg_no": "2CHYMF",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 50000,
+            "gcm": 70000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T610",
+            "date": "27-08-2021",
+            "reg_no": "83AUB3",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 26500,
+            "gcm": 97000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T610 SAR",
+            "date": "27-08-2021",
+            "reg_no": "035M5B",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 26500,
+            "gcm": 97000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T659",
+            "date": "27-08-2021",
+            "reg_no": "4S48N8",
+            "fuel_eff": "33.6L/100km",
+            "gvm": 28000,
+            "gcm": 130000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "T",
+            "model": "T909",
+            "date": "27-08-2021",
+            "reg_no": "7YVL86",
+            "fuel_eff": "33.6L/100km",
+            "gvm": 26500,
+            "gcm": 130000
+        }
+    ],
+
+    "C-series": [
+        {
+            "make": "Kenworth",
+            "series": "C",
+            "model": "C509",
+            "date": "27-08-2021",
+            "reg_no": "YO7JVV",
+            "fuel_eff": "33.6L/100km",
+            "gvm": 26500,
+            "gcm": 140000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "C",
+            "model": "C510",
+            "date": "27-08-2021",
+            "reg_no": "6C0Y6N",
+            "fuel_eff": "33.6L/100km",
+            "gvm": 32000,
+            "gcm": 297000
+        },
+
+        {
+            "make": "Kenworth",
+            "series": "C",
+            "model": "C540",
+            "date": "27-08-2021",
+            "reg_no": "ZY56T7",
+            "fuel_eff": "33.6L/100km",
+            "gvm": 32000,
+            "gcm": 297000
+        }
+    ],
+
+    "K-series": [
+        {
+            "make": "Kenworth",
+            "series": "K",
+            "model": "K200",
+            "date": "27-08-2021",
+            "reg_no": "EGKR46",
+            "fuel_eff": "30.59L/100km",
+            "gvm": 26500,
+            "gcm": 97000
+        }
+    ],
+
+    "Hino 300": [
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "616 STD",
+            "date": "27-08-2021",
+            "reg_no": "BX4PVI",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 4500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "716 WIDE",
+            "date": "27-08-2021",
+            "reg_no": "L2CY1D",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 6500,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "721 WIDE",
+            "date": "27-08-2021",
+            "reg_no": "VMMKA7",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 6500,
+            "gcm": 10000
+        },
+
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "816 WIDE",
+            "date": "27-08-2021",
+            "reg_no": "5D3EO4",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 8000,
+            "gcm": 8000
+        },
+
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "920 WIDE",
+            "date": "27-08-2021",
+            "reg_no": "NXH0DY",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 8500,
+            "gcm": 12000
+        },
+
+        {
+            "make": "Hino",
+            "series": "300",
+            "model": "817",
+            "date": "27-08-2021",
+            "reg_no": "385S79",
+            "fuel_eff": "15.6L/100km",
+            "gvm": 7500,
+            "gcm": 11000
+        }
+    ],
+
+    "Hino 500": [
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1124",
+            "date": "27-08-2021",
+            "reg_no": "8R5HEL",
+            "fuel_eff": "20L/100km",
+            "gvm": 11000,
+            "gcm": 16000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1126",
+            "date": "27-08-2021",
+            "reg_no": "Y37K1K",
+            "fuel_eff": "20L/100km",
+            "gvm": 11000,
+            "gcm": 20000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1424",
+            "date": "27-08-2021",
+            "reg_no": "IKOFCH",
+            "fuel_eff": "20L/100km",
+            "gvm": 12000,
+            "gcm": 21000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1628",
+            "date": "27-08-2021",
+            "reg_no": "IQIPUG",
+            "fuel_eff": "20L/100km",
+            "gvm": 16000,
+            "gcm": 32000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1828",
+            "date": "27-08-2021",
+            "reg_no": "8B5PDD",
+            "fuel_eff": "20L/100km",
+            "gvm": 16000,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "1528",
+            "date": "27-08-2021",
+            "reg_no": "UPBRBR",
+            "fuel_eff": "20L/100km",
+            "gvm": 14500,
+            "gcm": 15000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "2628",
+            "date": "27-08-2021",
+            "reg_no": "LJ6ZW3",
+            "fuel_eff": "20L/100km",
+            "gvm": 26000,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "2632",
+            "date": "27-08-2021",
+            "reg_no": "F15CEM",
+            "fuel_eff": "20L/100km",
+            "gvm": 26000,
+            "gcm": 36500
+        },
+
+        {
+            "make": "Hino",
+            "series": "500",
+            "model": "2635",
+            "date": "27-08-2021",
+            "reg_no": "Z1R1OV",
+            "fuel_eff": "20L/100km",
+            "gvm": 26000,
+            "gcm": 45000
+        }
+    ],
+
+    "Hino 700": [
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "1832",
+            "date": "27-08-2021",
+            "reg_no": "Y1O58P",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 17400,
+            "gcm": 38000
+        },
+
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "1845",
+            "date": "27-08-2021",
+            "reg_no": "K5G83Z",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 16000,
+            "gcm": 42000
+        },
+
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "2632",
+            "date": "27-08-2021",
+            "reg_no": "KJ61KQ",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 26000,
+            "gcm": 36500
+        },
+
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "2848",
+            "date": "27-08-2021",
+            "reg_no": "HFYC6M",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 27900,
+            "gcm": 72000
+        },
+
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "3036",
+            "date": "27-08-2021",
+            "reg_no": "X49MAY",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 30000,
+            "gcm": 42500
+        },
+
+        {
+            "make": "Hino",
+            "series": "700",
+            "model": "3248",
+            "date": "27-08-2021",
+            "reg_no": "YPYTXJ",
+            "fuel_eff": "31.84L/100km",
+            "gvm": 32000,
+            "gcm": 63000
+        }
+    ]
+}

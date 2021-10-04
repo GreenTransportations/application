@@ -1,4 +1,5 @@
 import React from 'react';
+import * as dayjs from 'dayjs'
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +9,8 @@ import Button from '@material-ui/core/Button';
 // Material UI Icons
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }
 }));
 
-
-const VehicleDetailPage = ({vehicle, toVehicleList}) => {
+const TripDetailPage = ({trip, toTripHistory}) => {
   const classes = useStyles();
 
     return (
@@ -39,56 +41,66 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
         >
 
           <Grid item>
-
             <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Make: </b> </ListItemText>
-              <ListItemText>{vehicle.make} </ListItemText>
+            <ListItemText>  <b>Starting Time: </b> </ListItemText>
+              <ListItemText primary= {dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')} />
             </ListItem>
 
             </Grid>
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-              <ListItemText>  <b>Model: </b> </ListItemText>
-              <ListItemText>{vehicle.model} </ListItemText>
+            <ListItemText>  <b>Ending Time: </b> </ListItemText>
+              <ListItemText primary= {dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')} />
             </ListItem>
-
             </Grid>
           <Grid item>
 
             <ListItem alignItems= 'flex-start'>
-              <ListItemText> <b>Registration Number: </b> </ListItemText>
-              <ListItemText>{vehicle.reg_no} </ListItemText>
+            <ListItemText>  <b>Carbon Emissions Produced:</b> </ListItemText>
+              <ListItemText> {trip.emission.toFixed(4)} Metric Tonnes </ListItemText>
             </ListItem>
 
             </Grid>
+
+            <Grid item>
+
+            <ListItem alignItems= 'flex-start'>
+            <ListItemText>  <b>Starting Location:</b> </ListItemText>
+              <ListItemText> {trip.origin}</ListItemText>
+            </ListItem>
+
+            </Grid>
+
+            <Grid item>
+
+            <ListItem alignItems= 'flex-start'>
+            <ListItemText>  <b>Destination:</b> </ListItemText>
+              <ListItemText> {trip.destination}</ListItemText>
+            </ListItem>
+
+            </Grid>
+
+
+          
           <Grid item>
             <ListItem alignItems= 'flex-start'>
-            <ListItemText> <b>Date Registered: </b> </ListItemText>
-              <ListItemText> {new Date(vehicle.date).toLocaleDateString()} </ListItemText>
+            <ListItemText>  <b>Distance Travelled: </b> </ListItemText>
+              <ListItemText>{trip.km.toFixed(2)} KM </ListItemText>
             </ListItem>
 
             </Grid>
-          <Grid item>
+          
+            <Grid item>
             <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>Fuel Efficiency: </b> </ListItemText>
-              <ListItemText> {vehicle.fuel_eff} L/100KM</ListItemText>
-            </ListItem>
-
+            <ListItemText>  <b>Total Time Taken: </b> </ListItemText>
+              <ListItemText>{HMS_converter(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}</ListItemText>
+              </ListItem>
             </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>GVM: </b> </ListItemText>
-              <ListItemText>{vehicle.gvm} KG </ListItemText>
-            </ListItem>
+            
 
-            </Grid>
-          <Grid item>
-            <ListItem alignItems= 'flex-start'>
-            <ListItemText>  <b>GCM: </b> </ListItemText>
-              <ListItemText>{vehicle.gcm} KG </ListItemText>
-            </ListItem>
+        
 
-            </Grid>
+
           <Grid item>
           </Grid>
 
@@ -102,14 +114,14 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
             style={{marginTop: "50px"}}
         >
             <Grid item>
-                <Button   
-                    style = {{borderRadius: "180px"}}          
+                <Button        
+                    style = {{borderRadius: "180px"}}             
                     variant="contained"
                     color="primary"
                     className={classes.squareButton}
-                    onClick={toVehicleList}
+                    onClick={toTripHistory}
                 >
-                    Back To Vehicle List
+                    Back To Trip History
                 </Button>
             </Grid>
         </Grid>
@@ -118,4 +130,4 @@ const VehicleDetailPage = ({vehicle, toVehicleList}) => {
     );
 }
 
-export default VehicleDetailPage;
+export default TripDetailPage;

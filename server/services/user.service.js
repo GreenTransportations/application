@@ -5,6 +5,7 @@ const userServices = express.Router();
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
 const { USER_TYPE } = require("../enums/user.enum");
+const { log } = require("../utils/log.util");
 
 
 // Connect to Database
@@ -12,7 +13,7 @@ mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopolog
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("user.service", "MongoDB database connection established successfully");
+    log.print("user.service", "MongoDB database connection established successfully");
 })
 
 
@@ -23,7 +24,7 @@ let User = require("../models/user.model");
 // All Users
 // ../user/all
 userServices.route("/all").get((req, res) => {
-    console.log("/user/all", "GET");
+    log.print("/user/all", "GET");
     
     let query = {};
     if (req.query) {
@@ -35,7 +36,7 @@ userServices.route("/all").get((req, res) => {
     User.where(query)
         .exec((err, users) => {
             if (err) {
-                console.log("/user/all", err);
+                log.print("/user/all", err);
                 res.status(500).json({
                     err: "Error in finding users"
                 });
@@ -48,7 +49,7 @@ userServices.route("/all").get((req, res) => {
 
 // Update User with :id
 userServices.route("/:id").post((req, res) => {
-    console.log("/user/:id", "POST");
+    log.print("/user/:id", "POST");
     let dob = new Date(req.body.dob);
 
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -89,7 +90,7 @@ userServices.route("/:id").post((req, res) => {
         mobile: mobile,
     }, (err, user) => {
         if (err) {
-            console.log("/user/:id", err);
+            log.print("/user/:id", err);
             res.status(500).json({
                 err: "Error in finding User"
             });

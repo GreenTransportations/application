@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 
 // Material UI Core Components
 import { makeStyles } from '@material-ui/core/styles';
-import { API_CONFIG } from '../../configs/api.config';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "large",
         width: "2em",
         height: "2em",
-        margin: "5px"
+        margin: "0px"
     },
     squareButton: {
         color: "white",
@@ -50,6 +49,7 @@ const SignupPage = ({ onSignUp }) => {
     const [username, setUsername] = useState("");
     const [type, setType] = useState("DRIVER");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const classes = useStyles();
 
     const signupHandle = async (e) => {
@@ -67,29 +67,30 @@ const SignupPage = ({ onSignUp }) => {
 
         FETCH.POST("auth", "signup", "", userInfo)
             .then(async (response) => {
-                if (response.ok) {
+                let emptyFlag = false;
+
+                for(let registrationKey in userInfo){
+                    if(userInfo[registrationKey].isEmpty){
+                        emptyFlag = true;
+                    }
+                }
+                
+                if (response.ok && emptyFlag === false) {
                     const res = await response.json();
                     onSignUp(res.accessCode);
                 } else {
-                    console.log("Error on Signup");
+                    setErrorMessage("Some registration details are missing!");
+
                 }
             })
     };
 
-    // TODO: Set these Grid elements using a list function.
     return (
         <div>
             <Grid>
                 <Grid>
                     <GTLogo />
                 </Grid>
-                {/* <>
-                {vals.map(v => (
-                    <SignupField
-                    val={v.attri}
-                    icon={v.icon}/>
-                ))}
-                </> */}
                 <Grid
                     className={classes.signupRow}
                     container
@@ -160,16 +161,21 @@ const SignupPage = ({ onSignUp }) => {
                 >
                     <SupervisorAccount className={classes.signupRowIcon} />
                     <Select
-                        style={{width: "223px"}}
+                        style={{width: "223px", alignItems:"left"}}
                         label="type"
                         variant="outlined"
                         value={type}
                         onChange={(e) => setType(e.target.value)}
                     >
-                        <MenuItem value={"DRIVER"}>Driver</MenuItem>
-                        <MenuItem value={"MANAGER"}>Manager</MenuItem>
+                        <MenuItem
+                        style = {{alignText: "left"}}
+                        value={"DRIVER"}>Driver</MenuItem>
+                        <MenuItem 
+                        style = {{alignText: "left"}}
+                        value={"MANAGER"}>Manager</MenuItem>
                     </Select>
                 </Grid>
+                
                 <Grid
                     className={classes.signupRow}
                     container
@@ -200,8 +206,13 @@ const SignupPage = ({ onSignUp }) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Grid>
+
+                <p style={{color:"red"}}> {errorMessage} </p>
+
+
                 <Grid>
                     <Button
+                    style = {{borderRadius: "180px"}}
                         variant="contained"
                         color="primary"
                         className={classes.squareButton}

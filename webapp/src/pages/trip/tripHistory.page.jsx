@@ -1,12 +1,14 @@
 import React from 'react';
-import * as dayjs from 'dayjs'
-import TablePagination from '@material-ui/core/TablePagination';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import ReplayIcon from '@material-ui/icons/Replay';
+
+import * as dayjs from 'dayjs';
 
 import { Table, TableBody, TableContainer, TableHead, TableRow, TableCell, Paper, Button, Grid } from '@material-ui/core';
+import ReplayIcon from '@material-ui/icons/Replay';
+import TablePagination from '@material-ui/core/TablePagination';
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
 
 const useStyles = makeStyles({
     table: {
@@ -25,7 +27,8 @@ const useStyles = makeStyles({
     }
 });
 
-const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegistration}) => {
+
+const TripHistoryPage = ({ accessCode, user, trips, onSelect}) => {
     const classes = useStyles();
     let counter = 1;
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -34,42 +37,41 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    
+
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
     return (
         <div style={{ padding: "30px" }}>
             <TableContainer  className={classes.tableContainer} component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell><b>Vehicle ID</b></TableCell>
-                            <TableCell><b>Make</b></TableCell>
-                            <TableCell><b>Model</b></TableCell>
-                            <TableCell><b>Registration Number</b></TableCell>
-                            <TableCell><b>Date Registered</b></TableCell>
-                            <TableCell><b>Fuel Efficiency</b></TableCell>
-                            <TableCell><b>Gross Vehicle Mass</b></TableCell>
-                            <TableCell><b>Gross Combined Mass</b></TableCell>
+                            <TableCell><b>Trip ID</b></TableCell>
+                            <TableCell><b>Start Date</b></TableCell>
+                            <TableCell><b>End Date</b></TableCell>
+                            <TableCell><b>Emissions Produced</b></TableCell>
+                            <TableCell><b>Distance Travelled</b></TableCell>
+                            <TableCell><b>Total Trip Time</b></TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {vehicles
+                    {trips
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((vehicle) => (
-                            <TableRow key={vehicle._id} onClick={() => onSelect(vehicle)}>
+                        .map((trip) => (
+                            <TableRow key={trip._id} onClick={() => onSelect(trip)}>
                                 <TableCell component="th" scope="row">
                                 {(counter++) + (page * rowsPerPage)}
+                                 
                                 </TableCell>
-                                <TableCell>{vehicle.make}</TableCell>
-                                <TableCell>{vehicle.model}</TableCell>
-                                <TableCell>{vehicle.reg_no}</TableCell>
-                                <TableCell>{dayjs(vehicle.date).format('DD-MM-YYYY')}</TableCell>
-                                <TableCell>{vehicle.fuel_eff} L/100KM</TableCell>
-                                <TableCell>{vehicle.gvm} KG</TableCell>
-                                <TableCell>{vehicle.gcm} KG</TableCell>
+                                <TableCell>{dayjs(trip.startTime).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{dayjs(trip.endTime).format('DD-MM-YYYY HH:mm')}</TableCell>
+                                <TableCell>{trip.emission.toFixed(4)} Metric Tonnes</TableCell>
+                                <TableCell>{trip.km.toFixed(2)} KM</TableCell>
+                                <TableCell>{HMS_converter(dayjs(trip.endTime).diff(dayjs(trip.startTime), 'second'))}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -78,52 +80,34 @@ const VehicleListPage = ({ accessCode, user, vehicles, onSelect, toVehicleRegist
             <TablePagination
                 rowsPerPageOptions={[5, 10, 50]}
                 component="div"
-                count={vehicles.length}
+                count={trips.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                
+                onChangeRowsPerPage={handleChangeRowsPerPage}             
             />
-
             <Grid
                 container
                 direction="row"
                 justify="flex-end"
                 spacing={1}
-                style={{marginTop: "50px"}}
+                style={{marginTop: "50px", alignContent: "right"}}
             >
                 <Grid item>
                     <Button 
                         style = {{borderRadius: "180px"}}          
                         variant="contained"
                         color="primary"
-                        endIcon={<AddIcon />}
+                        endIcon={<ReplayIcon />}
                         className={classes.squareButton}
-                        onClick={toVehicleRegistration}
                     >
-                        Register a new Vehicle
+                        Reload
                     </Button>
                 </Grid>
-                <Grid item>
-
-                <Button 
-                    style = {{borderRadius: "180px"}}          
-                    variant="contained"
-                    color="primary"
-                
-                    endIcon={<ReplayIcon />}
-                    className={classes.squareButton}
-                    //Find a better function to reload 
-                    //onClick={() => window.location.reload(false)}
-                >
-                    Reload
-                </Button>
             </Grid>
 
-            </Grid>
         </div>
     );
 }
 
-export default VehicleListPage;
+export default TripHistoryPage;

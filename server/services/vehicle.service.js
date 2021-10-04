@@ -1,35 +1,83 @@
 // Services for the Vehicle Model
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
+
 const vehicleServices = express.Router();
 
 // Configs, Utilities and Enums
 const config = require("../configs/server.config");
+const { log } = require("../utils/log.util");
+const { validateHeader, validateUser } = require("../utils/common.util");
+const vehicleJSON = require('../models/vehicles.json');
 
 // Connect to Database
 mongoose.connect(config.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 connection = mongoose.connection;
 
 connection.once('open', () => {
-    console.log("user.service", "MongoDB database connection established successfully");
+    log.print("vehicle.service", "MongoDB database connection established successfully");
 })
 
 
 // Mongoose Model [Vehicle]
 let Vehicle = require("../models/vehicle.model");
 
+// =============================================================================================================
+// Populate the database with the vehicle.json data, if it is not already there
+log.print("vehicle.service", "Initialising Vehicle Database...");
+const createVehicle = (vObj) => {
+    // reg_no must be unique
+    Vehicle.findOne({reg_no: vObj.reg_no}, (err, vehicle) => {
+        if (err) {
+            log.print("vehicle.service", "Error in creating vehicle");
+            log.print(err);
+        } else if (vehicle) {
+            log.print("vehicle.service", vehicle.reg_no + " " + "already exists!");
+        } else {
+            const NOW = new Date();
+            const fueleff = vObj.fuel_eff.split('L/100km')[0];// L/100km
+            const newVehicle = new Vehicle({
+                make: vObj.make,
+                series: vObj.series,
+                model: vObj.model,
+                date: NOW,
+                reg_no: vObj.reg_no,
+                fuel_eff: fueleff,
+                gvm: vObj.gvm,
+                gcm: vObj.gcm
+            });
 
+            newVehicle.save()
+            
+            log.print("vehicle.service", vObj.reg_no + " " + "successfully created!");
+        }
+    })
+}
+
+
+let all_vehicles = Object.entries(vehicleJSON);
+all_vehicles = all_vehicles.map(kv => ({series: kv[0], models: kv[1]}));
+all_vehicles.forEach(series_list => {
+    series_list.models
+    .forEach(car => createVehicle(car))
+});
+
+
+
+// =============================================================================================================
+vehicleServices.use(validateHeader, validateUser)
 /* All Vehicles 
     Display the information of all vehicles in the Db.
 */
 // ../vehicle/all
-vehicleServices.route("/all").get((_, res) => {
-    console.log("/vehicle/all", "GET");
+vehicleServices.route("/all").get((_, res) => { 
+    log.print("/vehicle/all", "GET");
     
     // Find all vehicles
     Vehicle.find({}, (err, vehicles) => {
         if (err) {
-            console.log("/vehicle/all", err);
+            log.print("/vehicle/all", err);
             res.status(500).json({
                 err: "Error in finding vehicles"
             });
@@ -44,12 +92,12 @@ vehicleServices.route("/all").get((_, res) => {
     Get a specific vehicle by its ID.
 */
 vehicleServices.route("/:id").get((req, res) => {
-    console.log("/vehicle/:id", "GET");
+    log.print("/vehicle/:id", "GET");
 
     // Find specific vehicle
     Vehicle.findById(req.params.id, (err, vehicle) => {
         if (err) {
-            console.log("/vehicle/:id", err);
+            log.print("/vehicle/:id", err);
             res.status(500).json({
                 err: "Error in finding this vehicle"
             });
@@ -63,14 +111,59 @@ vehicleServices.route("/:id").get((req, res) => {
     A user is able to create a new Vehicle in this POST request.
 */
 vehicleServices.route("/create").post((req, res) => {
-    console.log("/vehicle/create", "POST");
+    log.print("/vehicle/create", "POST");
 
+    let this_date = new Date(req.body.date);
+
+    if (!req.body.make || req.body.make.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing make!"
+        });
+        return;
+
+    } else if (!req.body.model || req.body.model.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing model!"
+        });
+        return;
+
+    }  else if (!(this_date instanceof Date && !isNaN(this_date))) {
+        res.status(401).json({
+            err: "invalid date!"
+        });
+        return;
+
+    } else if (!req.body.reg_no ||  req.body.reg_no.trim() === 0) {
+        res.status(401).json({
+            err: "invalid registration number!"
+        });
+        return;
+
+    } else if (!req.body.fuel_eff || req.body.fuel_eff.trim().length === 0) {
+        res.status(401).json({
+            err: "Missing fuel efficiency!"
+        });
+        return;
+
+    } else if (!req.body.gvm || req.body.gvm.trim().length === 0) {
+        res.status(401).json({
+            err: "Invalid GVM!"
+        });
+        return;
+    } else if (!req.body.gcm || req.body.gcm.trim().length === 0) {
+        res.status(401).json({
+            err: "Invalid GCM!"
+        });
+        return;
+    }
+
+    let newVehicle= null;
     // Create new Vehicle following the model
     try{
-        const newVehicle = new Vehicle({
+        newVehicle = new Vehicle({
             make: req.body.make.trim(),
             model: req.body.model.trim(),
-            date: new Date(req.body.date.trim()),
+            date: this_date,
             reg_no: req.body.reg_no.trim(),
             fuel_eff: req.body.fuel_eff.trim(),
             gvm: req.body.gvm.trim(),
@@ -80,18 +173,19 @@ vehicleServices.route("/create").post((req, res) => {
         newVehicle.save();
     }
     catch(e){
-        console.log("/vehicle/create/", e);
+        log.print("/vehicle/create/", e);
         res.status(500).json({
             err: "Cannot create new Vehicle"
         });
+        return;
     }
 
-    res.status(200).json(newUser);
+    res.status(200).json(newVehicle);
 })
 
 // Update Vehicle of :id
 vehicleServices.route("/:id").post((req, res) => {
-    console.log("/vehicle/:id", "POST");
+    log.print("/vehicle/:id", "POST");
 
     // Update any Vehicle
     Vehicle.findByIdAndUpdate(req.params.id, { 
@@ -104,7 +198,7 @@ vehicleServices.route("/:id").post((req, res) => {
         gcm: req.body.gcm.trim()
     }, (err, vehicle) => {
         if (err) {
-            console.log("/vehicle/:id", err);
+            log.print("/vehicle/:id", err);
             res.status(500).json({
                 err: "Error in finding Vehicle with this ID"
             });

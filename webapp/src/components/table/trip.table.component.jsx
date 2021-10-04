@@ -1,4 +1,6 @@
-import React from 'react';
+import { FETCH } from '../../utils/fetch.util';
+import React, { useEffect, useState } from 'react';
+import * as dayjs from 'dayjs'
 
 
 // Material UI Core Components
@@ -9,7 +11,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+
+// Utils
+import { HMS_converter } from '../../utils/HMS.util';
 
 
 // Style
@@ -25,55 +31,77 @@ const useStyles = makeStyles({
     }
 });
 
-function createData(tripNumber, date, client, stats, vehicle, distance, status, emissions) {
-    return { tripNumber, date, client, stats, vehicle, distance, status, emissions };
-}
-
-
-const rows = [
-    createData('001', "DD-MM-YY", "1", 9, "Vh1", 20, true, 123),
-    createData('002', "DD-MM-YY", "2", 11, "Vh2", 35, true, 234),
-    createData('003', "DD-MM-YY", "7", -5, "Vh3", 199, false, 345),
-    createData('004', "DD-MM-YY", "4", 16, "Vh1", 132, false, 456),
-    createData('005', "DD-MM-YY", "5", 10, "Vh2", 12, true, 567),
-];
-
-const TripTable = () => {
+const TripTable = ({ accessCode, user }) => {
     const classes = useStyles();
+    const [reports, setReport] = useState([]);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = React.useState(0);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    useEffect(() => {
+        const now =  dayjs().format('YYYY')
+        FETCH.GET("report", now+"/weekly", accessCode)
+            .then(async (response) => {
+                if (response.ok) {
+                    const data = await response.json()
+                    setReport(data);
+                } else {
+                    console.log("ERROR");
+                }
+            })
+    }, [accessCode, user])
 
     return (
+        <div style={{ padding: "30px" }}>
+
         <TableContainer  className={classes.tableContainer} component={Paper}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Trip</TableCell>
-                        <TableCell align="right">Date</TableCell>
-                        <TableCell align="right">Client</TableCell>
-                        <TableCell align="right">Trip Stats</TableCell>
-                        <TableCell align="right">Vehicle Taken</TableCell>
-                        <TableCell align="right">Trip Distance</TableCell>
-                        <TableCell align="right">Trip Status</TableCell>
-                        <TableCell align="right">Emissions</TableCell>
+                        <TableCell><b>Week</b></TableCell>
+                        <TableCell><b>Total Trip Distance</b></TableCell>
+                        <TableCell><b>Total Trip Time</b></TableCell>
+                        <TableCell><b>Total Produced Emissions</b></TableCell>
+                        <TableCell><b>Trips Taken</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.tripNumber}>
+                    {reports
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((report) => (
+                        <TableRow key={report.week}>
                             <TableCell component="th" scope="row">
-                                {row.tripNumber}
+                                {report.week}
                             </TableCell>
-                            <TableCell align="right">{row.date}</TableCell>
-                            <TableCell align="right">#{row.client}</TableCell>
-                            <TableCell align="right">{row.stats}%</TableCell>
-                            <TableCell align="right">{row.vehicle}</TableCell>
-                            <TableCell align="right">{row.distance}KM</TableCell>
-                            <TableCell align="right">{row.status}</TableCell>
-                            <TableCell align="right">{row.emissions}</TableCell>
+                            <TableCell>{report.km.toFixed(2)} KM</TableCell>
+                            <TableCell>{HMS_converter(report.totalTime/1000)}</TableCell>
+                            <TableCell>{report.emission.toFixed(4)} Metric Tonnes</TableCell>
+                            <TableCell>{report.count} Trips</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 50]}
+                component="div"
+                count={reports.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                
+            />
+        </div>
+
     );
 }
 
