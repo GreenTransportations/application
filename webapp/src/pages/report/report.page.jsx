@@ -100,7 +100,7 @@ const ReportPage = ({ accessCode, user }) => {
         <div style={{ padding: "30px" }}>
             <TextField
                 required={true}
-                style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
+                style={{ width: "250px", borderRadius: "180px", paddingTop: "5px" }}
                 type="date"
                 variant="outlined"
                 value={startDate}
@@ -113,7 +113,7 @@ const ReportPage = ({ accessCode, user }) => {
             />
             <TextField
                 required={true}
-                style={{ width: "250px", borderRadius: "180px", paddingTop: "50px" }}
+                style={{ width: "250px", borderRadius: "180px", paddingTop: "5px" }}
                 type="date"
                 variant="outlined"
                 value={endDate}

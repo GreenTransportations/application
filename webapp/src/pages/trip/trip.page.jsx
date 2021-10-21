@@ -17,7 +17,7 @@ const TripPage = ({ accessCode, user }) => {
     const [tab, setTab] = useState(TABS.LIST);
 
     useEffect(() => {
-        FETCH.GET("trip", "all", accessCode)
+        FETCH.GET("trip", "all/my", accessCode)
             .then(async (response) => {
                 if (response.ok) {
                     const data = await response.json()

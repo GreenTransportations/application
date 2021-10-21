@@ -132,6 +132,7 @@ authServices.route("/signup").post((req, res) => {
     let dob = new Date(req.body.dob);
 
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    let onlyNums = /^\d+$/
     if (!req.body.username || req.body.username.trim().length === 0) {
         res.status(401).json({
             err: "Missing username!"
@@ -144,7 +145,7 @@ authServices.route("/signup").post((req, res) => {
         });
         return;
 
-    } else if (!req.body.mobile || req.body.mobile.trim().length === 0) {
+    } else if (!req.body.mobile || req.body.mobile.trim().length === 0 || !onlyNums.test(req.body.mobile.trim())) {
         res.status(401).json({
             err: "Missing mobile!"
         });

@@ -77,7 +77,7 @@ const SignupPage = ({ onSignUp }) => {
                 
                 if (response.ok && emptyFlag === false) {
                     const res = await response.json();
-                    onSignUp(res.accessCode);
+                    onSignUp(res.accessCode, res.user);
                 } else {
                     setErrorMessage("Some registration details are missing!");
 
